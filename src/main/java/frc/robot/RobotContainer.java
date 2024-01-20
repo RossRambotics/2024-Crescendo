@@ -6,15 +6,18 @@ package frc.robot;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.Grabber;
 
 public class RobotContainer {
   private double MaxSpeed = 6; // 6 meters per second desired top speed
-  private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
+  private double MaxAngularRate = 3 * Math.PI; // 3/4 of a rotation per second max angular velocity
 
   /* Setting up bindings for necessary control of the swerve drive platform */
   private final CommandXboxController joystick = new CommandXboxController(0); // My joystick
@@ -29,7 +32,11 @@ public class RobotContainer {
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
   /* Path follower */
-  private Command runAuto = drivetrain.getAutoPath("Tests");
+  private Command runAuto = drivetrain.getAutoPath("CircleAuto");
+
+  
+static public final Grabber m_grabber = new Grabber(); 
+
 
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
@@ -59,6 +66,9 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureBindings();
+
+    /* Register named commands */
+   NamedCommands.registerCommand("Open", new RunCommand(() -> m_grabber.openJaws()));
   }
 
   public Command getAutonomousCommand() {
