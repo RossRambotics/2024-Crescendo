@@ -23,6 +23,9 @@ public class Grabber extends SubsystemBase {
     DoubleSolenoid m_grabDoubleSolenoid = new DoubleSolenoid(52,
             PneumaticsModuleType.REVPH, 0, 1);
 
+            public edu.wpi.first.wpilibj.AnalogInput m_Sensor_Grabber = new edu.wpi.first.wpilibj.AnalogInput(
+            1);
+
     /** Creates a new Grabber. */
     public Grabber() {
 
@@ -42,6 +45,15 @@ public class Grabber extends SubsystemBase {
         m_grabDoubleSolenoid.set(Value.kReverse);
        
     }
+
+
+    public boolean getSensorGrabber() {
+      if (m_Sensor_Grabber.getValue() < 10) {
+          return true;
+      } else {
+          return false;
+      }
+  }
 
     @Override
     public void periodic() {

@@ -4,20 +4,32 @@
 
 package frc.robot;
 
+import java.nio.file.Path;
+
+import javax.sound.sampled.Line;
+
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.FollowPathCommand;
+import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Grabber;
 
 public class RobotContainer {
-  private double MaxSpeed = 6; // 6 meters per second desired top speed
-  private double MaxAngularRate = 3 * Math.PI; // 3/4 of a rotation per second max angular velocity
+  private double MaxSpeed = 1; // 6 meters per second desired top speed
+  private double MaxAngularRate = .75 * Math.PI; // 3/4 of a rotation per second max angular velocity
+  private final XboxController m_controllerDriver = new XboxController(1);
 
   /* Setting up bindings for necessary control of the swerve drive platform */
   private final CommandXboxController joystick = new CommandXboxController(0); // My joystick
@@ -31,16 +43,48 @@ public class RobotContainer {
   private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.OpenLoopVoltage);
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
-  /* Path follower */
-  private Command runAuto = drivetrain.getAutoPath("CircleAuto");
-
   
+  Trigger aButton = new JoystickButton(m_controllerDriver, XboxController.Button.kA.value);
+  Trigger bButton = new JoystickButton(m_controllerDriver, XboxController.Button.kB.value);
+  Trigger xButton = new JoystickButton(m_controllerDriver, XboxController.Button.kX.value);
+  Trigger yButton = new JoystickButton(m_controllerDriver, XboxController.Button.kY.value);
+
 static public final Grabber m_grabber = new Grabber(); 
+
+  public RobotContainer() {
+     configureBindings();
+
+     Command open = new RunCommand(() -> m_grabber.openJaws());
+     Command close = new RunCommand(() -> m_grabber.openJaws());
+     Command sensor = new RunCommand(() -> m_grabber.getSensorGrabber());
+    
+     
+
+    /* Register named commands */
+     NamedCommands.registerCommand("Open", open);
+     NamedCommands.registerCommand("Close", close);
+     NamedCommands.registerCommand("Sensor", sensor);
+
+   }
+
+  /* Path follower */
+  private Command runAuto = drivetrain.getAutoPath("TestAuto");
 
 
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
   private void configureBindings() {
+
+    aButton.onTrue(Commands.runOnce(() -> m_grabber.openJaws()));
+
+    bButton.onTrue(Commands.runOnce(() -> m_grabber.closeJaws()));
+
+    xButton.onTrue(runAuto);
+
+    
+
+
+
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
         drivetrain.applyRequest(() -> drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with
                                                                                            // negative Y (forward)
@@ -64,13 +108,7 @@ static public final Grabber m_grabber = new Grabber();
     joystick.pov(180).whileTrue(drivetrain.applyRequest(() -> forwardStraight.withVelocityX(-0.5).withVelocityY(0)));
   }
 
-  public RobotContainer() {
-    configureBindings();
-
-    /* Register named commands */
-   NamedCommands.registerCommand("Open", new RunCommand(() -> m_grabber.openJaws()));
-  }
-
+  
   public Command getAutonomousCommand() {
     /* First put the drivetrain into auto run mode, then run the auto */
     return runAuto;
