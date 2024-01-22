@@ -3,20 +3,46 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/Pose": "Field2d",
+      "/SmartDashboard/Indexer.ShootSpeaker": "Command",
+      "/SmartDashboard/Indexer.Stop": "Command",
       "/SmartDashboard/Module 0": "Mechanism2d",
       "/SmartDashboard/Module 1": "Mechanism2d",
       "/SmartDashboard/Module 2": "Mechanism2d",
-      "/SmartDashboard/Module 3": "Mechanism2d"
+      "/SmartDashboard/Module 3": "Mechanism2d",
+      "/SmartDashboard/Shooter.ShootSpeaker": "Command",
+      "/SmartDashboard/Shooter.Stop": "Command",
+      "/SmartDashboard/robot": "Mechanism2d"
     },
     "windows": {
-      "/SmartDashboard/Module 0": {
+      "/SmartDashboard/Indexer.ShootSpeaker": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/robot": {
         "window": {
           "visible": true
         }
       }
     }
   },
+  "NetworkTables": {
+    "Retained Values": {
+      "open": false
+    },
+    "transitory": {
+      "Shuffleboard": {
+        "Shooter": {
+          "open": true
+        },
+        "open": true
+      }
+    }
+  },
   "NetworkTables Info": {
     "visible": true
+  },
+  "NetworkTables View": {
+    "visible": false
   }
 }

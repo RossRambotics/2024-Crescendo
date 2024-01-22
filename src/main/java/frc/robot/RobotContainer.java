@@ -25,6 +25,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Grabber;
+import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.RobotMechanism;
+import frc.robot.subsystems.Shooter;
 
 public class RobotContainer {
   private double MaxSpeed = 1; // 6 meters per second desired top speed
@@ -40,51 +44,23 @@ public class RobotContainer {
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
                                                                // driving in open loop
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-  private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+  private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
+      .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
-  
-  Trigger aButton = new JoystickButton(m_controllerDriver, XboxController.Button.kA.value);
-  Trigger bButton = new JoystickButton(m_controllerDriver, XboxController.Button.kB.value);
-  Trigger xButton = new JoystickButton(m_controllerDriver, XboxController.Button.kX.value);
-  Trigger yButton = new JoystickButton(m_controllerDriver, XboxController.Button.kY.value);
-
-static public final Grabber m_grabber = new Grabber(); 
-
-  public RobotContainer() {
-     configureBindings();
-
-     Command open = new RunCommand(() -> m_grabber.openJaws());
-     Command close = new RunCommand(() -> m_grabber.openJaws());
-     Command sensor = new RunCommand(() -> m_grabber.getSensorGrabber());
-    
-     
-
-    /* Register named commands */
-     NamedCommands.registerCommand("Open", open);
-     NamedCommands.registerCommand("Close", close);
-     NamedCommands.registerCommand("Sensor", sensor);
-
-   }
+  private static final RobotMechanism m_mechRobot = new RobotMechanism();
+  public static final Indexer m_indexer = new Indexer();
+  public static final Intake m_intake = new Intake();
+  public static final Shooter m_shooter = new Shooter();
 
   /* Path follower */
-  private Command runAuto = drivetrain.getAutoPath("TestAuto");
+  private Command runAuto = drivetrain.getAutoPath("CircleAuto");
 
+  static public final Grabber m_grabber = new Grabber();
 
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
   private void configureBindings() {
-
-    aButton.onTrue(Commands.runOnce(() -> m_grabber.openJaws()));
-
-    bButton.onTrue(Commands.runOnce(() -> m_grabber.closeJaws()));
-
-    xButton.onTrue(runAuto);
-
-    
-
-
-
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
         drivetrain.applyRequest(() -> drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with
                                                                                            // negative Y (forward)
@@ -100,7 +76,8 @@ static public final Grabber m_grabber = new Grabber();
     joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
 
     // if (Utils.isSimulation()) {
-    //   drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
+    // drivetrain.seedFieldRelative(new Pose2d(new Translation2d(),
+    // Rotation2d.fromDegrees(90)));
     // }
     drivetrain.registerTelemetry(logger::telemeterize);
 
@@ -108,7 +85,13 @@ static public final Grabber m_grabber = new Grabber();
     joystick.pov(180).whileTrue(drivetrain.applyRequest(() -> forwardStraight.withVelocityX(-0.5).withVelocityY(0)));
   }
 
-  
+  public RobotContainer() {
+    configureBindings();
+
+    /* Register named commands */
+    NamedCommands.registerCommand("Open", new RunCommand(() -> m_grabber.openJaws()));
+  }
+
   public Command getAutonomousCommand() {
     /* First put the drivetrain into auto run mode, then run the auto */
     return runAuto;
