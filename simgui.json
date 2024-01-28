@@ -9,6 +9,7 @@
       "/SmartDashboard/Module 1": "Mechanism2d",
       "/SmartDashboard/Module 2": "Mechanism2d",
       "/SmartDashboard/Module 3": "Mechanism2d",
+      "/SmartDashboard/Robot Pose": "Field2d",
       "/SmartDashboard/Shooter.ShootSpeaker": "Command",
       "/SmartDashboard/Shooter.Stop": "Command",
       "/SmartDashboard/robot": "Mechanism2d"
@@ -32,6 +33,9 @@
     },
     "transitory": {
       "Shuffleboard": {
+        "Indexer": {
+          "open": true
+        },
         "Shooter": {
           "open": true
         },
@@ -41,8 +45,5 @@
   },
   "NetworkTables Info": {
     "visible": true
-  },
-  "NetworkTables View": {
-    "visible": false
   }
 }

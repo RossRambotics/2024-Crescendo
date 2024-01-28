@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class RobotMechanism extends SubsystemBase {
@@ -23,6 +24,9 @@ public class RobotMechanism extends SubsystemBase {
   MechanismLigament2d shooterTop = null;
   MechanismLigament2d shooterBottom = null;
   MechanismLigament2d intakePistons = null;
+  MechanismLigament2d topSensor = null;
+  MechanismLigament2d middleSensor = null;
+  MechanismLigament2d bottomSensor = null;
 
   double shooterTopAngle = 0;
   double shooterBottomAngle = 0;
@@ -49,6 +53,12 @@ public class RobotMechanism extends SubsystemBase {
 
     shooterTop = createMechWheel(mech, "shooterTop", .55, 3.5);
     shooterBottom = createMechWheel(mech, "shooterBottom", .85, 3);
+
+    double d = 0.7; // bottom y for sensors
+    double s = 0.8; // spacing for sensors
+    topSensor = createMechSensor(mech, "topSensor", 2.0, d + (s * 2));
+    middleSensor = createMechSensor(mech, "middleSensor", 2, d + (s * 1));
+    bottomSensor = createMechSensor(mech, "bottomSensor", 2, d);
   }
 
   private int m_simFrame = 0;
@@ -98,6 +108,24 @@ public class RobotMechanism extends SubsystemBase {
       intakePistons.setColor(new Color8Bit(Color.kGreen));
     }
 
+    if (RobotContainer.m_indexer.isNoteTop()) {
+      topSensor.setColor(new Color8Bit(Color.kRed));
+    } else {
+      topSensor.setColor(new Color8Bit(Color.kWhite));
+    }
+
+    if (RobotContainer.m_indexer.isNoteMiddle()) {
+      middleSensor.setColor(new Color8Bit(Color.kRed));
+    } else {
+      middleSensor.setColor(new Color8Bit(Color.kWhite));
+    }
+
+    if (RobotContainer.m_indexer.isNoteBottom()) {
+      bottomSensor.setColor(new Color8Bit(Color.kRed));
+    } else {
+      bottomSensor.setColor(new Color8Bit(Color.kWhite));
+    }
+
     SmartDashboard.putData("robot", mech); // Creates mech2d in SmartDashboard
 
   }
@@ -137,4 +165,12 @@ public class RobotMechanism extends SubsystemBase {
 
     return arrow;
   }
+
+  static MechanismLigament2d createMechSensor(Mechanism2d mech, String name, double x, double y) {
+    MechanismLigament2d sensor = mech.getRoot(name, x, y)
+        .append(new MechanismLigament2d("robot", .3, 90, 10, new Color8Bit(Color.kWhite)));
+
+    return sensor;
+  }
+
 }
