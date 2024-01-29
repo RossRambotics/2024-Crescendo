@@ -103,6 +103,7 @@ public class Robot extends TimedRobot {
   public void simulationInit() {
     RobotContainer.m_shooter.simulationInit();
     RobotContainer.m_indexer.simulationInit();
+    RobotContainer.m_intake.simulationInit();
   }
 
   @Override

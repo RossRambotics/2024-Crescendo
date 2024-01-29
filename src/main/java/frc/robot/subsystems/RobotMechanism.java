@@ -59,9 +59,21 @@ public class RobotMechanism extends SubsystemBase {
     if (m_firstTime) {
       m_firstTime = false;
       SmartDashboard.putData("Indexer.ShootSpeaker", new frc.robot.commands.Indexer.ShootSpeaker());
+      SmartDashboard.putData("Indexer.ShootSpeakerReverse", new frc.robot.commands.Indexer.ShootSpeakerReverse());
       SmartDashboard.putData("Indexer.Stop", new frc.robot.commands.Indexer.Stop());
+      SmartDashboard.putData("Indexer.Intake", new frc.robot.commands.Indexer.Intake());
+      SmartDashboard.putData("Indexer.Retract", new frc.robot.commands.Indexer.Retract());
       SmartDashboard.putData("Shooter.ShootSpeaker", new frc.robot.commands.Shooter.ShootSpeaker());
       SmartDashboard.putData("Shooter.Stop", new frc.robot.commands.Shooter.Stop());
+      SmartDashboard.putData("Shooter.Reverse", new frc.robot.commands.Shooter.ShootReverse());
+      SmartDashboard.putData("Shooter.ShootAmp", new frc.robot.commands.Shooter.ShootAmp());
+      SmartDashboard.putData("Shooter.ShootTrap", new frc.robot.commands.Shooter.ShootTrap());
+      SmartDashboard.putData("Intake.IntakeStart", new frc.robot.commands.Intake.IntakeStart());
+      SmartDashboard.putData("Intake.IntakeStop", new frc.robot.commands.Intake.IntakeStop());
+      SmartDashboard.putData("Intake.IntakeReverse", new frc.robot.commands.Intake.IntakeReverse());
+      SmartDashboard.putData("Intake.IntakeUp", new frc.robot.commands.Intake.Up());
+      SmartDashboard.putData("Intake.IntakeDown", new frc.robot.commands.Intake.Down());
+
     }
 
     // This method will be called once per scheduler run
@@ -75,6 +87,8 @@ public class RobotMechanism extends SubsystemBase {
 
     indexerBL.setAngle(RobotContainer.m_indexer.getBottomMotorSpeed() * m_simFrame * 0.05);
     indexerBR.setAngle(-RobotContainer.m_indexer.getBottomMotorSpeed() * m_simFrame * 0.05);
+
+    intake.setAngle(RobotContainer.m_intake.getMotorSpeed() * m_simFrame * 0.05);
 
     // shooter to falcons units is rotations per second, so convert to degrees
     shooterTopAngle += RobotContainer.m_shooter.getTopMotorSpeed() * 360 * 0.01;

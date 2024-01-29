@@ -115,10 +115,40 @@ public class Shooter extends SubsystemBase {
   }
 
   public void shootSpeaker() {
-    double speed = 1.0;
+    double speed = .3;
 
     double desiredTopRPS = m_ShootSpeakerTopVel.getDouble(50);
     double desiredBottomRPS = m_ShootSpeakBotVel.getDouble(25);
+
+    m_topMotor.setControl(m_voltageVelocity.withVelocity(desiredTopRPS));
+    m_bottomMotor.setControl(m_voltageVelocity.withVelocity(desiredBottomRPS));
+  }
+
+  public void shootAmp() {
+    double speed = 1.0;
+
+    double desiredTopRPS = 9.5;
+    double desiredBottomRPS = 9.5;
+
+    m_topMotor.setControl(m_voltageVelocity.withVelocity(desiredTopRPS));
+    m_bottomMotor.setControl(m_voltageVelocity.withVelocity(desiredBottomRPS));
+  }
+
+  public void shootTrap() {
+    double speed = 1.0;
+
+    double desiredTopRPS = 15;
+    double desiredBottomRPS = 15;
+
+    m_topMotor.setControl(m_voltageVelocity.withVelocity(desiredTopRPS));
+    m_bottomMotor.setControl(m_voltageVelocity.withVelocity(desiredBottomRPS));
+  }
+
+  public void shootReverse() {
+    double speed = -.9;
+
+    double desiredTopRPS = -9.5;
+    double desiredBottomRPS = -9.5;
 
     m_topMotor.setControl(m_voltageVelocity.withVelocity(desiredTopRPS));
     m_bottomMotor.setControl(m_voltageVelocity.withVelocity(desiredBottomRPS));
