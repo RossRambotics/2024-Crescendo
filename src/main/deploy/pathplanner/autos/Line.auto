@@ -16,6 +16,30 @@
           "data": {
             "pathName": "Line"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Line"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Line"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Line"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Line"
+          }
         }
       ]
     }

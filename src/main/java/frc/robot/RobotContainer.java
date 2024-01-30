@@ -66,7 +66,7 @@ public class RobotContainer {
   private static double nudgeanglepower = .2;
 
   /* Path follower */
-  private Command runAuto = drivetrain.getAutoPath("CircleAuto");
+  private Command runAuto = drivetrain.getAutoPath("Spin");
 
   static public final Grabber m_grabber = new Grabber();
 
