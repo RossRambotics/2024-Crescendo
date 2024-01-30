@@ -9,6 +9,8 @@ import com.revrobotics.REVPhysicsSim;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -21,6 +23,10 @@ public class Indexer extends SubsystemBase {
   private SparkPIDController m_topPIDController;
   private SparkPIDController m_bottomPIDController;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM;
+
+  GenericEntry m_TopSensor = null;
+  GenericEntry m_MiddleSensor = null;
+  GenericEntry m_BottomSensor = null;
 
   /** Creates a new Indexer. */
   public Indexer() {
@@ -68,6 +74,12 @@ public class Indexer extends SubsystemBase {
     m_bottomPIDController.setFF(kFF);
     m_bottomPIDController.setOutputRange(kMinOutput, kMaxOutput);
 
+    m_TopSensor = Shuffleboard.getTab("Indexer")
+        .add("1-TopSensor", false).getEntry();
+    m_MiddleSensor = Shuffleboard.getTab("Indexer")
+        .add("2-MiddleSensor", false).getEntry();
+    m_BottomSensor = Shuffleboard.getTab("Indexer")
+        .add("3-BottomSensor", false).getEntry();
   }
 
   @Override
@@ -75,6 +87,9 @@ public class Indexer extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("indexerTopRPM", m_topMotor.getEncoder().getVelocity());
     SmartDashboard.putNumber("indexerBottomRPM", m_bottomMotor.getEncoder().getVelocity());
+
+    // TODO add read sensor values
+
   }
 
   public void stop() {
@@ -83,7 +98,26 @@ public class Indexer extends SubsystemBase {
   }
 
   public void shootSpeaker() {
-    double setPoint = 5 * 60;
+    double setPoint = 2 * 60;
+
+    m_topPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
+    m_bottomPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
+  }
+
+  public void intake() {
+    double setPoint = 2 * 60;
+
+    m_bottomPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
+  }
+
+  public void Retract() {
+    double setPoint = -2 * 60;
+
+    m_topPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
+  }
+
+  public void shootSpeakerReverse() {
+    double setPoint = -5;
 
     m_topPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
     m_bottomPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
@@ -95,6 +129,18 @@ public class Indexer extends SubsystemBase {
 
   public double getBottomMotorSpeed() {
     return m_bottomMotor.getEncoder().getVelocity();
+  }
+
+  public boolean isNoteTop() {
+    return m_TopSensor.getBoolean(false);
+  }
+
+  public boolean isNoteMiddle() {
+    return m_MiddleSensor.getBoolean(false);
+  }
+
+  public boolean isNoteBottom() {
+    return m_BottomSensor.getBoolean(false);
   }
 
   public void simulationInit() {

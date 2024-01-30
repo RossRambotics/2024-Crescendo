@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class RobotMechanism extends SubsystemBase {
@@ -23,6 +24,9 @@ public class RobotMechanism extends SubsystemBase {
   MechanismLigament2d shooterTop = null;
   MechanismLigament2d shooterBottom = null;
   MechanismLigament2d intakePistons = null;
+  MechanismLigament2d topSensor = null;
+  MechanismLigament2d middleSensor = null;
+  MechanismLigament2d bottomSensor = null;
 
   double shooterTopAngle = 0;
   double shooterBottomAngle = 0;
@@ -49,6 +53,12 @@ public class RobotMechanism extends SubsystemBase {
 
     shooterTop = createMechWheel(mech, "shooterTop", .55, 3.5);
     shooterBottom = createMechWheel(mech, "shooterBottom", .85, 3);
+
+    double d = 0.7; // bottom y for sensors
+    double s = 0.8; // spacing for sensors
+    topSensor = createMechSensor(mech, "topSensor", 2.0, d + (s * 2));
+    middleSensor = createMechSensor(mech, "middleSensor", 2, d + (s * 1));
+    bottomSensor = createMechSensor(mech, "bottomSensor", 2, d);
   }
 
   private int m_simFrame = 0;
@@ -59,9 +69,21 @@ public class RobotMechanism extends SubsystemBase {
     if (m_firstTime) {
       m_firstTime = false;
       SmartDashboard.putData("Indexer.ShootSpeaker", new frc.robot.commands.Indexer.ShootSpeaker());
+      SmartDashboard.putData("Indexer.ShootSpeakerReverse", new frc.robot.commands.Indexer.ShootSpeakerReverse());
       SmartDashboard.putData("Indexer.Stop", new frc.robot.commands.Indexer.Stop());
+      SmartDashboard.putData("Indexer.Intake", new frc.robot.commands.Indexer.Intake());
+      SmartDashboard.putData("Indexer.Retract", new frc.robot.commands.Indexer.Retract());
       SmartDashboard.putData("Shooter.ShootSpeaker", new frc.robot.commands.Shooter.ShootSpeaker());
       SmartDashboard.putData("Shooter.Stop", new frc.robot.commands.Shooter.Stop());
+      SmartDashboard.putData("Shooter.Reverse", new frc.robot.commands.Shooter.ShootReverse());
+      SmartDashboard.putData("Shooter.ShootAmp", new frc.robot.commands.Shooter.ShootAmp());
+      SmartDashboard.putData("Shooter.ShootTrap", new frc.robot.commands.Shooter.ShootTrap());
+      SmartDashboard.putData("Intake.IntakeStart", new frc.robot.commands.Intake.IntakeStart());
+      SmartDashboard.putData("Intake.IntakeStop", new frc.robot.commands.Intake.IntakeStop());
+      SmartDashboard.putData("Intake.IntakeReverse", new frc.robot.commands.Intake.IntakeReverse());
+      SmartDashboard.putData("Intake.IntakeUp", new frc.robot.commands.Intake.Up());
+      SmartDashboard.putData("Intake.IntakeDown", new frc.robot.commands.Intake.Down());
+
     }
 
     // This method will be called once per scheduler run
@@ -75,6 +97,8 @@ public class RobotMechanism extends SubsystemBase {
 
     indexerBL.setAngle(RobotContainer.m_indexer.getBottomMotorSpeed() * m_simFrame * 0.05);
     indexerBR.setAngle(-RobotContainer.m_indexer.getBottomMotorSpeed() * m_simFrame * 0.05);
+
+    intake.setAngle(RobotContainer.m_intake.getMotorSpeed() * m_simFrame * 0.05);
 
     // shooter to falcons units is rotations per second, so convert to degrees
     shooterTopAngle += RobotContainer.m_shooter.getTopMotorSpeed() * 360 * 0.01;
@@ -96,6 +120,24 @@ public class RobotMechanism extends SubsystemBase {
     } else {
       intakePistons.setAngle(90);
       intakePistons.setColor(new Color8Bit(Color.kGreen));
+    }
+
+    if (RobotContainer.m_indexer.isNoteTop()) {
+      topSensor.setColor(new Color8Bit(Color.kRed));
+    } else {
+      topSensor.setColor(new Color8Bit(Color.kWhite));
+    }
+
+    if (RobotContainer.m_indexer.isNoteMiddle()) {
+      middleSensor.setColor(new Color8Bit(Color.kRed));
+    } else {
+      middleSensor.setColor(new Color8Bit(Color.kWhite));
+    }
+
+    if (RobotContainer.m_indexer.isNoteBottom()) {
+      bottomSensor.setColor(new Color8Bit(Color.kRed));
+    } else {
+      bottomSensor.setColor(new Color8Bit(Color.kWhite));
     }
 
     SmartDashboard.putData("robot", mech); // Creates mech2d in SmartDashboard
@@ -137,4 +179,12 @@ public class RobotMechanism extends SubsystemBase {
 
     return arrow;
   }
+
+  static MechanismLigament2d createMechSensor(Mechanism2d mech, String name, double x, double y) {
+    MechanismLigament2d sensor = mech.getRoot(name, x, y)
+        .append(new MechanismLigament2d("robot", .3, 90, 10, new Color8Bit(Color.kWhite)));
+
+    return sensor;
+  }
+
 }
