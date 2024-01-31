@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
@@ -73,6 +74,7 @@ public class RobotMechanism extends SubsystemBase {
       SmartDashboard.putData("Indexer.Stop", new frc.robot.commands.Indexer.Stop());
       SmartDashboard.putData("Indexer.Intake", new frc.robot.commands.Indexer.Intake());
       SmartDashboard.putData("Indexer.Retract", new frc.robot.commands.Indexer.Retract());
+      SmartDashboard.putData("Indexer.Storage", new frc.robot.commands.Indexer.Storage());
       SmartDashboard.putData("Shooter.ShootSpeaker", new frc.robot.commands.Shooter.ShootSpeaker());
       SmartDashboard.putData("Shooter.Stop", new frc.robot.commands.Shooter.Stop());
       SmartDashboard.putData("Shooter.Reverse", new frc.robot.commands.Shooter.ShootReverse());
@@ -83,6 +85,14 @@ public class RobotMechanism extends SubsystemBase {
       SmartDashboard.putData("Intake.IntakeReverse", new frc.robot.commands.Intake.IntakeReverse());
       SmartDashboard.putData("Intake.IntakeUp", new frc.robot.commands.Intake.Up());
       SmartDashboard.putData("Intake.IntakeDown", new frc.robot.commands.Intake.Down());
+
+      Command c = new frc.robot.commands.Shooter.ShootSpeaker()
+          .andThen(new frc.robot.commands.Indexer.ShootSpeaker())
+          .andThen(new WaitCommand(2.0))
+          .andThen(new frc.robot.commands.Shooter.Stop())
+          .andThen(new frc.robot.commands.Indexer.Stop());
+
+      SmartDashboard.putData("Robot.ShootSpeaker", c);
 
     }
 
