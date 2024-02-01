@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.0,
-      "y": 5.0
+      "x": 1.8675834534767664,
+      "y": 0.5781194660980874
     },
     "rotation": 0
   },
@@ -14,31 +14,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Chester"
+            "pathName": "Full Course"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Chester"
+            "pathName": "Source Amp"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Chester"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Chester"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Chester"
+            "pathName": "Full Course Back"
           }
         }
       ]
