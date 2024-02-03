@@ -14,4 +14,6 @@ public final class Constants {
     public static final int kRio_CAN_Shooter_Top_Motor = 6;
     public static final int kRio_CAN_Shooter_Bottom_Motor = 5;
 
+    public static final int kRio_CAN_CANDLE = 4;
+
 }

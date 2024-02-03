@@ -96,6 +96,11 @@
           "visible": true
         }
       },
+      "/SmartDashboard/Robot Pose": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Robot.ShootSpeaker": {
         "window": {
           "visible": true
