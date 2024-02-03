@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 2.0,
-      "y": 7.0
+      "x": 1.234542638099361,
+      "y": 5.523931498567223
     },
-    "rotation": 0
+    "rotation": 90.0
   },
   "command": {
     "type": "sequential",
@@ -14,37 +14,37 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Line"
+            "pathName": "S2 C1 S2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Close"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Open"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Unline"
+            "pathName": "S2 C2 S2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Line"
+            "pathName": "S2 C3 S2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Unline"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Line"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Unline"
+            "pathName": "S2 F2 S2"
           }
         }
       ]

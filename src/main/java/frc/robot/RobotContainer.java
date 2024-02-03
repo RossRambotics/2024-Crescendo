@@ -66,7 +66,7 @@ public class RobotContainer {
   private static double nudgeanglepower = .2;
 
   /* Path follower */
-  private Command runAuto = drivetrain.getAutoPath("CourseAuto");
+  private Command runAuto = drivetrain.getAutoPath("S1 C1 S1");
 
   static public final Grabber m_grabber = new Grabber();
 
@@ -187,6 +187,7 @@ public double getInputRightX() {
 
     /* Register named commands */
     NamedCommands.registerCommand("Open", new RunCommand(() -> m_grabber.openJaws()));
+    NamedCommands.registerCommand("Close", new RunCommand(() -> m_grabber.closeJaws()));
 
   }
 
