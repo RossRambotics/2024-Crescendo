@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -26,7 +27,7 @@ public class Tracking extends SubsystemBase {
   /** Creates a new Tracking. */
   public Tracking() {
     // Establish April Tag Targeting LL
-    m_LL_Tracking = NetworkTableInstance.getDefault().getTable("ll-target");
+    m_LL_Tracking = NetworkTableInstance.getDefault().getTable("limelight-target");
 
     // Establish Game Piece tracking LL
     m_LL_GamePiece = NetworkTableInstance.getDefault().getTable("limelight-note");
@@ -95,9 +96,15 @@ public class Tracking extends SubsystemBase {
     // ty Range is -/+24.85 degrees
     double tx = m_LL_GamePiece.getEntry("tx").getDouble(0);
     double ty = m_LL_GamePiece.getEntry("ty").getDouble(0);
-    final double kTY_DEGREE_TO_METERS = 0.02; // TODO Calibrate this
-    double distance = ty * kTY_DEGREE_TO_METERS;
+
+    double distance = 3375 + (310 * ty) + (8.3 * ty * ty);
+    distance = distance / 1000;
     double offset = distance * Math.tan(Math.toRadians(tx));
+
+    // double distance = (400.546 * Math.tan(Math.toRadians(0.114604 * (ty +
+    // 8.1186)))) + 938.939;
+    // distance = distance / 1000;
+    // double offset = distance * Math.tan(Math.toRadians(tx));
 
     // Since targeting camera is pointing forward these are NOT inverted
     m_GamePieceDistance.setDouble(distance);
@@ -108,7 +115,7 @@ public class Tracking extends SubsystemBase {
     // tx Range is -/+29.8 degrees
     // ty Range is -/+24.85 degrees
 
-    final double kTY_DEGREE_TO_METERS = 0.02; // TODO Calibrate this
+    final double kTY_DEGREE_TO_METERS = 3; // TODO Calibrate this
     double tx = m_LL_Tracking.getEntry("tx").getDouble(0);
     double ty = m_LL_Tracking.getEntry("ty").getDouble(0);
     double distance = ty * kTY_DEGREE_TO_METERS;
@@ -131,23 +138,32 @@ public class Tracking extends SubsystemBase {
     return m_isGamePieceFound.getBoolean(false);
   }
 
-  public double getTarget_VelocityX() {
+  public double getTarget_VelocityY() {
     double offset = m_TargetOffset.getDouble(0.0);
+    double answer = 0.0;
 
     double deadzone = 0.05; // TODO tune this
     double kP = 1.0; // TODO tune this
-    double kS = 0.00; // TODO tune this
+    double kS = 0.10; // TODO tune this
 
-    if (Math.abs(offset) < deadzone) {
-      return 0;
+    if (offset < 0.0) {
+      kS = kS * -1;
     }
 
-    return (offset * kP) + kS;
+    answer = (offset * kP) + kS;
+
+    if (Math.abs(offset) < deadzone) {
+      answer = 0;
+    }
+    DataLogManager.log("Target Left/Right: " + answer);
+
+    return answer;
   }
 
-  public double getTarget_VelocityY() {
+  public double getTarget_VelocityX() {
     int targetID = (int) m_TargetID.getDouble(-1);
     double goal = 0;
+    double answer = 0.0;
 
     // figure out the appropriate goal distance based on the target ID
     // the goal should be either 0 or negative
@@ -163,14 +179,18 @@ public class Tracking extends SubsystemBase {
     double offset = m_TargetDistance.getDouble(0.0) - goal;
 
     double deadzone = 0.05; // TODO tune this
-    double kP = 1.0; // TODO tune this
+    double kP = 0.0; // TODO tune this
     double kS = 0.00; // TODO tune this
 
+    answer = (offset * kP) + kS;
+
     if (Math.abs(offset) < deadzone) {
-      return 0;
+      answer = 0;
     }
 
-    return (offset * kP) + kS;
+    DataLogManager.log("Target Front/Back: " + answer);
+
+    return answer;
   }
 
   public Rotation2d getTarget_Angle() {
@@ -179,26 +199,81 @@ public class Tracking extends SubsystemBase {
     // remember that the heading/angle here is the direction is for the FRONT of the
     // robot so the direction of the shooter is off by 1180 degrees
     switch (targetID) {
-      case 1:
-        return new Rotation2d(Math.toRadians(90));
+      case 7:
+        return new Rotation2d(Math.toRadians(0.0));
     }
 
     return new Rotation2d(Math.toRadians(-1));
 
   }
 
-  public double getGamePiece_VelocityX() {
-    // TODO Auto-generated method stub
-    return 0;
+  public double getGamePiece_VelocityY() {
+    double answer = 0;
+    double offset = m_GamePieceOffset.getDouble(0.0);
+
+    double deadzone = 0.05; // TODO tune this
+    double kP = 1.0; // TODO tune this
+    double kS = 0.1; // TODO tune this
+
+    if (offset < 0.0) {
+      kS = kS * -1;
+    }
+
+    answer = (offset * kP) + kS;
+
+    if (Math.abs(offset) < deadzone) {
+      answer = 0;
+    }
+
+    DataLogManager.log("Game Piece Left/Right: " + answer);
+
+    return answer;
   }
 
-  public double getGamePiece_VelocityY() {
-    // TODO Auto-generated method stub
-    return 0;
+  public double getGamePiece_VelocityX() {
+    double answer = 0;
+    double offset = -m_GamePieceDistance.getDouble(0.0);
+
+    double deadzone = 0.05; // TODO tune this
+    double kP = 1.0; // TODO tune this
+    double kS = 0.1; // TODO tune this
+
+    if (offset < 0.0) {
+      kS = kS * -1;
+    }
+
+    answer = (offset * kP) + kS;
+
+    if (Math.abs(offset) < deadzone) {
+      answer = 0;
+    }
+
+    DataLogManager.log("Game Piece Front/Back: " + answer);
+
+    return answer;
   }
 
   public double getGamePiece_RotationalRate() {
     // TODO Auto-generated method stub
-    return 0;
+    double answer = 0;
+    double offset = -Math.toRadians(m_LL_GamePiece.getEntry("tx").getDouble(0));
+
+    double deadzone = 0.05; // TODO tune this
+    double kP = 1.5; // TODO tune this
+    double kS = 0.1; // TODO tune this
+
+    if (offset < 0.0) {
+      kS = kS * -1;
+    }
+
+    answer = (offset * kP) + kS;
+
+    if (Math.abs(offset) < deadzone) {
+      answer = 0;
+    }
+
+    DataLogManager.log("Game Piece Rotation: " + answer);
+
+    return answer;
   }
 }

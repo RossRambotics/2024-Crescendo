@@ -123,10 +123,12 @@ public class RobotContainer {
         ).ignoringDisable(true));
 
     // left trigger invoke target tracking
+    Rotation2d rot = new Rotation2d(Math.toRadians(90));
+
     joystick.leftBumper()
         .whileTrue(drivetrain.applyRequest(() -> targetDrive.withVelocityX(m_tracking.getTarget_VelocityX())
             .withVelocityY(m_tracking.getTarget_VelocityY())
-            .withTargetDirection(m_tracking.getTarget_Angle())));
+            .withTargetDirection(rot)));
 
     // right trigger invoke game piece tracking
     joystick.rightBumper()
