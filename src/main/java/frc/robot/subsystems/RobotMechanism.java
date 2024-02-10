@@ -85,6 +85,10 @@ public class RobotMechanism extends SubsystemBase {
       SmartDashboard.putData("Intake.IntakeReverse", new frc.robot.commands.Intake.IntakeReverse());
       SmartDashboard.putData("Intake.IntakeUp", new frc.robot.commands.Intake.Up());
       SmartDashboard.putData("Intake.IntakeDown", new frc.robot.commands.Intake.Down());
+      SmartDashboard.putData("Speaker.Middle", new frc.robot.commands.Speaker.Middle());
+      SmartDashboard.putData("Speaker.Right", new frc.robot.commands.Speaker.Right());
+      SmartDashboard.putData("Speaker.Left", new frc.robot.commands.Speaker.Left());
+      SmartDashboard.putData("Amp.Shoot", new frc.robot.commands.Amp.Shoot());
 
       Command c = new frc.robot.commands.Shooter.ShootSpeaker()
           .andThen(new frc.robot.commands.Indexer.ShootSpeaker())

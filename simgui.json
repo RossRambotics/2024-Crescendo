@@ -15,6 +15,7 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/Pose": "Field2d",
+      "/SmartDashboard/Amp.Shoot": "Command",
       "/SmartDashboard/Indexer.Intake": "Command",
       "/SmartDashboard/Indexer.Retract": "Command",
       "/SmartDashboard/Indexer.ShootSpeaker": "Command",
@@ -38,6 +39,9 @@
       "/SmartDashboard/Shooter.ShootTrap": "Command",
       "/SmartDashboard/Shooter.Stop": "Command",
       "/SmartDashboard/ShooterAmp.Stop": "Command",
+      "/SmartDashboard/Speaker.Left": "Command",
+      "/SmartDashboard/Speaker.Middle": "Command",
+      "/SmartDashboard/Speaker.Right": "Command",
       "/SmartDashboard/robot": "Mechanism2d"
     },
     "windows": {
@@ -160,5 +164,8 @@
         }
       }
     }
+  },
+  "NetworkTables Info": {
+    "visible": true
   }
 }

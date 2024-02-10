@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Tracking extends SubsystemBase {
   private GenericEntry m_TargetID = null; // current target to track
+  private GenericEntry m_TargetAngle = null; // current target to track
   private GenericEntry m_isTargetIDFound = null; // is the current target found
   private GenericEntry m_isGamePieceFound = null; // does the game piece tracking camera see a gamepiece
   private GenericEntry m_TargetDistance = null; // distance to Current Target
@@ -35,6 +36,8 @@ public class Tracking extends SubsystemBase {
     // Establish shuffleboard variables
     m_TargetID = Shuffleboard.getTab("Tracking")
         .add("TargetID", -1).getEntry();
+    m_TargetAngle = Shuffleboard.getTab("Tracking")
+        .add("TargetAngle", -1).getEntry();
 
     // Establish shuffleboard variables
     m_isTargetIDFound = Shuffleboard.getTab("Tracking")
@@ -275,5 +278,9 @@ public class Tracking extends SubsystemBase {
     DataLogManager.log("Game Piece Rotation: " + answer);
 
     return answer;
+  }
+
+  public void setTargetAngle(double degrees) {
+    m_TargetAngle.setDouble(degrees);
   }
 }

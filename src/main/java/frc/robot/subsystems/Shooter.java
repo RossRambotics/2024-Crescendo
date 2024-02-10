@@ -114,6 +114,15 @@ public class Shooter extends SubsystemBase {
     m_bottomMotor.setControl(m_brake);
   }
 
+  public void setShooterTopVel(double dRPS) {
+    m_ShootSpeakerTopVel.setDouble(dRPS);
+  }
+
+  public void setShooterBottomVel(double dRPS) {
+    m_ShootSpeakBotVel.setDouble(dRPS);
+
+  }
+
   public void shootSpeaker() {
     double speed = .3;
 

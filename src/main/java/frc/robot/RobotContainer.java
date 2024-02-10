@@ -56,13 +56,13 @@ public class RobotContainer {
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
-  // private static final RobotMechanism m_mechRobot = new RobotMechanism();
-  // public static final Indexer m_indexer = new Indexer();
-  // public static final Intake m_intake = new Intake();
-  // public static final Shooter m_shooter = new Shooter();
-  public static final Indexer m_indexer = null;
-  public static final Intake m_intake = null;
-  public static final Shooter m_shooter = null;
+  private static final RobotMechanism m_mechRobot = new RobotMechanism();
+  public static final Indexer m_indexer = new Indexer();
+  public static final Intake m_intake = new Intake();
+  public static final Shooter m_shooter = new Shooter();
+  // public static final Indexer m_indexer = null;
+  // public static final Intake m_intake = null;
+  // public static final Shooter m_shooter = null;
   public static final Tracking m_tracking = new Tracking();
   private final SwerveRequest.FieldCentricFacingAngle targetDrive = new SwerveRequest.FieldCentricFacingAngle();
   private final SwerveRequest.RobotCentric gamePieceDrive = new SwerveRequest.RobotCentric();
