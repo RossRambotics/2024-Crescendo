@@ -97,6 +97,12 @@
         }
       },
       "/SmartDashboard/Robot Pose": {
+        "bottom": 1476,
+        "height": 8.210550308227539,
+        "left": 150,
+        "right": 2961,
+        "top": 79,
+        "width": 16.541748046875,
         "window": {
           "visible": true
         }
@@ -138,18 +144,21 @@
       "open": false
     },
     "transitory": {
+      "LiveWindow": {
+        "open": true
+      },
       "Shuffleboard": {
-        "Indexer": {
-          "open": true
-        },
-        "Shooter": {
+        "Tracking": {
           "open": true
         },
         "open": true
+      },
+      "SmartDashboard": {
+        "open": true,
+        "robot": {
+          "open": true
+        }
       }
     }
-  },
-  "NetworkTables Info": {
-    "visible": true
   }
 }
