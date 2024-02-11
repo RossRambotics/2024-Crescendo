@@ -124,6 +124,7 @@ public class RobotContainer {
 
     // left trigger invoke target tracking
     Rotation2d rot = new Rotation2d(Math.toRadians(90));
+    targetDrive.HeadingController.setP(1.0);
 
     joystick.leftBumper()
         .whileTrue(drivetrain.applyRequest(() -> targetDrive.withVelocityX(m_tracking.getTarget_VelocityX())
@@ -195,6 +196,8 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureBindings();
+
+    m_intake.startCompresser();
 
     /* Register named commands */
     NamedCommands.registerCommand("Open", new RunCommand(() -> m_grabber.openJaws()));

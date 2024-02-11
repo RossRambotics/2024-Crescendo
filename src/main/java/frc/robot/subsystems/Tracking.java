@@ -196,18 +196,8 @@ public class Tracking extends SubsystemBase {
     return answer;
   }
 
-  public Rotation2d getTarget_Angle() {
-    int targetID = (int) m_TargetID.getDouble(-1);
-
-    // remember that the heading/angle here is the direction is for the FRONT of the
-    // robot so the direction of the shooter is off by 1180 degrees
-    switch (targetID) {
-      case 7:
-        return new Rotation2d(Math.toRadians(0.0));
-    }
-
-    return new Rotation2d(Math.toRadians(-1));
-
+  public Rotation2d getTargetAngle() {
+    return new Rotation2d(Math.toRadians(m_TargetAngle.getDouble(-1.0)));
   }
 
   public double getGamePiece_VelocityY() {
@@ -257,7 +247,11 @@ public class Tracking extends SubsystemBase {
   }
 
   public double getGamePiece_RotationalRate() {
-    // TODO Auto-generated method stub
+    // if we don't see a game piece don't turn
+    if (!this.isGamePieceFound()) {
+      return 0;
+    }
+
     double answer = 0;
     double offset = -Math.toRadians(m_LL_GamePiece.getEntry("tx").getDouble(0));
 
