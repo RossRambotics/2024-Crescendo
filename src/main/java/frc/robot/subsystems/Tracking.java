@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTable;
@@ -11,6 +13,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 
 public class Tracking extends SubsystemBase {
   private GenericEntry m_TargetID = null; // current target to track
@@ -24,6 +27,7 @@ public class Tracking extends SubsystemBase {
 
   private NetworkTable m_LL_Tracking = null;
   private NetworkTable m_LL_GamePiece = null;
+  private double m_CurrentHeading = 0.0;
 
   /** Creates a new Tracking. */
   public Tracking() {
@@ -52,6 +56,10 @@ public class Tracking extends SubsystemBase {
         .add("GamePieceDistance", -1.0).getEntry();
     m_GamePieceOffset = Shuffleboard.getTab("Tracking")
         .add("GamePieceOffset", 0.0).getEntry();
+  }
+
+  public void setCurrentHeading(double degrees) {
+    m_CurrentHeading = degrees;
   }
 
   @Override
@@ -118,7 +126,7 @@ public class Tracking extends SubsystemBase {
     // tx Range is -/+29.8 degrees
     // ty Range is -/+24.85 degrees
 
-    final double kTY_DEGREE_TO_METERS = 3; // TODO Calibrate this
+    final double kTY_DEGREE_TO_METERS = 1.0; // TODO Calibrate this
     double tx = m_LL_Tracking.getEntry("tx").getDouble(0);
     double ty = m_LL_Tracking.getEntry("ty").getDouble(0);
     double distance = ty * kTY_DEGREE_TO_METERS;
@@ -141,8 +149,14 @@ public class Tracking extends SubsystemBase {
     return m_isGamePieceFound.getBoolean(false);
   }
 
-  public double getTarget_VelocityY() {
-    double offset = m_TargetOffset.getDouble(0.0);
+  public double getTarget_VelocityY(DoubleSupplier joystick_value) {
+
+    double angleError = this.getTargetAngle().getDegrees() - m_CurrentHeading;
+    if (Math.abs(angleError) > 5 || !isTargetIDFound() || m_TargetDistance.getDouble(5) > 3.0) {
+      return joystick_value.getAsDouble();
+    }
+
+    double offset = -m_TargetOffset.getDouble(0.0);
     double answer = 0.0;
 
     double deadzone = 0.05; // TODO tune this
@@ -163,7 +177,13 @@ public class Tracking extends SubsystemBase {
     return answer;
   }
 
-  public double getTarget_VelocityX() {
+  public double getTarget_VelocityX(DoubleSupplier joystick_value) {
+
+    double angleError = this.getTargetAngle().getDegrees() - m_CurrentHeading;
+    if (Math.abs(angleError) > 5 || !isTargetIDFound() || m_TargetDistance.getDouble(5) > 3.0) {
+      return joystick_value.getAsDouble();
+    }
+
     int targetID = (int) m_TargetID.getDouble(-1);
     double goal = 0;
     double answer = 0.0;
@@ -182,7 +202,7 @@ public class Tracking extends SubsystemBase {
     double offset = m_TargetDistance.getDouble(0.0) - goal;
 
     double deadzone = 0.05; // TODO tune this
-    double kP = 0.0; // TODO tune this
+    double kP = 0.5; // TODO tune this
     double kS = 0.00; // TODO tune this
 
     answer = (offset * kP) + kS;

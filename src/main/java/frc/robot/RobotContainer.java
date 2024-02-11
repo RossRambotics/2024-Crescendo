@@ -18,6 +18,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -56,13 +57,13 @@ public class RobotContainer {
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
-  private static final RobotMechanism m_mechRobot = new RobotMechanism();
-  public static final Indexer m_indexer = new Indexer();
-  public static final Intake m_intake = new Intake();
-  public static final Shooter m_shooter = new Shooter();
-  // public static final Indexer m_indexer = null;
-  // public static final Intake m_intake = null;
-  // public static final Shooter m_shooter = null;
+  // private static final RobotMechanism m_mechRobot = new RobotMechanism();
+  // public static final Indexer m_indexer = new Indexer();
+  // public static final Intake m_intake = new Intake();
+  // public static final Shooter m_shooter = new Shooter();
+  public static final Indexer m_indexer = null;
+  public static final Intake m_intake = null;
+  public static final Shooter m_shooter = null;
   public static final Tracking m_tracking = new Tracking();
   private final SwerveRequest.FieldCentricFacingAngle targetDrive = new SwerveRequest.FieldCentricFacingAngle();
   private final SwerveRequest.RobotCentric gamePieceDrive = new SwerveRequest.RobotCentric();
@@ -123,13 +124,16 @@ public class RobotContainer {
         ).ignoringDisable(true));
 
     // left trigger invoke target tracking
-    Rotation2d rot = new Rotation2d(Math.toRadians(90));
-    targetDrive.HeadingController.setP(1.0);
+    // Rotation2d rot = new Rotation2d(Math.toRadians(0.0));
+    targetDrive.HeadingController.setP(3.0);
+    targetDrive.HeadingController.enableContinuousInput(0, 360);
+    targetDrive.HeadingController.setIntegratorRange(-0.25, 0.25);
 
     joystick.leftBumper()
-        .whileTrue(drivetrain.applyRequest(() -> targetDrive.withVelocityX(m_tracking.getTarget_VelocityX())
-            .withVelocityY(m_tracking.getTarget_VelocityY())
-            .withTargetDirection(rot)));
+        .whileTrue(drivetrain
+            .applyRequest(() -> targetDrive.withVelocityX(m_tracking.getTarget_VelocityX(() -> -getInputLeftY()))
+                .withVelocityY(m_tracking.getTarget_VelocityY(() -> -getInputLeftX()))
+                .withTargetDirection(m_tracking.getTargetAngle())));
 
     // right trigger invoke game piece tracking
     joystick.rightBumper()
@@ -164,10 +168,8 @@ public class RobotContainer {
     // reset the field-centric heading on left bumper press
     joystick.back().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
 
-    // if (Utils.isSimulation()) {
-    // drivetrain.seedFieldRelative(new Pose2d(new Translation2d(),
-    // Rotation2d.fromDegrees(90)));
-    // }
+    drivetrain.seedFieldRelative(new Pose2d(0, 0, Rotation2d.fromDegrees(0.0)));
+
     drivetrain.registerTelemetry(logger::telemeterize);
 
   }
@@ -197,7 +199,7 @@ public class RobotContainer {
   public RobotContainer() {
     configureBindings();
 
-    m_intake.startCompresser();
+    // m_intake.startCompresser();
 
     /* Register named commands */
     NamedCommands.registerCommand("Open", new RunCommand(() -> m_grabber.openJaws()));
