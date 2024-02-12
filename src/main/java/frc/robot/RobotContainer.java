@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.Indexer.Storage;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Grabber;
 import frc.robot.subsystems.Indexer;
@@ -116,6 +117,8 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+    m_indexer.setDefaultCommand(new Storage());
+
     Command cmd;
 
     leftTrigger.onTrue(Commands.runOnce(() -> slewLimit = 1.0));

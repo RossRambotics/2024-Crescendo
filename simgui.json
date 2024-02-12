@@ -18,6 +18,8 @@
       "/SmartDashboard/Amp.Shoot": "Command",
       "/SmartDashboard/Indexer.Intake": "Command",
       "/SmartDashboard/Indexer.Retract": "Command",
+      "/SmartDashboard/Indexer.Reverse": "Command",
+      "/SmartDashboard/Indexer.Shoot": "Command",
       "/SmartDashboard/Indexer.ShootSpeaker": "Command",
       "/SmartDashboard/Indexer.ShootSpeakerReverse": "Command",
       "/SmartDashboard/Indexer.Stop": "Command",
@@ -38,6 +40,7 @@
       "/SmartDashboard/Shooter.ShootAmp": "Command",
       "/SmartDashboard/Shooter.ShootSpeaker": "Command",
       "/SmartDashboard/Shooter.ShootTrap": "Command",
+      "/SmartDashboard/Shooter.Start": "Command",
       "/SmartDashboard/Shooter.Stop": "Command",
       "/SmartDashboard/ShooterAmp.Stop": "Command",
       "/SmartDashboard/Speaker.Left": "Command",
@@ -52,7 +55,10 @@
         "left": 150,
         "right": 2961,
         "top": 79,
-        "width": 16.541748046875
+        "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
       },
       "/SmartDashboard/Robot Pose": {
         "bottom": 1476,
@@ -101,5 +107,8 @@
         }
       }
     }
+  },
+  "NetworkTables Info": {
+    "visible": true
   }
 }
