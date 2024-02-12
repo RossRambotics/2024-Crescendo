@@ -105,7 +105,7 @@ public class Indexer extends SubsystemBase {
     m_bottomPIDController.setReference(0, CANSparkMax.ControlType.kVelocity);
   }
 
-  public void shootSpeaker() {
+  public void shoot() {
     double setPoint = 2 * 60;
 
     m_topPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
@@ -124,7 +124,7 @@ public class Indexer extends SubsystemBase {
     m_topPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
   }
 
-  public void shootSpeakerReverse() {
+  public void reverse() {
     double setPoint = -5;
 
     m_topPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);

@@ -7,9 +7,9 @@ package frc.robot.commands.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 
-public class ShootTrap extends Command {
-  /** Creates a new ShootTrap. */
-  public ShootTrap() {
+public class Reverse extends Command {
+  /** Creates a new ShootReverse. */
+  public Reverse() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.m_shooter);
   }
@@ -17,7 +17,7 @@ public class ShootTrap extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.m_shooter.shootTrap();
+    RobotContainer.m_shooter.shootReverse();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

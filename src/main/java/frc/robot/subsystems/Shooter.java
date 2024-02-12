@@ -24,9 +24,9 @@ import frc.robot.sim.PhysicsSim;
 public class Shooter extends SubsystemBase {
 
   private final TalonFX m_topMotor = new TalonFX(Constants.kRio_CAN_Shooter_Top_Motor);
-  private final TalonFX m_bottomMotor = new TalonFX(Constants.kRio_CAN_Shooter_Bottom_Motor);
+  private final TalonFX m_botMotor = new TalonFX(Constants.kRio_CAN_Shooter_Bottom_Motor);
 
-  private GenericEntry m_ShootSpeakBotVel = null;
+  private GenericEntry m_ShootSpeakerBotVel = null;
   private GenericEntry m_ShootSpeakerTopVel = null;
 
   /* Start at velocity 0, enable FOC, no feed forward, use slot 0 */
@@ -78,7 +78,7 @@ public class Shooter extends SubsystemBase {
     }
 
     for (int i = 0; i < 5; ++i) {
-      status = m_bottomMotor.getConfigurator().apply(configs);
+      status = m_botMotor.getConfigurator().apply(configs);
       if (status.isOK())
         break;
     }
@@ -87,12 +87,12 @@ public class Shooter extends SubsystemBase {
     }
 
     m_topMotor.setInverted(true);
-    m_bottomMotor.setInverted(false);
+    m_botMotor.setInverted(false);
 
     m_ShootSpeakerTopVel = Shuffleboard.getTab("Shooter")
         .add("ShooterTop", 9.5).getEntry();
 
-    m_ShootSpeakBotVel = Shuffleboard.getTab("Shooter")
+    m_ShootSpeakerBotVel = Shuffleboard.getTab("Shooter")
         .add("ShooterBottom", 9.5).getEntry();
 
   }
@@ -101,17 +101,17 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("shooterTopRPS", m_topMotor.getVelocity().getValueAsDouble());
-    SmartDashboard.putNumber("shooterBottomRPS", m_bottomMotor.getVelocity().getValueAsDouble());
+    SmartDashboard.putNumber("shooterBottomRPS", m_botMotor.getVelocity().getValueAsDouble());
   }
 
   public void simulationInit() {
     PhysicsSim.getInstance().addTalonFX(m_topMotor, 0.001);
-    PhysicsSim.getInstance().addTalonFX(m_bottomMotor, 0.001);
+    PhysicsSim.getInstance().addTalonFX(m_botMotor, 0.001);
   }
 
   public void stop() {
     m_topMotor.setControl(m_brake);
-    m_bottomMotor.setControl(m_brake);
+    m_botMotor.setControl(m_brake);
   }
 
   public void setShooterTopVel(double dRPS) {
@@ -119,38 +119,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setShooterBottomVel(double dRPS) {
-    m_ShootSpeakBotVel.setDouble(dRPS);
+    m_ShootSpeakerBotVel.setDouble(dRPS);
 
-  }
-
-  public void shootSpeaker() {
-    double speed = .3;
-
-    double desiredTopRPS = m_ShootSpeakerTopVel.getDouble(50);
-    double desiredBottomRPS = m_ShootSpeakBotVel.getDouble(25);
-
-    m_topMotor.setControl(m_voltageVelocity.withVelocity(desiredTopRPS));
-    m_bottomMotor.setControl(m_voltageVelocity.withVelocity(desiredBottomRPS));
-  }
-
-  public void shootAmp() {
-    double speed = 1.0;
-
-    double desiredTopRPS = 9.5;
-    double desiredBottomRPS = 9.5;
-
-    m_topMotor.setControl(m_voltageVelocity.withVelocity(desiredTopRPS));
-    m_bottomMotor.setControl(m_voltageVelocity.withVelocity(desiredBottomRPS));
-  }
-
-  public void shootTrap() {
-    double speed = 1.0;
-
-    double desiredTopRPS = 15;
-    double desiredBottomRPS = 15;
-
-    m_topMotor.setControl(m_voltageVelocity.withVelocity(desiredTopRPS));
-    m_bottomMotor.setControl(m_voltageVelocity.withVelocity(desiredBottomRPS));
   }
 
   public void shootReverse() {
@@ -160,7 +130,15 @@ public class Shooter extends SubsystemBase {
     double desiredBottomRPS = -9.5;
 
     m_topMotor.setControl(m_voltageVelocity.withVelocity(desiredTopRPS));
-    m_bottomMotor.setControl(m_voltageVelocity.withVelocity(desiredBottomRPS));
+    m_botMotor.setControl(m_voltageVelocity.withVelocity(desiredBottomRPS));
+  }
+
+  public void start() {
+    double desiredTopRPS = m_ShootSpeakerTopVel.getDouble(60);
+    double desiredBotRPS = m_ShootSpeakerBotVel.getDouble(60);
+
+    m_topMotor.setControl(m_voltageVelocity.withVelocity(desiredTopRPS));
+    m_botMotor.setControl(m_voltageVelocity.withVelocity(desiredBotRPS));
   }
 
   public double getTopMotorSpeed() {
@@ -170,6 +148,22 @@ public class Shooter extends SubsystemBase {
 
   public double getBottomMotorSpeed() {
 
-    return m_bottomMotor.getVelocity().getValueAsDouble();
+    return m_botMotor.getVelocity().getValueAsDouble();
+  }
+
+  public boolean isShooterReady() {
+    double topError = Math.abs(m_ShootSpeakerTopVel.getDouble(0.0) - getTopMotorSpeed());
+    double botError = Math.abs(m_ShootSpeakerBotVel.getDouble(0.0) - getBottomMotorSpeed());
+
+    // If the error is greater than % of requested then we are not ready
+    double percent = 0.05;
+    if (topError > m_ShootSpeakerTopVel.getDouble(0.0) * percent) {
+      return false;
+    }
+    if (botError > m_ShootSpeakerBotVel.getDouble(0.0) * percent) {
+      return false;
+    }
+
+    return true;
   }
 }

@@ -20,9 +20,13 @@ import com.pathplanner.lib.util.PathPlannerLogging;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -57,13 +61,14 @@ public class RobotContainer {
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
-  // private static final RobotMechanism m_mechRobot = new RobotMechanism();
-  // public static final Indexer m_indexer = new Indexer();
-  // public static final Intake m_intake = new Intake();
-  // public static final Shooter m_shooter = new Shooter();
-  public static final Indexer m_indexer = null;
-  public static final Intake m_intake = null;
-  public static final Shooter m_shooter = null;
+  private static final RobotMechanism m_mechRobot = new RobotMechanism();
+  public static final Indexer m_indexer = new Indexer();
+  public static final Intake m_intake = new Intake();
+  public static final Shooter m_shooter = new Shooter();
+  // public static final Indexer m_indexer = null;
+  // public static final Intake m_intake = null;
+  // public static final Shooter m_shooter = null;
+
   public static final Tracking m_tracking = new Tracking();
   private final SwerveRequest.FieldCentricFacingAngle targetDrive = new SwerveRequest.FieldCentricFacingAngle();
   private final SwerveRequest.RobotCentric gamePieceDrive = new SwerveRequest.RobotCentric();
@@ -133,13 +138,15 @@ public class RobotContainer {
         .whileTrue(drivetrain
             .applyRequest(() -> targetDrive.withVelocityX(m_tracking.getTarget_VelocityX(() -> -getInputLeftY()))
                 .withVelocityY(m_tracking.getTarget_VelocityY(() -> -getInputLeftX()))
-                .withTargetDirection(m_tracking.getTargetAngle())));
+                .withTargetDirection(m_tracking.getTargetAngle()))
+            .alongWith(m_tracking.TargetTrackingMode()));
 
     // right trigger invoke game piece tracking
     joystick.rightBumper()
         .whileTrue(drivetrain.applyRequest(() -> gamePieceDrive.withVelocityX(m_tracking.getGamePiece_VelocityX())
             .withVelocityY(m_tracking.getGamePiece_VelocityY())
-            .withRotationalRate(m_tracking.getGamePiece_RotationalRate())));
+            .withRotationalRate(m_tracking.getGamePiece_RotationalRate()))
+            .alongWith(m_tracking.NoteTrackingMode()));
 
     joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
     joystick.b().whileTrue(drivetrain
@@ -166,12 +173,32 @@ public class RobotContainer {
         .withRotationalRate(-getInputRightX() * MaxAngularRate * nudgeanglepower)));
 
     // reset the field-centric heading on left bumper press
-    joystick.back().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
+    // joystick.back().onTrue(drivetrain.runOnce(() ->
+    // drivetrain.seedFieldRelative()));
+    joystick.back().onTrue(drivetrain.runOnce(() -> this.resetFieldHeading()));
 
-    drivetrain.seedFieldRelative(new Pose2d(0, 0, Rotation2d.fromDegrees(0.0)));
+    // drivetrain.seedFieldRelative(new Pose2d(0, 0, Rotation2d.fromDegrees(0.0)));
+    this.resetFieldHeading();
 
     drivetrain.registerTelemetry(logger::telemeterize);
 
+  }
+
+  /*
+   * reset the robot heading based on the alliance color
+   * the robot front should be facing straight away from the operator when using
+   */
+  private void resetFieldHeading() {
+    var alliance = DriverStation.getAlliance();
+    if (alliance.isPresent()) {
+      if (alliance.get() == DriverStation.Alliance.Red) {
+        DataLogManager.log("%%%%%%%%%% resetFieldHeading: Red.");
+        drivetrain.seedFieldRelative(new Pose2d(15.25, 5.5, Rotation2d.fromDegrees(180.0)));
+        return;
+      }
+    }
+    DataLogManager.log("%%%%%%%%%% resetFieldHeading: Blue.");
+    drivetrain.seedFieldRelative(new Pose2d(1.3, 5.5, Rotation2d.fromDegrees(0.0)));
   }
 
   private static double deadband(double value, double deadband) {
@@ -198,6 +225,7 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureBindings();
+    SmartDashboard.putData("Robot.ResetPose", new InstantCommand(() -> this.resetFieldHeading()));
 
     // m_intake.startCompresser();
 

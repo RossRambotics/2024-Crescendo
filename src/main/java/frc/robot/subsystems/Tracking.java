@@ -12,6 +12,8 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.util.DistanceCalculator.DistanceCalculator;
@@ -32,6 +34,8 @@ public class Tracking extends SubsystemBase {
   private NetworkTable m_LL_Tracking = null;
   private NetworkTable m_LL_GamePiece = null;
   private double m_CurrentHeading = 0.0;
+  private boolean m_isTargetTracking = false;
+  private boolean m_isNoteTracking = false;
 
   /** Creates a new Tracking. */
   public Tracking() {
@@ -155,6 +159,14 @@ public class Tracking extends SubsystemBase {
     m_GamePieceOffset.setDouble(offset);
   }
 
+  public boolean isNoteTracking() {
+    return m_isNoteTracking;
+  }
+
+  public boolean isTargetTracking() {
+    return m_isTargetTracking;
+  }
+
   private void calcTargetDistance() {
     // tx Range is -/+29.8 degrees
     // ty Range is -/+24.85 degrees
@@ -180,6 +192,44 @@ public class Tracking extends SubsystemBase {
 
   public boolean isGamePieceFound() {
     return m_isGamePieceFound.getBoolean(false);
+  }
+
+  public boolean isOnTarget() {
+    double angleError = Math.abs(this.getTargetAngle().getDegrees() - m_CurrentHeading);
+    double distanceError = Math.abs(this.getTargetDistanceError());
+    double offsetError = Math.abs(m_TargetOffset.getDouble(0.0));
+
+    if (angleError > 5.0) {
+      return false;
+    }
+
+    if (distanceError > 0.05) {
+      return false;
+    }
+
+    if (offsetError > 0.05) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public double getTargetDistanceError() {
+    // figure out the appropriate goal distance based on the target ID
+    // the goal should be either 0 or negative
+    // goals are negative because the robot needs to BACK up for targets
+    int targetID = (int) m_TargetID.getDouble(-1);
+    double goal = 0.0;
+    switch (targetID) {
+      case 7:
+      case 4:
+        goal = -0.92; // TODO tune this
+        break;
+      default:
+        goal = 0.0;
+    }
+
+    return m_TargetDistance.getDouble(0.0) - goal;
   }
 
   public double getTarget_VelocityY(DoubleSupplier joystick_value) {
@@ -217,22 +267,9 @@ public class Tracking extends SubsystemBase {
       return joystick_value.getAsDouble();
     }
 
-    int targetID = (int) m_TargetID.getDouble(-1);
-    double goal = 0;
     double answer = 0.0;
 
-    // figure out the appropriate goal distance based on the target ID
-    // the goal should be either 0 or negative
-    // goals are negative because the robot needs to BACK up for targets
-    switch (targetID) {
-      case 1:
-        goal = -0.5; // TODO tune this
-        break;
-      default:
-        goal = 0.0;
-    }
-
-    double offset = m_TargetDistance.getDouble(0.0) - goal;
+    double offset = getTargetDistanceError();
 
     double deadzone = 0.05; // TODO tune this
     double kP = 0.5; // TODO tune this
@@ -330,4 +367,23 @@ public class Tracking extends SubsystemBase {
   public void setTargetAngle(double degrees) {
     m_TargetAngle.setDouble(degrees);
   }
+
+  public Command TargetTrackingMode() {
+    Command c;
+
+    c = new StartEndCommand(() -> m_isTargetTracking = true, () -> m_isTargetTracking = false)
+        .withName("TargetTrackingMode");
+
+    return c;
+  }
+
+  public Command NoteTrackingMode() {
+    Command c;
+
+    c = new StartEndCommand(() -> m_isNoteTracking = true, () -> m_isNoteTracking = false)
+        .withName("NoteTrackingMode");
+
+    return c;
+  }
+
 }
