@@ -89,21 +89,25 @@
     },
     "transitory": {
       "LiveWindow": {
+        "Indexer": {
+          "open": true
+        },
+        "Intake": {
+          "open": true
+        },
         "open": true
       },
       "Shuffleboard": {
+        "Indexer": {
+          "open": true
+        },
         "open": true
       },
       "SmartDashboard": {
         "Robot Pose": {
           "double[]##v_/SmartDashboard/Robot Pose/Robot": {
             "open": true
-          },
-          "open": true
-        },
-        "open": true,
-        "robot": {
-          "open": true
+          }
         }
       }
     }

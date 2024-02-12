@@ -23,11 +23,14 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -48,6 +51,9 @@ public class RobotContainer {
 
   Trigger leftTrigger = new Trigger(
       () -> joystick.getRawAxis(XboxController.Axis.kLeftTrigger.value) >= 0.5);
+
+  Trigger rightTrigger = new Trigger(
+      () -> joystick.getRawAxis(XboxController.Axis.kRightTrigger.value) >= 0.5);
 
   /* Setting up bindings for necessary control of the swerve drive platform */
 
@@ -151,7 +157,27 @@ public class RobotContainer {
             .withRotationalRate(m_tracking.getGamePiece_RotationalRate()))
             .alongWith(m_tracking.NoteTrackingMode()));
 
-    joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
+    // deploy the intake
+    joystick.a().onTrue(new frc.robot.commands.Intake.Down()
+        .andThen(new frc.robot.commands.Intake.IntakeStart())
+        .andThen(new frc.robot.commands.Indexer.Intake())
+        .andThen(new WaitUntilCommand(() -> m_indexer.isNoteMiddle()))
+        .andThen(new frc.robot.commands.Indexer.Stop())
+        .andThen(new frc.robot.commands.Intake.IntakeStop())
+        .andThen(new frc.robot.commands.Intake.Up())
+        .withName("Intake_a_Note")
+    /* */);
+
+    // shoot
+    rightTrigger.onTrue(new frc.robot.commands.Shooter.Start()
+        .andThen(new WaitUntilCommand(() -> m_shooter.isShooterReady()))
+        .andThen(new frc.robot.commands.Indexer.Shoot())
+        .andThen(new WaitCommand(1.0))
+        .andThen(new frc.robot.commands.Shooter.Stop())
+        .andThen(new frc.robot.commands.Indexer.Stop())
+        .withName("Shoot_a_Note")
+    /* */);
+
     joystick.b().whileTrue(drivetrain
         .applyRequest(() -> point.withModuleDirection(new Rotation2d(-getInputLeftY(), getInputLeftX()))));
 
@@ -228,6 +254,11 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureBindings();
+    LiveWindow.enableTelemetry(m_indexer);
+    LiveWindow.enableTelemetry(m_intake);
+    LiveWindow.enableTelemetry(m_shooter);
+    LiveWindow.enableTelemetry(m_tracking);
+
     SmartDashboard.putData("Robot.ResetPose", new InstantCommand(() -> this.resetFieldHeading()));
 
     // m_intake.startCompresser();

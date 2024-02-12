@@ -1,0 +1,98 @@
+{
+  "version": "3.0.2",
+  "layout": [
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": []
+        },
+        "discrete": {
+          "fields": [
+            {
+              "key": "NT:/LiveWindow/Indexer/.command",
+              "color": "#2b66a2",
+              "show": true
+            },
+            {
+              "key": "NT:/LiveWindow/Intake/.command",
+              "color": "#e5b31b",
+              "show": true
+            },
+            {
+              "key": "NT:/LiveWindow/Shooter/.command",
+              "color": "#af2437",
+              "show": true
+            },
+            {
+              "key": "NT:/Shuffleboard/Indexer/2-MiddleSensor",
+              "color": "#80588e",
+              "show": true
+            },
+            {
+              "key": "NT:/Shuffleboard/Tracking/TargetID",
+              "color": "#e48b32",
+              "show": true
+            }
+          ]
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": []
+        }
+      },
+      "title": "Line Graph"
+    },
+    {
+      "type": 10,
+      "fields": [
+        {
+          "key": "NT:/SmartDashboard/robot",
+          "sourceTypeIndex": 0,
+          "sourceType": "Mechanism2d"
+        },
+        null,
+        null
+      ],
+      "listFields": [],
+      "options": {},
+      "configHidden": false,
+      "title": "Mechanism"
+    },
+    {
+      "type": 6,
+      "fields": [],
+      "listFields": [
+        [],
+        [
+          {
+            "type": "Robot",
+            "key": "NT:/Pose/robotPose",
+            "sourceTypeIndex": 0,
+            "sourceType": 5
+          }
+        ]
+      ],
+      "options": {
+        "field": "2024 Field",
+        "alliance": "blue",
+        "robot": "2024 KitBot",
+        "unitDistance": "meters",
+        "unitRotation": "radians",
+        "cameraIndex": -1,
+        "fov": 50
+      },
+      "configHidden": false,
+      "title": "3D Field"
+    }
+  ]
+}
