@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.util.DistanceCalculator.DistanceCalculator;
+import frc.util.DistanceCalculator.VisionMeasurement;
 
 public class Tracking extends SubsystemBase {
   private GenericEntry m_TargetID = null; // current target to track
@@ -24,6 +26,8 @@ public class Tracking extends SubsystemBase {
   private GenericEntry m_TargetOffset = null; // robot-centric x distance to center of current target
   private GenericEntry m_GamePieceDistance = null; // distance to nearest gamepiece
   private GenericEntry m_GamePieceOffset = null; // robot-centric x distance to the center of the game piece
+
+  private DistanceCalculator m_TargetDistanceCalculator = new DistanceCalculator();
 
   private NetworkTable m_LL_Tracking = null;
   private NetworkTable m_LL_GamePiece = null;
@@ -56,6 +60,35 @@ public class Tracking extends SubsystemBase {
         .add("GamePieceDistance", -1.0).getEntry();
     m_GamePieceOffset = Shuffleboard.getTab("Tracking")
         .add("GamePieceOffset", 0.0).getEntry();
+
+    // set the bounds
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.0, 5));
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(25.0, 0.0));
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(100.0, 0.0));
+
+    // Midas LL2 measurements
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(1.7, 0.92));
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.39, 2.02));
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.16, 3.62));
+
+    // DataLogManager.log("0.15: " +
+    // m_TargetDistanceCalculator.compute(0.15).m_distance);
+    // DataLogManager.log("0.16: " +
+    // m_TargetDistanceCalculator.compute(0.16).m_distance);
+    // DataLogManager.log("0.17: " +
+    // m_TargetDistanceCalculator.compute(0.17).m_distance);
+    // DataLogManager.log("0.38: " +
+    // m_TargetDistanceCalculator.compute(0.38).m_distance);
+    // DataLogManager.log("1.60: " +
+    // m_TargetDistanceCalculator.compute(1.60).m_distance);
+    // DataLogManager.log("1.70: " +
+    // m_TargetDistanceCalculator.compute(1.70).m_distance);
+    // DataLogManager.log("1.80: " +
+    // m_TargetDistanceCalculator.compute(1.80).m_distance);
+    // DataLogManager.log("2.00: " +
+    // m_TargetDistanceCalculator.compute(2.00).m_distance);
+    // DataLogManager.log("26.00: " +
+    // m_TargetDistanceCalculator.compute(26.00).m_distance);
   }
 
   public void setCurrentHeading(double degrees) {
@@ -126,7 +159,7 @@ public class Tracking extends SubsystemBase {
     // tx Range is -/+29.8 degrees
     // ty Range is -/+24.85 degrees
 
-    final double kTY_DEGREE_TO_METERS = 1.0; // TODO Calibrate this
+    final double kTY_DEGREE_TO_METERS = 3.0; // TODO Calibrate this
     double tx = m_LL_Tracking.getEntry("tx").getDouble(0);
     double ty = m_LL_Tracking.getEntry("ty").getDouble(0);
     double distance = ty * kTY_DEGREE_TO_METERS;
