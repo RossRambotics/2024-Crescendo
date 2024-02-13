@@ -37,7 +37,6 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.Indexer.Storage;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.Grabber;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.RobotMechanism;
@@ -88,8 +87,6 @@ public class RobotContainer {
   /* Path follower */
   private Command runAuto = drivetrain.getAutoPath("S1 C1 S1");
 
-  static public final Grabber m_grabber = new Grabber();
-
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
   private SlewRateLimiter m_slewLeftY = new SlewRateLimiter(1.5);
@@ -123,7 +120,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    m_indexer.setDefaultCommand(new Storage());
+    // m_indexer.setDefaultCommand(new Storage());
 
     Command cmd;
 
@@ -264,8 +261,10 @@ public class RobotContainer {
     // m_intake.startCompresser();
 
     /* Register named commands */
-    NamedCommands.registerCommand("Open", new RunCommand(() -> m_grabber.openJaws()));
-    NamedCommands.registerCommand("Close", new RunCommand(() -> m_grabber.closeJaws()));
+    // NamedCommands.registerCommand("Open", new RunCommand(() ->
+    // m_grabber.openJaws()));
+    // NamedCommands.registerCommand("Close", new RunCommand(() ->
+    // m_grabber.closeJaws()));
 
   }
 

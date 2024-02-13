@@ -90,10 +90,10 @@ public class Shooter extends SubsystemBase {
     m_botMotor.setInverted(false);
 
     m_ShootSpeakerTopVel = Shuffleboard.getTab("Shooter")
-        .add("ShooterTop", 9.5).getEntry();
+        .add("ShooterTop", -9.5).getEntry();
 
     m_ShootSpeakerBotVel = Shuffleboard.getTab("Shooter")
-        .add("ShooterBottom", 9.5).getEntry();
+        .add("ShooterBottom", -9.5).getEntry();
 
   }
 

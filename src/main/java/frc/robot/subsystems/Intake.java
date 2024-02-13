@@ -48,7 +48,7 @@ public class Intake extends SubsystemBase {
     m_PIDController = m_motor.getPIDController();
 
     // PID coefficients
-    kP = 6e-5;
+    kP = 0.0001;
     kI = 0;
     kD = 0;
     kIz = 0;
@@ -78,7 +78,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void intake() {
-    double speed = 2 * 60;
+    double speed = -2 * 4000;
 
     m_PIDController.setReference(speed, CANSparkMax.ControlType.kVelocity);
   }
@@ -94,7 +94,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void intakeReverse() {
-    double speed = -1 * 60;
+    double speed = 2 * 4000;
 
     m_PIDController.setReference(speed, CANSparkMax.ControlType.kVelocity);
   }

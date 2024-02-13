@@ -59,7 +59,7 @@ public class Indexer extends SubsystemBase {
     m_bottomPIDController = m_bottomMotor.getPIDController();
 
     // PID coefficients
-    kP = 6e-5;
+    kP = 1;
     kI = 0;
     kD = 0;
     kIz = 0;

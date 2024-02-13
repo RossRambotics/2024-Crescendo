@@ -6,15 +6,15 @@ package frc.robot;
 
 /** Add your docs here. */
 public final class Constants {
-    public static final int kRio_CAN_Indexer_Top_Motor = 7;
-    public static final int kRio_CAN_Indexer_Bottom_Motor = 8;
+    public static final int kRio_CAN_Indexer_Top_Motor = 20;
+    public static final int kRio_CAN_Indexer_Bottom_Motor = 21;
 
-    public static final int kRio_CAN_Intake_Motor = 9;
+    public static final int kRio_CAN_Intake_Motor = 22;
 
-    public static final int kRio_CAN_Shooter_Top_Motor = 6;
-    public static final int kRio_CAN_Shooter_Bottom_Motor = 5;
+    public static final int kRio_CAN_Shooter_Top_Motor = 23;
+    public static final int kRio_CAN_Shooter_Bottom_Motor = 24;
 
-    public static final int kRio_CAN_CANDLE = 4;
-    public static final int PNEUMATIC_HUB = 1;
+    public static final int kRio_CAN_CANDLE = 30;
+    public static final int PNEUMATIC_HUB = 50;
 
 }
