@@ -14,6 +14,7 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Tracking": "Subsystem",
       "/Pose": "Field2d",
       "/SmartDashboard/Amp.Shoot": "Command",
       "/SmartDashboard/Indexer.Intake": "Command",
@@ -98,7 +99,7 @@
         "open": true
       },
       "Shuffleboard": {
-        "Indexer": {
+        "Shooter": {
           "open": true
         },
         "open": true
@@ -111,8 +112,5 @@
         }
       }
     }
-  },
-  "NetworkTables Info": {
-    "visible": true
   }
 }

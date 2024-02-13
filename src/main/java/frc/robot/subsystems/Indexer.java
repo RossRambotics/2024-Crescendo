@@ -59,7 +59,8 @@ public class Indexer extends SubsystemBase {
     m_bottomPIDController = m_bottomMotor.getPIDController();
 
     // PID coefficients
-    kP = 1;
+    kP = kP = 0.0001;
+    ;
     kI = 0;
     kD = 0;
     kIz = 0;
@@ -132,7 +133,7 @@ public class Indexer extends SubsystemBase {
   }
 
   public void shoot() {
-    double setPoint = 2 * 60;
+    double setPoint = -2 * 3000;
 
     m_topPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
     m_bottomPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
