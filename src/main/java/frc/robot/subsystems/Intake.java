@@ -19,8 +19,7 @@ import frc.robot.Robot;
 
 public class Intake extends SubsystemBase {
   Compressor m_compressor = new Compressor(frc.robot.Constants.PNEUMATIC_HUB, PneumaticsModuleType.REVPH);
-  DoubleSolenoid m_intakeSoleniod = new DoubleSolenoid(frc.robot.Constants.PNEUMATIC_HUB,
-      PneumaticsModuleType.REVPH, 0, 1);
+  DoubleSolenoid m_intakeSoleniod = new DoubleSolenoid(frc.robot.Constants.PNEUMATIC_HUB,PneumaticsModuleType.REVPH, 0, 1);
 
   private boolean m_isExtended = true;
   private double m_sim_motor_speed = 0;
@@ -110,6 +109,7 @@ public class Intake extends SubsystemBase {
 
   public void startCompresser() {
     m_compressor.enableAnalog(80, 110);
+    System.out.println("%%%%%%%%%%%%%%%%%%%%% Compressor On %%%%%%%%%%%%%%%%%%%%%%%");
   }
 
   public void simulationInit() {

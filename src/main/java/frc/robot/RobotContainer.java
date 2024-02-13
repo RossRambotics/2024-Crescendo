@@ -126,6 +126,7 @@ public class RobotContainer {
 
     leftTrigger.onTrue(Commands.runOnce(() -> slewLimit = 1.0));
     leftTrigger.onFalse(Commands.runOnce(() -> slewLimit = 0.6));
+    
 
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
         drivetrain.applyRequest(() -> drive.withVelocityX(-getInputLeftY()) // Drive forward with
@@ -258,7 +259,7 @@ public class RobotContainer {
 
     SmartDashboard.putData("Robot.ResetPose", new InstantCommand(() -> this.resetFieldHeading()));
 
-    // m_intake.startCompresser();
+    m_intake.startCompresser();
 
     /* Register named commands */
     // NamedCommands.registerCommand("Open", new RunCommand(() ->
