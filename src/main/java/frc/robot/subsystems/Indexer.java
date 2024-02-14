@@ -105,7 +105,7 @@ public class Indexer extends SubsystemBase {
       } else {
         m_TopSensor.setBoolean(false);
       }
-      if (m_MiddleSensorInput.get()) {
+      if (!m_MiddleSensorInput.get()) {
         m_MiddleSensor.setBoolean(true);
       } else {
         m_MiddleSensor.setBoolean(false);
@@ -140,7 +140,7 @@ public class Indexer extends SubsystemBase {
   }
 
   public void intake() {
-    double setPoint = -2 * 6000;
+    double setPoint = -2 * 2000;
 
     m_bottomPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
   }
