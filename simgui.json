@@ -45,6 +45,11 @@
       "/SmartDashboard/robot": "Mechanism2d"
     },
     "windows": {
+      "/SmartDashboard/Amp.Shoot": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Indexer.Intake": {
         "window": {
           "visible": true
