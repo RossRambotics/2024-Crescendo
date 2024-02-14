@@ -28,7 +28,7 @@ public class Indexer extends SubsystemBase {
 
   public edu.wpi.first.wpilibj.AnalogInput m_TopSensorInput = new edu.wpi.first.wpilibj.AnalogInput(
       1);
-  public edu.wpi.first.wpilibj.AnalogInput m_MiddleSensorInput = new edu.wpi.first.wpilibj.AnalogInput(
+  public edu.wpi.first.wpilibj.DigitalInput m_MiddleSensorInput = new edu.wpi.first.wpilibj.DigitalInput(
       2);
   public edu.wpi.first.wpilibj.AnalogInput m_BottomSensorInput = new edu.wpi.first.wpilibj.AnalogInput(
       3);
@@ -105,7 +105,7 @@ public class Indexer extends SubsystemBase {
       } else {
         m_TopSensor.setBoolean(false);
       }
-      if (m_MiddleSensorInput.getValue() < 10) {
+      if (m_MiddleSensorInput.get()) {
         m_MiddleSensor.setBoolean(true);
       } else {
         m_MiddleSensor.setBoolean(false);
