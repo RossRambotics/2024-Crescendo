@@ -140,7 +140,7 @@ public class Indexer extends SubsystemBase {
   }
 
   public void intake() {
-    double setPoint = 2 * 60;
+    double setPoint = -2 * 6000;
 
     m_bottomPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
   }

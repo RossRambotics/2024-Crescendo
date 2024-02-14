@@ -93,7 +93,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void intakeReverse() {
-    double speed = 2 * 4000;
+    double speed = 2 * 400;
 
     m_PIDController.setReference(speed, CANSparkMax.ControlType.kVelocity);
   }
@@ -109,7 +109,7 @@ public class Intake extends SubsystemBase {
 
   public void startCompresser() {
     m_compressor.enableAnalog(80, 110);
-    System.out.println("%%%%%%%%%%%%%%%%%%%%% Compressor On %%%%%%%%%%%%%%%%%%%%%%%");
+    
   }
 
   public void simulationInit() {

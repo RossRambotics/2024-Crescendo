@@ -4,18 +4,9 @@
 
 package frc.robot;
 
-import java.nio.file.Path;
-
-import javax.sound.sampled.Line;
-
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest.FieldCentric;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.FollowPathCommand;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -28,14 +19,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.Indexer.Storage;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
@@ -53,6 +40,8 @@ public class RobotContainer {
 
   Trigger rightTrigger = new Trigger(
       () -> joystick.getRawAxis(XboxController.Axis.kRightTrigger.value) >= 0.5);
+  Trigger aButton = new Trigger(joystick.a());
+  Trigger bButton = new Trigger(joystick.b());
 
   /* Setting up bindings for necessary control of the swerve drive platform */
 
@@ -160,15 +149,19 @@ public class RobotContainer {
         .andThen(new frc.robot.commands.Intake.IntakeStart())
         .andThen(new frc.robot.commands.Indexer.Intake())
         .andThen(new WaitUntilCommand(() -> m_indexer.isNoteMiddle()))
-        .andThen(new frc.robot.commands.Indexer.Stop())
         .andThen(new frc.robot.commands.Intake.IntakeStop())
-        .andThen(new frc.robot.commands.Intake.Up())
+        
+
         .withName("Intake_a_Note")
     /* */);
 
+    joystick.b().onTrue(new frc.robot.commands.Intake.Up()
+        .andThen(new frc.robot.commands.Intake.IntakeStop())
+        .andThen(new frc.robot.commands.Indexer.Stop()));
+
     // shoot
     rightTrigger.onTrue(new frc.robot.commands.Shooter.Start()
-        .andThen(new WaitUntilCommand(() -> m_shooter.isShooterReady()))
+        // .andThen(new WaitUntilCommand(() -> m_shooter.isShooterReady()))
         .andThen(new frc.robot.commands.Indexer.Shoot())
         .andThen(new WaitCommand(1.0))
         .andThen(new frc.robot.commands.Shooter.Stop())
@@ -176,8 +169,8 @@ public class RobotContainer {
         .withName("Shoot_a_Note")
     /* */);
 
-    joystick.b().whileTrue(drivetrain
-        .applyRequest(() -> point.withModuleDirection(new Rotation2d(-getInputLeftY(), getInputLeftX()))));
+    // joystick.b().whileTrue(drivetrain
+    //     .applyRequest(() -> point.withModuleDirection(new Rotation2d(-getInputLeftY(), getInputLeftX()))));
 
     joystick.pov(0).whileTrue(drivetrain.applyRequest(() -> drive
         .withVelocityX(nudge) // Drive forward with negative Y (forward)
