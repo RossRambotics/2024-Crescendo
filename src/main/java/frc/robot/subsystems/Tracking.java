@@ -4,13 +4,20 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
+import frc.util.DistanceCalculator.DistanceCalculator;
+import frc.util.DistanceCalculator.VisionMeasurement;
 
 public class Tracking extends SubsystemBase {
   private GenericEntry m_TargetID = null; // current target to track
@@ -22,8 +29,13 @@ public class Tracking extends SubsystemBase {
   private GenericEntry m_GamePieceDistance = null; // distance to nearest gamepiece
   private GenericEntry m_GamePieceOffset = null; // robot-centric x distance to the center of the game piece
 
+  private DistanceCalculator m_TargetDistanceCalculator = new DistanceCalculator();
+
   private NetworkTable m_LL_Tracking = null;
   private NetworkTable m_LL_GamePiece = null;
+  private double m_CurrentHeading = 0.0;
+  private boolean m_isTargetTracking = false;
+  private boolean m_isNoteTracking = false;
 
   /** Creates a new Tracking. */
   public Tracking() {
@@ -52,6 +64,39 @@ public class Tracking extends SubsystemBase {
         .add("GamePieceDistance", -1.0).getEntry();
     m_GamePieceOffset = Shuffleboard.getTab("Tracking")
         .add("GamePieceOffset", 0.0).getEntry();
+
+    // set the bounds
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.0, 5));
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(25.0, 0.0));
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(100.0, 0.0));
+
+    // Midas LL2 measurements
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(1.7, 0.92));
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.39, 2.02));
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.16, 3.62));
+
+    // DataLogManager.log("0.15: " +
+    // m_TargetDistanceCalculator.compute(0.15).m_distance);
+    // DataLogManager.log("0.16: " +
+    // m_TargetDistanceCalculator.compute(0.16).m_distance);
+    // DataLogManager.log("0.17: " +
+    // m_TargetDistanceCalculator.compute(0.17).m_distance);
+    // DataLogManager.log("0.38: " +
+    // m_TargetDistanceCalculator.compute(0.38).m_distance);
+    // DataLogManager.log("1.60: " +
+    // m_TargetDistanceCalculator.compute(1.60).m_distance);
+    // DataLogManager.log("1.70: " +
+    // m_TargetDistanceCalculator.compute(1.70).m_distance);
+    // DataLogManager.log("1.80: " +
+    // m_TargetDistanceCalculator.compute(1.80).m_distance);
+    // DataLogManager.log("2.00: " +
+    // m_TargetDistanceCalculator.compute(2.00).m_distance);
+    // DataLogManager.log("26.00: " +
+    // m_TargetDistanceCalculator.compute(26.00).m_distance);
+  }
+
+  public void setCurrentHeading(double degrees) {
+    m_CurrentHeading = degrees;
   }
 
   @Override
@@ -114,11 +159,19 @@ public class Tracking extends SubsystemBase {
     m_GamePieceOffset.setDouble(offset);
   }
 
+  public boolean isNoteTracking() {
+    return m_isNoteTracking;
+  }
+
+  public boolean isTargetTracking() {
+    return m_isTargetTracking;
+  }
+
   private void calcTargetDistance() {
     // tx Range is -/+29.8 degrees
     // ty Range is -/+24.85 degrees
 
-    final double kTY_DEGREE_TO_METERS = 3; // TODO Calibrate this
+    final double kTY_DEGREE_TO_METERS = 3.0; // TODO Calibrate this
     double tx = m_LL_Tracking.getEntry("tx").getDouble(0);
     double ty = m_LL_Tracking.getEntry("ty").getDouble(0);
     double distance = ty * kTY_DEGREE_TO_METERS;
@@ -141,8 +194,52 @@ public class Tracking extends SubsystemBase {
     return m_isGamePieceFound.getBoolean(false);
   }
 
-  public double getTarget_VelocityY() {
-    double offset = m_TargetOffset.getDouble(0.0);
+  public boolean isOnTarget() {
+    double angleError = Math.abs(this.getTargetAngle().getDegrees() - m_CurrentHeading);
+    double distanceError = Math.abs(this.getTargetDistanceError());
+    double offsetError = Math.abs(m_TargetOffset.getDouble(0.0));
+
+    if (angleError > 5.0) {
+      return false;
+    }
+
+    if (distanceError > 0.05) {
+      return false;
+    }
+
+    if (offsetError > 0.05) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public double getTargetDistanceError() {
+    // figure out the appropriate goal distance based on the target ID
+    // the goal should be either 0 or negative
+    // goals are negative because the robot needs to BACK up for targets
+    int targetID = (int) m_TargetID.getDouble(-1);
+    double goal = 0.0;
+    switch (targetID) {
+      case 7:
+      case 4:
+        goal = -0.92; // TODO tune this
+        break;
+      default:
+        goal = 0.0;
+    }
+
+    return m_TargetDistance.getDouble(0.0) - goal;
+  }
+
+  public double getTarget_VelocityY(DoubleSupplier joystick_value) {
+
+    double angleError = this.getTargetAngle().getDegrees() - m_CurrentHeading;
+    if (Math.abs(angleError) > 5 || !isTargetIDFound() || m_TargetDistance.getDouble(5) > 3.0) {
+      return joystick_value.getAsDouble();
+    }
+
+    double offset = -m_TargetOffset.getDouble(0.0);
     double answer = 0.0;
 
     double deadzone = 0.05; // TODO tune this
@@ -163,26 +260,19 @@ public class Tracking extends SubsystemBase {
     return answer;
   }
 
-  public double getTarget_VelocityX() {
-    int targetID = (int) m_TargetID.getDouble(-1);
-    double goal = 0;
-    double answer = 0.0;
+  public double getTarget_VelocityX(DoubleSupplier joystick_value) {
 
-    // figure out the appropriate goal distance based on the target ID
-    // the goal should be either 0 or negative
-    // goals are negative because the robot needs to BACK up for targets
-    switch (targetID) {
-      case 1:
-        goal = -0.5; // TODO tune this
-        break;
-      default:
-        goal = 0.0;
+    double angleError = this.getTargetAngle().getDegrees() - m_CurrentHeading;
+    if (Math.abs(angleError) > 5 || !isTargetIDFound() || m_TargetDistance.getDouble(5) > 3.0) {
+      return joystick_value.getAsDouble();
     }
 
-    double offset = m_TargetDistance.getDouble(0.0) - goal;
+    double answer = 0.0;
+
+    double offset = getTargetDistanceError();
 
     double deadzone = 0.05; // TODO tune this
-    double kP = 0.0; // TODO tune this
+    double kP = 0.5; // TODO tune this
     double kS = 0.00; // TODO tune this
 
     answer = (offset * kP) + kS;
@@ -196,18 +286,8 @@ public class Tracking extends SubsystemBase {
     return answer;
   }
 
-  public Rotation2d getTarget_Angle() {
-    int targetID = (int) m_TargetID.getDouble(-1);
-
-    // remember that the heading/angle here is the direction is for the FRONT of the
-    // robot so the direction of the shooter is off by 1180 degrees
-    switch (targetID) {
-      case 7:
-        return new Rotation2d(Math.toRadians(0.0));
-    }
-
-    return new Rotation2d(Math.toRadians(-1));
-
+  public Rotation2d getTargetAngle() {
+    return new Rotation2d(Math.toRadians(m_TargetAngle.getDouble(-1.0)));
   }
 
   public double getGamePiece_VelocityY() {
@@ -257,7 +337,11 @@ public class Tracking extends SubsystemBase {
   }
 
   public double getGamePiece_RotationalRate() {
-    // TODO Auto-generated method stub
+    // if we don't see a game piece don't turn
+    if (!this.isGamePieceFound()) {
+      return 0;
+    }
+
     double answer = 0;
     double offset = -Math.toRadians(m_LL_GamePiece.getEntry("tx").getDouble(0));
 
@@ -283,4 +367,23 @@ public class Tracking extends SubsystemBase {
   public void setTargetAngle(double degrees) {
     m_TargetAngle.setDouble(degrees);
   }
+
+  public Command TargetTrackingMode() {
+    Command c;
+
+    c = new StartEndCommand(() -> m_isTargetTracking = true, () -> m_isTargetTracking = false)
+        .withName("TargetTrackingMode");
+
+    return c;
+  }
+
+  public Command NoteTrackingMode() {
+    Command c;
+
+    c = new StartEndCommand(() -> m_isNoteTracking = true, () -> m_isNoteTracking = false)
+        .withName("NoteTrackingMode");
+
+    return c;
+  }
+
 }

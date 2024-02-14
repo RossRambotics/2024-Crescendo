@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
+import frc.robot.commands.Indexer.Storage;
 
 public class Indexer extends SubsystemBase {
   private final CANSparkMax m_topMotor = new CANSparkMax(Constants.kRio_CAN_Indexer_Top_Motor, MotorType.kBrushless);
@@ -23,6 +25,13 @@ public class Indexer extends SubsystemBase {
   private SparkPIDController m_topPIDController;
   private SparkPIDController m_bottomPIDController;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM;
+
+  public edu.wpi.first.wpilibj.AnalogInput m_TopSensorInput = new edu.wpi.first.wpilibj.AnalogInput(
+      1);
+  public edu.wpi.first.wpilibj.AnalogInput m_MiddleSensorInput = new edu.wpi.first.wpilibj.AnalogInput(
+      2);
+  public edu.wpi.first.wpilibj.AnalogInput m_BottomSensorInput = new edu.wpi.first.wpilibj.AnalogInput(
+      3);
 
   GenericEntry m_TopSensor = null;
   GenericEntry m_MiddleSensor = null;
@@ -89,6 +98,23 @@ public class Indexer extends SubsystemBase {
     SmartDashboard.putNumber("indexerBottomRPM", m_bottomMotor.getEncoder().getVelocity());
 
     // TODO add read sensor values
+    if (Robot.isReal()) {
+      if (m_TopSensorInput.getValue() < 10) {
+        m_TopSensor.setBoolean(true);
+      } else {
+        m_TopSensor.setBoolean(false);
+      }
+      if (m_MiddleSensorInput.getValue() < 10) {
+        m_MiddleSensor.setBoolean(true);
+      } else {
+        m_MiddleSensor.setBoolean(false);
+      }
+      if (m_BottomSensorInput.getValue() < 10) {
+        m_BottomSensor.setBoolean(true);
+      } else {
+        m_BottomSensor.setBoolean(false);
+      }
+    }
 
   }
 
@@ -105,7 +131,7 @@ public class Indexer extends SubsystemBase {
     m_bottomPIDController.setReference(0, CANSparkMax.ControlType.kVelocity);
   }
 
-  public void shootSpeaker() {
+  public void shoot() {
     double setPoint = 2 * 60;
 
     m_topPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
@@ -124,7 +150,7 @@ public class Indexer extends SubsystemBase {
     m_topPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
   }
 
-  public void shootSpeakerReverse() {
+  public void reverse() {
     double setPoint = -5;
 
     m_topPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);

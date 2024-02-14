@@ -18,15 +18,24 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.Indexer.Storage;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Grabber;
 import frc.robot.subsystems.Indexer;
@@ -42,6 +51,9 @@ public class RobotContainer {
 
   Trigger leftTrigger = new Trigger(
       () -> joystick.getRawAxis(XboxController.Axis.kLeftTrigger.value) >= 0.5);
+
+  Trigger rightTrigger = new Trigger(
+      () -> joystick.getRawAxis(XboxController.Axis.kRightTrigger.value) >= 0.5);
 
   /* Setting up bindings for necessary control of the swerve drive platform */
 
@@ -63,6 +75,7 @@ public class RobotContainer {
   // public static final Indexer m_indexer = null;
   // public static final Intake m_intake = null;
   // public static final Shooter m_shooter = null;
+
   public static final Tracking m_tracking = new Tracking();
   private final SwerveRequest.FieldCentricFacingAngle targetDrive = new SwerveRequest.FieldCentricFacingAngle();
   private final SwerveRequest.RobotCentric gamePieceDrive = new SwerveRequest.RobotCentric();
@@ -110,6 +123,8 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+    m_indexer.setDefaultCommand(new Storage());
+
     Command cmd;
 
     leftTrigger.onTrue(Commands.runOnce(() -> slewLimit = 1.0));
@@ -123,20 +138,46 @@ public class RobotContainer {
         ).ignoringDisable(true));
 
     // left trigger invoke target tracking
-    Rotation2d rot = new Rotation2d(Math.toRadians(90));
+    // Rotation2d rot = new Rotation2d(Math.toRadians(0.0));
+    targetDrive.HeadingController.setP(3.0);
+    targetDrive.HeadingController.enableContinuousInput(0, 360);
+    targetDrive.HeadingController.setIntegratorRange(-0.25, 0.25);
 
     joystick.leftBumper()
-        .whileTrue(drivetrain.applyRequest(() -> targetDrive.withVelocityX(m_tracking.getTarget_VelocityX())
-            .withVelocityY(m_tracking.getTarget_VelocityY())
-            .withTargetDirection(rot)));
+        .whileTrue(drivetrain
+            .applyRequest(() -> targetDrive.withVelocityX(m_tracking.getTarget_VelocityX(() -> -getInputLeftY()))
+                .withVelocityY(m_tracking.getTarget_VelocityY(() -> -getInputLeftX()))
+                .withTargetDirection(m_tracking.getTargetAngle()))
+            .alongWith(m_tracking.TargetTrackingMode()));
 
     // right trigger invoke game piece tracking
     joystick.rightBumper()
         .whileTrue(drivetrain.applyRequest(() -> gamePieceDrive.withVelocityX(m_tracking.getGamePiece_VelocityX())
             .withVelocityY(m_tracking.getGamePiece_VelocityY())
-            .withRotationalRate(m_tracking.getGamePiece_RotationalRate())));
+            .withRotationalRate(m_tracking.getGamePiece_RotationalRate()))
+            .alongWith(m_tracking.NoteTrackingMode()));
 
-    joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
+    // deploy the intake
+    joystick.a().onTrue(new frc.robot.commands.Intake.Down()
+        .andThen(new frc.robot.commands.Intake.IntakeStart())
+        .andThen(new frc.robot.commands.Indexer.Intake())
+        .andThen(new WaitUntilCommand(() -> m_indexer.isNoteMiddle()))
+        .andThen(new frc.robot.commands.Indexer.Stop())
+        .andThen(new frc.robot.commands.Intake.IntakeStop())
+        .andThen(new frc.robot.commands.Intake.Up())
+        .withName("Intake_a_Note")
+    /* */);
+
+    // shoot
+    rightTrigger.onTrue(new frc.robot.commands.Shooter.Start()
+        .andThen(new WaitUntilCommand(() -> m_shooter.isShooterReady()))
+        .andThen(new frc.robot.commands.Indexer.Shoot())
+        .andThen(new WaitCommand(1.0))
+        .andThen(new frc.robot.commands.Shooter.Stop())
+        .andThen(new frc.robot.commands.Indexer.Stop())
+        .withName("Shoot_a_Note")
+    /* */);
+
     joystick.b().whileTrue(drivetrain
         .applyRequest(() -> point.withModuleDirection(new Rotation2d(-getInputLeftY(), getInputLeftX()))));
 
@@ -161,14 +202,32 @@ public class RobotContainer {
         .withRotationalRate(-getInputRightX() * MaxAngularRate * nudgeanglepower)));
 
     // reset the field-centric heading on left bumper press
-    joystick.back().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
+    // joystick.back().onTrue(drivetrain.runOnce(() ->
+    // drivetrain.seedFieldRelative()));
+    joystick.back().onTrue(drivetrain.runOnce(() -> this.resetFieldHeading()));
 
-    // if (Utils.isSimulation()) {
-    // drivetrain.seedFieldRelative(new Pose2d(new Translation2d(),
-    // Rotation2d.fromDegrees(90)));
-    // }
+    // drivetrain.seedFieldRelative(new Pose2d(0, 0, Rotation2d.fromDegrees(0.0)));
+    this.resetFieldHeading();
+
     drivetrain.registerTelemetry(logger::telemeterize);
 
+  }
+
+  /*
+   * reset the robot heading based on the alliance color
+   * the robot front should be facing straight away from the operator when using
+   */
+  private void resetFieldHeading() {
+    var alliance = DriverStation.getAlliance();
+    if (alliance.isPresent()) {
+      if (alliance.get() == DriverStation.Alliance.Red) {
+        DataLogManager.log("%%%%%%%%%% resetFieldHeading: Red.");
+        drivetrain.seedFieldRelative(new Pose2d(15.25, 5.5, Rotation2d.fromDegrees(180.0)));
+        return;
+      }
+    }
+    DataLogManager.log("%%%%%%%%%% resetFieldHeading: Blue.");
+    drivetrain.seedFieldRelative(new Pose2d(1.3, 5.5, Rotation2d.fromDegrees(0.0)));
   }
 
   private static double deadband(double value, double deadband) {
@@ -195,6 +254,14 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureBindings();
+    LiveWindow.enableTelemetry(m_indexer);
+    LiveWindow.enableTelemetry(m_intake);
+    LiveWindow.enableTelemetry(m_shooter);
+    LiveWindow.enableTelemetry(m_tracking);
+
+    SmartDashboard.putData("Robot.ResetPose", new InstantCommand(() -> this.resetFieldHeading()));
+
+    // m_intake.startCompresser();
 
     /* Register named commands */
     NamedCommands.registerCommand("Open", new RunCommand(() -> m_grabber.openJaws()));

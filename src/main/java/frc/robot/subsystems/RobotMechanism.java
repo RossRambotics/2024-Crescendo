@@ -69,17 +69,15 @@ public class RobotMechanism extends SubsystemBase {
   public void periodic() {
     if (m_firstTime) {
       m_firstTime = false;
-      SmartDashboard.putData("Indexer.ShootSpeaker", new frc.robot.commands.Indexer.ShootSpeaker());
-      SmartDashboard.putData("Indexer.ShootSpeakerReverse", new frc.robot.commands.Indexer.ShootSpeakerReverse());
+      SmartDashboard.putData("Indexer.Shoot", new frc.robot.commands.Indexer.Shoot());
+      SmartDashboard.putData("Indexer.Reverse", new frc.robot.commands.Indexer.Reverse());
       SmartDashboard.putData("Indexer.Stop", new frc.robot.commands.Indexer.Stop());
       SmartDashboard.putData("Indexer.Intake", new frc.robot.commands.Indexer.Intake());
       SmartDashboard.putData("Indexer.Retract", new frc.robot.commands.Indexer.Retract());
       SmartDashboard.putData("Indexer.Storage", new frc.robot.commands.Indexer.Storage());
-      SmartDashboard.putData("Shooter.ShootSpeaker", new frc.robot.commands.Shooter.ShootSpeaker());
+      SmartDashboard.putData("Shooter.Start", new frc.robot.commands.Shooter.Start());
       SmartDashboard.putData("Shooter.Stop", new frc.robot.commands.Shooter.Stop());
-      SmartDashboard.putData("Shooter.Reverse", new frc.robot.commands.Shooter.ShootReverse());
-      SmartDashboard.putData("Shooter.ShootAmp", new frc.robot.commands.Shooter.ShootAmp());
-      SmartDashboard.putData("Shooter.ShootTrap", new frc.robot.commands.Shooter.ShootTrap());
+      SmartDashboard.putData("Shooter.Reverse", new frc.robot.commands.Shooter.Reverse());
       SmartDashboard.putData("Intake.IntakeStart", new frc.robot.commands.Intake.IntakeStart());
       SmartDashboard.putData("Intake.IntakeStop", new frc.robot.commands.Intake.IntakeStop());
       SmartDashboard.putData("Intake.IntakeReverse", new frc.robot.commands.Intake.IntakeReverse());
@@ -90,8 +88,8 @@ public class RobotMechanism extends SubsystemBase {
       SmartDashboard.putData("Speaker.Left", new frc.robot.commands.Speaker.Left());
       SmartDashboard.putData("Amp.Shoot", new frc.robot.commands.Amp.Shoot());
 
-      Command c = new frc.robot.commands.Shooter.ShootSpeaker()
-          .andThen(new frc.robot.commands.Indexer.ShootSpeaker())
+      Command c = new frc.robot.commands.Shooter.Start()
+          .andThen(new frc.robot.commands.Indexer.Shoot())
           .andThen(new WaitCommand(2.0))
           .andThen(new frc.robot.commands.Shooter.Stop())
           .andThen(new frc.robot.commands.Indexer.Stop());

@@ -9,11 +9,19 @@ import com.revrobotics.REVPhysicsSim;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
 
 public class Intake extends SubsystemBase {
+  Compressor m_compressor = new Compressor(frc.robot.Constants.PNEUMATIC_HUB, PneumaticsModuleType.REVPH);
+  DoubleSolenoid m_intakeSoleniod = new DoubleSolenoid(frc.robot.Constants.PNEUMATIC_HUB,
+      PneumaticsModuleType.REVPH, 0, 1);
+
   private boolean m_isExtended = true;
   private double m_sim_motor_speed = 0;
   private final CANSparkMax m_motor = new CANSparkMax(Constants.kRio_CAN_Intake_Motor, MotorType.kBrushless);
@@ -77,10 +85,12 @@ public class Intake extends SubsystemBase {
 
   public void up() {
     m_isExtended = false;
+    m_intakeSoleniod.set(Value.kForward);
   }
 
   public void down() {
     m_isExtended = true;
+    m_intakeSoleniod.set(Value.kReverse);
   }
 
   public void intakeReverse() {
@@ -96,6 +106,10 @@ public class Intake extends SubsystemBase {
 
   public boolean isIntakeExtended() {
     return m_isExtended;
+  }
+
+  public void startCompresser() {
+    m_compressor.enableAnalog(80, 110);
   }
 
   public void simulationInit() {

@@ -18,6 +18,8 @@
       "/SmartDashboard/Amp.Shoot": "Command",
       "/SmartDashboard/Indexer.Intake": "Command",
       "/SmartDashboard/Indexer.Retract": "Command",
+      "/SmartDashboard/Indexer.Reverse": "Command",
+      "/SmartDashboard/Indexer.Shoot": "Command",
       "/SmartDashboard/Indexer.ShootSpeaker": "Command",
       "/SmartDashboard/Indexer.ShootSpeakerReverse": "Command",
       "/SmartDashboard/Indexer.Stop": "Command",
@@ -32,11 +34,13 @@
       "/SmartDashboard/Module 2": "Mechanism2d",
       "/SmartDashboard/Module 3": "Mechanism2d",
       "/SmartDashboard/Robot Pose": "Field2d",
+      "/SmartDashboard/Robot.ResetPose": "Command",
       "/SmartDashboard/Robot.ShootSpeaker": "Command",
       "/SmartDashboard/Shooter.Reverse": "Command",
       "/SmartDashboard/Shooter.ShootAmp": "Command",
       "/SmartDashboard/Shooter.ShootSpeaker": "Command",
       "/SmartDashboard/Shooter.ShootTrap": "Command",
+      "/SmartDashboard/Shooter.Start": "Command",
       "/SmartDashboard/Shooter.Stop": "Command",
       "/SmartDashboard/ShooterAmp.Stop": "Command",
       "/SmartDashboard/Speaker.Left": "Command",
@@ -45,62 +49,13 @@
       "/SmartDashboard/robot": "Mechanism2d"
     },
     "windows": {
-      "/SmartDashboard/Amp.Shoot": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Indexer.Intake": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Indexer.Retract": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Indexer.ShootSpeaker": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Indexer.ShootSpeakerReverse": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Indexer.Stop": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Indexer.Storage": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Intake.IntakeDown": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Intake.IntakeReverse": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Intake.IntakeStart": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Intake.IntakeStop": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Intake.IntakeUp": {
+      "/Pose": {
+        "bottom": 1476,
+        "height": 8.210550308227539,
+        "left": 150,
+        "right": 2961,
+        "top": 79,
+        "width": 16.541748046875,
         "window": {
           "visible": true
         }
@@ -116,27 +71,7 @@
           "visible": true
         }
       },
-      "/SmartDashboard/Robot.ShootSpeaker": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Shooter.Reverse": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Shooter.ShootAmp": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Shooter.ShootTrap": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Shooter.Stop": {
+      "/SmartDashboard/Robot.ResetPose": {
         "window": {
           "visible": true
         }
@@ -154,18 +89,25 @@
     },
     "transitory": {
       "LiveWindow": {
+        "Indexer": {
+          "open": true
+        },
+        "Intake": {
+          "open": true
+        },
         "open": true
       },
       "Shuffleboard": {
-        "Tracking": {
+        "Indexer": {
           "open": true
         },
         "open": true
       },
       "SmartDashboard": {
-        "open": true,
-        "robot": {
-          "open": true
+        "Robot Pose": {
+          "double[]##v_/SmartDashboard/Robot Pose/Robot": {
+            "open": true
+          }
         }
       }
     }
