@@ -15,6 +15,7 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/Tracking": "Subsystem",
+      "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
       "/Pose": "Field2d",
       "/SmartDashboard/Amp.Shoot": "Command",
       "/SmartDashboard/Indexer.Intake": "Command",

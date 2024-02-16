@@ -29,10 +29,10 @@ public class Right extends Command {
 
     if (isRedAlliance) {
       RobotContainer.m_tracking.setTargetID(4);
-      RobotContainer.m_tracking.setTargetAngle(-45 + 180);
+      RobotContainer.m_tracking.setTargetAngle(-60 + 180);
     } else {
       RobotContainer.m_tracking.setTargetID(7);
-      RobotContainer.m_tracking.setTargetAngle(45);
+      RobotContainer.m_tracking.setTargetAngle(-60);
 
     }
   }

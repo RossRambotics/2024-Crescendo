@@ -25,15 +25,15 @@ public class Shoot extends Command {
       }
     }
 
-    RobotContainer.m_shooter.setShooterTopVel(10);
+    RobotContainer.m_shooter.setShooterTopVel(12);
     RobotContainer.m_shooter.setShooterBottomVel(10);
 
     if (isRedAlliance) {
       RobotContainer.m_tracking.setTargetID(5);
-      RobotContainer.m_tracking.setTargetAngle(90);
+      RobotContainer.m_tracking.setTargetAngle(270);
     } else {
       RobotContainer.m_tracking.setTargetID(6);
-      RobotContainer.m_tracking.setTargetAngle(90);
+      RobotContainer.m_tracking.setTargetAngle(270);
     }
   }
 

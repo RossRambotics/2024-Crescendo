@@ -30,6 +30,7 @@ public class Tracking extends SubsystemBase {
   private GenericEntry m_GamePieceOffset = null; // robot-centric x distance to the center of the game piece
 
   private DistanceCalculator m_TargetDistanceCalculator = new DistanceCalculator();
+  private DistanceCalculator m_NoteDistanceCalculator = new DistanceCalculator();
 
   private NetworkTable m_LL_Tracking = null;
   private NetworkTable m_LL_GamePiece = null;
@@ -66,14 +67,50 @@ public class Tracking extends SubsystemBase {
         .add("GamePieceOffset", 0.0).getEntry();
 
     // set the bounds
-    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.0, 5));
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.0, 5.001));
     m_TargetDistanceCalculator.addSolution(new VisionMeasurement(25.0, 0.0));
     m_TargetDistanceCalculator.addSolution(new VisionMeasurement(100.0, 0.0));
 
     // Midas LL2 measurements
-    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(1.7, 0.92));
-    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.39, 2.02));
-    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.16, 3.62));
+    // m_TargetDistanceCalculator.addSolution(new VisionMeasurement(1.7, 0.92));
+    // m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.39, 2.02));
+    // m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.16, 3.62));
+
+    // Atlas LL2 measurements
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.082, 5.0));
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.099, 4.5));
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.0118, 4.0));
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.148, 3.5));
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.189, 3.0));
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.250, 2.5));
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.338, 2.0));
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.481, 1.50));
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.529, 1.40));
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.583, 1.30));
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.649, 1.20));
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.727, 1.10));
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(0.814, 1.0));
+    m_TargetDistanceCalculator.addSolution(new VisionMeasurement(1.502, 0.20));
+
+    // Note bounds setting (make anything closer 0.10m and anything further 4.0m)
+    m_NoteDistanceCalculator.addSolution(new VisionMeasurement(-100, 0.10));
+    m_NoteDistanceCalculator.addSolution(new VisionMeasurement(-24, 0.10));
+    m_NoteDistanceCalculator.addSolution(new VisionMeasurement(20.0, 4.0));
+    m_NoteDistanceCalculator.addSolution(new VisionMeasurement(100.0, 4.0));
+
+    // Atlas LL3 measurements
+    m_NoteDistanceCalculator.addSolution(new VisionMeasurement(-20.04, 0.10));
+    m_NoteDistanceCalculator.addSolution(new VisionMeasurement(-18.24, 0.20));
+    m_NoteDistanceCalculator.addSolution(new VisionMeasurement(-16.27, 0.30));
+    m_NoteDistanceCalculator.addSolution(new VisionMeasurement(-12.72, 0.40));
+    m_NoteDistanceCalculator.addSolution(new VisionMeasurement(-9.15, 0.50));
+    m_NoteDistanceCalculator.addSolution(new VisionMeasurement(2.98, 1.0));
+    m_NoteDistanceCalculator.addSolution(new VisionMeasurement(8.51, 1.5));
+    m_NoteDistanceCalculator.addSolution(new VisionMeasurement(12.17, 2.0));
+    m_NoteDistanceCalculator.addSolution(new VisionMeasurement(14.47, 2.5));
+    m_NoteDistanceCalculator.addSolution(new VisionMeasurement(16.22, 3.0));
+    m_NoteDistanceCalculator.addSolution(new VisionMeasurement(17.26, 3.5));
+    m_NoteDistanceCalculator.addSolution(new VisionMeasurement(18.59, 4.0));
 
     // DataLogManager.log("0.15: " +
     // m_TargetDistanceCalculator.compute(0.15).m_distance);
@@ -91,8 +128,8 @@ public class Tracking extends SubsystemBase {
     // m_TargetDistanceCalculator.compute(1.80).m_distance);
     // DataLogManager.log("2.00: " +
     // m_TargetDistanceCalculator.compute(2.00).m_distance);
-    // DataLogManager.log("26.00: " +
-    // m_TargetDistanceCalculator.compute(26.00).m_distance);
+    DataLogManager.log("0.00: " +
+        m_NoteDistanceCalculator.compute(0.00).m_distance);
   }
 
   public void setCurrentHeading(double degrees) {
@@ -145,8 +182,7 @@ public class Tracking extends SubsystemBase {
     double tx = m_LL_GamePiece.getEntry("tx").getDouble(0);
     double ty = m_LL_GamePiece.getEntry("ty").getDouble(0);
 
-    double distance = 3375 + (310 * ty) + (8.3 * ty * ty);
-    distance = distance / 1000;
+    double distance = m_NoteDistanceCalculator.compute(ty).m_distance;
     double offset = distance * Math.tan(Math.toRadians(tx));
 
     // double distance = (400.546 * Math.tan(Math.toRadians(0.114604 * (ty +
@@ -171,10 +207,9 @@ public class Tracking extends SubsystemBase {
     // tx Range is -/+29.8 degrees
     // ty Range is -/+24.85 degrees
 
-    final double kTY_DEGREE_TO_METERS = 3.0; // TODO Calibrate this
     double tx = m_LL_Tracking.getEntry("tx").getDouble(0);
-    double ty = m_LL_Tracking.getEntry("ty").getDouble(0);
-    double distance = ty * kTY_DEGREE_TO_METERS;
+    double ta = m_LL_Tracking.getEntry("ta").getDouble(0);
+    double distance = m_TargetDistanceCalculator.compute(ta).m_distance;
     double offset = distance * Math.tan(Math.toRadians(tx));
 
     // Since targeting camera is pointing backward these are inverted
