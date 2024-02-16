@@ -67,6 +67,9 @@ public class RobotMechanism extends SubsystemBase {
 
   @Override
   public void periodic() {
+    if (Robot.isReal()) {
+      return;
+    }
     if (m_firstTime) {
       m_firstTime = false;
       SmartDashboard.putData("Indexer.Shoot", new frc.robot.commands.Indexer.Shoot());

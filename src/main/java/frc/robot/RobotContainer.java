@@ -7,6 +7,7 @@ package frc.robot;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest.FieldCentric;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -19,10 +20,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.Indexer.Storage;
+import frc.robot.commands.Intake.Down;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
@@ -74,7 +78,7 @@ public class RobotContainer {
   private static double nudgeanglepower = .2;
 
   /* Path follower */
-  private Command runAuto = drivetrain.getAutoPath("S1 C1 S1");
+  private Command runAuto = drivetrain.getAutoPath("S2 C2 S2");
 
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
@@ -109,13 +113,12 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    // m_indexer.setDefaultCommand(new Storage());
+    m_indexer.setDefaultCommand(new Storage());
 
     Command cmd;
 
     leftTrigger.onTrue(Commands.runOnce(() -> slewLimit = 1.0));
     leftTrigger.onFalse(Commands.runOnce(() -> slewLimit = 0.6));
-    
 
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
         drivetrain.applyRequest(() -> drive.withVelocityX(-getInputLeftY()) // Drive forward with
@@ -150,11 +153,10 @@ public class RobotContainer {
         .andThen(new frc.robot.commands.Indexer.Intake())
         .andThen(new WaitUntilCommand(() -> m_indexer.isNoteMiddle()))
         .andThen(new frc.robot.commands.Intake.IntakeStop())
-        .andThen(new WaitUntilCommand(() -> m_indexer.isNoteBottom()))
         .andThen(new frc.robot.commands.Indexer.Stop())
-
-        .withName("Intake_a_Note")
-    /* */);
+        .andThen(new frc.robot.commands.Intake.Up()
+            .withName("Intake_a_Note")
+        /* */));
 
     joystick.b().onTrue(new frc.robot.commands.Intake.Up()
         .andThen(new frc.robot.commands.Intake.IntakeStop())
@@ -162,7 +164,7 @@ public class RobotContainer {
 
     // shoot
     rightTrigger.onTrue(new frc.robot.commands.Shooter.Start()
-        // .andThen(new WaitUntilCommand(() -> m_shooter.isShooterReady()))
+        .andThen(new WaitUntilCommand(() -> m_shooter.isShooterReady()))
         .andThen(new frc.robot.commands.Indexer.Shoot())
         .andThen(new WaitCommand(1.0))
         .andThen(new frc.robot.commands.Shooter.Stop())
@@ -171,7 +173,8 @@ public class RobotContainer {
     /* */);
 
     // joystick.b().whileTrue(drivetrain
-    //     .applyRequest(() -> point.withModuleDirection(new Rotation2d(-getInputLeftY(), getInputLeftX()))));
+    // .applyRequest(() -> point.withModuleDirection(new
+    // Rotation2d(-getInputLeftY(), getInputLeftX()))));
 
     joystick.pov(0).whileTrue(drivetrain.applyRequest(() -> drive
         .withVelocityX(nudge) // Drive forward with negative Y (forward)
@@ -261,6 +264,16 @@ public class RobotContainer {
     // NamedCommands.registerCommand("Close", new RunCommand(() ->
     // m_grabber.closeJaws()));
 
+    NamedCommands.registerCommand("Shoot Start", new frc.robot.commands.Shooter.Start());
+    NamedCommands.registerCommand("Shoot", new frc.robot.commands.Indexer.Shoot());
+    NamedCommands.registerCommand("Pick Up", new RunCommand(() -> m_intake.down())
+    // .andThen(new RunCommand(() -> m_intake.intake()))
+    // .andThen(new frc.robot.commands.Indexer.Intake())
+    // .andThen(new WaitUntilCommand(() -> m_indexer.isNoteMiddle()))
+    // .andThen(new frc.robot.commands.Intake.IntakeStop())
+    // .andThen(new frc.robot.commands.Indexer.Stop())
+    // .andThen(new frc.robot.commands.Intake.Up())
+    );
   }
 
   public Command getAutonomousCommand() {

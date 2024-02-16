@@ -14,6 +14,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -112,6 +113,9 @@ public class Shooter extends SubsystemBase {
   public void stop() {
     m_topMotor.setControl(m_brake);
     m_botMotor.setControl(m_brake);
+
+    m_topMotor.setControl(m_voltageVelocity.withVelocity(0));
+    m_botMotor.setControl(m_voltageVelocity.withVelocity(0));
   }
 
   public void setShooterTopVel(double dRPS) {
@@ -126,8 +130,8 @@ public class Shooter extends SubsystemBase {
   public void shootReverse() {
     double speed = -.9;
 
-    double desiredTopRPS = -9.5;
-    double desiredBottomRPS = -9.5;
+    double desiredTopRPS = 9.5;
+    double desiredBottomRPS = 9.5;
 
     m_topMotor.setControl(m_voltageVelocity.withVelocity(desiredTopRPS));
     m_botMotor.setControl(m_voltageVelocity.withVelocity(desiredBottomRPS));
@@ -154,13 +158,15 @@ public class Shooter extends SubsystemBase {
   public boolean isShooterReady() {
     double topError = Math.abs(m_ShootSpeakerTopVel.getDouble(0.0) - getTopMotorSpeed());
     double botError = Math.abs(m_ShootSpeakerBotVel.getDouble(0.0) - getBottomMotorSpeed());
+    // DataLogManager.log("%%%%%%%%%%%%%%%%% " + topError);
 
     // If the error is greater than % of requested then we are not ready
     double percent = 0.05;
-    if (topError > m_ShootSpeakerTopVel.getDouble(0.0) * percent) {
+
+    if (Math.abs(topError) > Math.abs(m_ShootSpeakerTopVel.getDouble(0.0)) * percent) {
       return false;
     }
-    if (botError > m_ShootSpeakerBotVel.getDouble(0.0) * percent) {
+    if (Math.abs(botError) > Math.abs(m_ShootSpeakerBotVel.getDouble(0.0)) * percent) {
       return false;
     }
 

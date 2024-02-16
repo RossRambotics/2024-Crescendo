@@ -1,15 +1,38 @@
 {
   "NetworkTables": {
     "transitory": {
+      "LiveWindow": {
+        "Ungrouped": {
+          "AnalogInput[1]": {
+            "open": true
+          },
+          "AnalogInput[3]": {
+            "open": true
+          },
+          "DigitalInput[0]": {
+            "open": true
+          }
+        },
+        "open": true
+      },
       "Shuffleboard": {
         "Indexer": {
           "open": true
         },
+        "Shooter": {
+          "open": true
+        },
+        "open": true
+      },
+      "SmartDashboard": {
         "open": true
       }
     },
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Shooter": "Subsystem",
+      "/LiveWindow/Tracking": "Subsystem",
+      "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
       "/Pose": "Field2d",
       "/SmartDashboard/Amp.Shoot": "Command",
       "/SmartDashboard/Indexer.Intake": "Command",

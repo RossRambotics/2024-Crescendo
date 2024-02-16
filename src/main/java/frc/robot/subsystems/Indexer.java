@@ -10,6 +10,8 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -33,6 +35,9 @@ public class Indexer extends SubsystemBase {
   public edu.wpi.first.wpilibj.AnalogInput m_BottomSensorInput = new edu.wpi.first.wpilibj.AnalogInput(
       3);
 
+  public edu.wpi.first.wpilibj.DigitalInput m_TestInput = new edu.wpi.first.wpilibj.DigitalInput(
+      3);
+
   GenericEntry m_TopSensor = null;
   GenericEntry m_MiddleSensor = null;
   GenericEntry m_BottomSensor = null;
@@ -48,6 +53,10 @@ public class Indexer extends SubsystemBase {
      */
     m_topMotor.restoreFactoryDefaults();
     m_bottomMotor.restoreFactoryDefaults();
+
+    LiveWindow.enableTelemetry(m_TopSensorInput);
+    LiveWindow.enableTelemetry(m_MiddleSensorInput);
+    LiveWindow.enableTelemetry(m_BottomSensorInput);
 
     /**
      * In order to use PID functionality for a controller, a SparkPIDController
@@ -100,7 +109,7 @@ public class Indexer extends SubsystemBase {
 
     // TODO add read sensor values
     if (Robot.isReal()) {
-      if (m_TopSensorInput.getValue() < 10) {
+      if (m_TopSensorInput.getValue() < 12.0) {
         m_TopSensor.setBoolean(true);
       } else {
         m_TopSensor.setBoolean(false);
@@ -110,7 +119,7 @@ public class Indexer extends SubsystemBase {
       } else {
         m_MiddleSensor.setBoolean(false);
       }
-      if (m_BottomSensorInput.getValue() < 10) {
+      if (m_BottomSensorInput.getValue() < 12.0) {
         m_BottomSensor.setBoolean(true);
       } else {
         m_BottomSensor.setBoolean(false);
