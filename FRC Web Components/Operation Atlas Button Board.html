@@ -21,7 +21,7 @@
     ></frc-robot-command><frc-robot-command
         source-provider="NetworkTables"
         style="transform: translate(333px, 246px); width: 148px; height: 62px;"
-        source-key="/SmartDashboard/Shooter.ShootAmp"
+        source-key="/SmartDashboard/Amp.Shoot"
         name=""
         label="Shoot Amp"
     ></frc-robot-command><frc-label
@@ -62,7 +62,7 @@
     ></frc-label><frc-robot-command
         source-provider="NetworkTables"
         style="transform: translate(704px, 186px); width: 135px; height: 73px;"
-        source-key="/SmartDashboard/Shooter.ShootSpeaker"
+        source-key="/SmartDashboard/Shooter.Start"
         name=""
         label="Start"
     ></frc-robot-command><frc-robot-command
@@ -97,6 +97,7 @@
         style="width: 139px; height: 64px; transform: translate(1044px, 444px);"
         name=""
         label="Middle April Tag"
+        source-key="/SmartDashboard/Speaker.Middle"
     ></frc-robot-command><frc-robot-command
         source-provider="NetworkTables"
         style="transform: translate(1200px, 444px); width: 145px; height: 65px;"
@@ -124,12 +125,14 @@
         source-provider="NetworkTables"
         style="transform: translate(22px, 493px); width: 146px; height: 74px;"
         name=""
-        label="Start / Up"
+        label="Down &amp; Start"
+        source-key="/SmartDashboard/Intake.DownStart"
     ></frc-robot-command><frc-robot-command
         source-provider="NetworkTables"
         style="transform: translate(349px, 493px); width: 141px; height: 72px;"
         name=""
-        label="Stop / Down"
+        label="Stop &amp; Up"
+        source-key="/SmartDashboard/Intake.StopUp"
     ></frc-robot-command><frc-robot-command
         source-provider="NetworkTables"
         style="transform: translate(183px, 412px); width: 152px; height: 72px;"

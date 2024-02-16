@@ -78,7 +78,7 @@ public class RobotContainer {
   private static double nudgeanglepower = .2;
 
   /* Path follower */
-  private Command runAuto = drivetrain.getAutoPath("S2 C2 S2");
+  private Command runAuto = null;
 
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
@@ -157,6 +157,15 @@ public class RobotContainer {
         .andThen(new frc.robot.commands.Intake.Up()
             .withName("Intake_a_Note")
         /* */));
+
+    // configure for speaker
+    joystick.y().onTrue(new frc.robot.commands.Speaker.Middle()
+        .withName("Speaker.Middle")
+    /* */);
+
+    joystick.x().onTrue(new frc.robot.commands.Amp.Shoot()
+        .withName("Amp.Shoot")
+    /* */);
 
     joystick.b().onTrue(new frc.robot.commands.Intake.Up()
         .andThen(new frc.robot.commands.Intake.IntakeStop())
@@ -255,6 +264,33 @@ public class RobotContainer {
   }
 
   public RobotContainer() {
+
+    // Named Commands must be created BEFORE AUTOs and PATHs
+    NamedCommands.registerCommand("Speaker.Middle",
+        new frc.robot.commands.Speaker.Middle()
+            .andThen(new frc.robot.commands.Shooter.Start())
+            .withName("Auto.Speaker.Middle"));
+
+    NamedCommands.registerCommand("Indexer.Shoot",
+        new frc.robot.commands.Shooter.Start()
+            .andThen(new WaitUntilCommand(() -> m_shooter.isShooterReady()))
+            .andThen(new frc.robot.commands.Indexer.Shoot())
+            .andThen(new WaitCommand(0.5))
+            .andThen(new frc.robot.commands.Shooter.Stop())
+            .andThen(new frc.robot.commands.Indexer.Stop())
+            .withName("Auto.Indexer.Shoot"));
+
+    NamedCommands.registerCommand("Intake.Down",
+        new frc.robot.commands.Intake.Down()
+            .andThen(new frc.robot.commands.Intake.IntakeStart())
+            .withName("Auto.Indexer.Down"));
+    NamedCommands.registerCommand("Intake.Up",
+        new frc.robot.commands.Intake.IntakeStop()
+            .andThen(new frc.robot.commands.Intake.Up())
+            .withName("Auto.Indexer.Up"));
+
+    runAuto = drivetrain.getAutoPath("Intake_Test");
+
     configureBindings();
     LiveWindow.enableTelemetry(m_indexer);
     LiveWindow.enableTelemetry(m_intake);
@@ -271,16 +307,13 @@ public class RobotContainer {
     // NamedCommands.registerCommand("Close", new RunCommand(() ->
     // m_grabber.closeJaws()));
 
-    NamedCommands.registerCommand("Shoot Start", new frc.robot.commands.Shooter.Start());
-    NamedCommands.registerCommand("Shoot", new frc.robot.commands.Indexer.Shoot());
-    NamedCommands.registerCommand("Pick Up", new RunCommand(() -> m_intake.down())
     // .andThen(new RunCommand(() -> m_intake.intake()))
     // .andThen(new frc.robot.commands.Indexer.Intake())
     // .andThen(new WaitUntilCommand(() -> m_indexer.isNoteMiddle()))
     // .andThen(new frc.robot.commands.Intake.IntakeStop())
     // .andThen(new frc.robot.commands.Indexer.Stop())
     // .andThen(new frc.robot.commands.Intake.Up())
-    );
+
   }
 
   public Command getAutonomousCommand() {
