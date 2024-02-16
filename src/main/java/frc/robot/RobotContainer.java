@@ -160,7 +160,8 @@ public class RobotContainer {
 
     joystick.b().onTrue(new frc.robot.commands.Intake.Up()
         .andThen(new frc.robot.commands.Intake.IntakeStop())
-        .andThen(new frc.robot.commands.Indexer.Stop()));
+        .andThen(new frc.robot.commands.Indexer.Stop())
+        .andThen(new frc.robot.commands.Shooter.Stop()));
 
     // shoot
     rightTrigger.onTrue(new frc.robot.commands.Shooter.Start()
@@ -171,6 +172,12 @@ public class RobotContainer {
         .andThen(new frc.robot.commands.Indexer.Stop())
         .withName("Shoot_a_Note")
     /* */);
+
+    joystick.x().onTrue(new frc.robot.commands.Shooter.Reverse()
+        .andThen(new frc.robot.commands.Indexer.Reverse()
+            .andThen(new WaitUntilCommand(() -> m_indexer.isNoteMiddle()))
+            .andThen(new frc.robot.commands.Indexer.Stop())
+            .andThen(new frc.robot.commands.Shooter.Stop())));
 
     // joystick.b().whileTrue(drivetrain
     // .applyRequest(() -> point.withModuleDirection(new
@@ -217,7 +224,7 @@ public class RobotContainer {
     if (alliance.isPresent()) {
       if (alliance.get() == DriverStation.Alliance.Red) {
         DataLogManager.log("%%%%%%%%%% resetFieldHeading: Red.");
-        drivetrain.seedFieldRelative(new Pose2d(15.25, 5.5, Rotation2d.fromDegrees(180.0)));
+        drivetrain.seedFieldRelative(new Pose2d(15.25, 5.5, Rotation2d.fromDegrees(0)));
         return;
       }
     }

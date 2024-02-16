@@ -161,10 +161,11 @@ public class Indexer extends SubsystemBase {
   }
 
   public void reverse() {
-    double setPoint = -5;
+    double setPoint = 8 * 500;
 
     m_topPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
-    m_bottomPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
+    // m_bottomPIDController.setReference(setPoint,
+    // CANSparkMax.ControlType.kVelocity);
   }
 
   public double getTopMotorSpeed() {
