@@ -265,7 +265,7 @@ public class RobotContainer {
 
   public RobotContainer() {
 
-    // Named Commands must be created BEFORE AUTOs and PATHs
+    // Named Commands must be created BEFORE AUTOs and PATHs!!!!!!!!!!!!!!!!!!!!!
     NamedCommands.registerCommand("Speaker.Middle",
         new frc.robot.commands.Speaker.Middle()
             .andThen(new frc.robot.commands.Shooter.Start())
@@ -289,7 +289,7 @@ public class RobotContainer {
             .andThen(new frc.robot.commands.Intake.Up())
             .withName("Auto.Indexer.Up"));
 
-    runAuto = drivetrain.getAutoPath("Intake_Test");
+    runAuto = drivetrain.getAutoPath("Testing");
 
     configureBindings();
     LiveWindow.enableTelemetry(m_indexer);

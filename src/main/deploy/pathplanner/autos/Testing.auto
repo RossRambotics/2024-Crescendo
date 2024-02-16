@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.8675834534767664,
-      "y": 0.5781194660980874
+      "x": 2.014155870887771,
+      "y": 7.019756150424644
     },
     "rotation": 0
   },
@@ -12,21 +12,15 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Full Course"
+            "name": "Indexer.Shoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Source Amp"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Full Course Back"
+            "pathName": "New Path"
           }
         }
       ]

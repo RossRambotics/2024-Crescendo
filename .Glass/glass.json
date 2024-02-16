@@ -30,6 +30,7 @@
     },
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Intake": "Subsystem",
       "/LiveWindow/Shooter": "Subsystem",
       "/LiveWindow/Tracking": "Subsystem",
       "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",

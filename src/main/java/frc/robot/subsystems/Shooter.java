@@ -130,11 +130,11 @@ public class Shooter extends SubsystemBase {
   public void shootReverse() {
     double speed = -.9;
 
-    double desiredTopRPS = 12;
-    double desiredBottomRPS = 12;
+    double desiredTopRPSReverse = 12;
+    double desiredBottomRPSRevers = 12;
 
-    m_topMotor.setControl(m_voltageVelocity.withVelocity(desiredTopRPS));
-    m_botMotor.setControl(m_voltageVelocity.withVelocity(desiredBottomRPS));
+    m_topMotor.setControl(m_voltageVelocity.withVelocity(desiredTopRPSReverse));
+    m_botMotor.setControl(m_voltageVelocity.withVelocity(desiredBottomRPSRevers));
   }
 
   public void start() {
