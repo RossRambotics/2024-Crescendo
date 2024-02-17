@@ -182,11 +182,11 @@ public class RobotContainer {
         .withName("Shoot_a_Note")
     /* */);
 
-    joystick.x().onTrue(new frc.robot.commands.Shooter.Reverse()
-        .andThen(new frc.robot.commands.Indexer.Reverse()
-            .andThen(new WaitUntilCommand(() -> m_indexer.isNoteMiddle()))
-            .andThen(new frc.robot.commands.Indexer.Stop())
-            .andThen(new frc.robot.commands.Shooter.Stop())));
+    // joystick.x().onTrue(new frc.robot.commands.Shooter.Reverse()
+    // .andThen(new frc.robot.commands.Indexer.Reverse()
+    // .andThen(new WaitUntilCommand(() -> m_indexer.isNoteMiddle()))
+    // .andThen(new frc.robot.commands.Indexer.Stop())
+    // .andThen(new frc.robot.commands.Shooter.Stop())));
 
     // joystick.b().whileTrue(drivetrain
     // .applyRequest(() -> point.withModuleDirection(new
@@ -233,12 +233,14 @@ public class RobotContainer {
     if (alliance.isPresent()) {
       if (alliance.get() == DriverStation.Alliance.Red) {
         DataLogManager.log("%%%%%%%%%% resetFieldHeading: Red.");
-        drivetrain.seedFieldRelative(new Pose2d(15.25, 5.5, Rotation2d.fromDegrees(0)));
+        drivetrain.seedFieldRelative(new Pose2d(15.25, 5.5,
+            Rotation2d.fromDegrees(180)));
         return;
       }
     }
     DataLogManager.log("%%%%%%%%%% resetFieldHeading: Blue.");
-    drivetrain.seedFieldRelative(new Pose2d(1.3, 5.5, Rotation2d.fromDegrees(0.0)));
+    drivetrain.seedFieldRelative(new Pose2d(1.3, 5.5,
+        Rotation2d.fromDegrees(0.0)));
   }
 
   private static double deadband(double value, double deadband) {
@@ -271,6 +273,18 @@ public class RobotContainer {
             .andThen(new frc.robot.commands.Shooter.Start())
             .withName("Auto.Speaker.Middle"));
 
+    NamedCommands.registerCommand("Shooter.Start",
+        new frc.robot.commands.Shooter.Start()
+            .withName("Auto.Shooter.Start"));
+
+    NamedCommands.registerCommand("Indexer.Shoot.Fast",
+        new WaitUntilCommand(() -> m_shooter.isShooterReady())
+            .andThen(new frc.robot.commands.Indexer.Shoot())
+            .andThen(new WaitCommand(0.5))
+            .andThen(new frc.robot.commands.Shooter.Stop())
+            .andThen(new frc.robot.commands.Indexer.Stop())
+            .withName("Auto.Indexer.Shoot.Fast"));
+
     NamedCommands.registerCommand("Indexer.Shoot",
         new frc.robot.commands.Shooter.Start()
             .andThen(new WaitUntilCommand(() -> m_shooter.isShooterReady()))
@@ -284,12 +298,23 @@ public class RobotContainer {
         new frc.robot.commands.Intake.Down()
             .andThen(new frc.robot.commands.Intake.IntakeStart())
             .withName("Auto.Indexer.Down"));
+
     NamedCommands.registerCommand("Intake.Up",
         new frc.robot.commands.Intake.IntakeStop()
             .andThen(new frc.robot.commands.Intake.Up())
             .withName("Auto.Indexer.Up"));
 
-    runAuto = drivetrain.getAutoPath("Testing");
+    NamedCommands.registerCommand("Pick.Up",
+        new frc.robot.commands.Intake.Down()
+            .andThen(new frc.robot.commands.Intake.IntakeStart())
+            .andThen(new frc.robot.commands.Indexer.Intake())
+            .andThen(new WaitUntilCommand(() -> m_indexer.isNoteMiddle()))
+            .andThen(new frc.robot.commands.Intake.IntakeStop())
+            .andThen(new frc.robot.commands.Indexer.Stop())
+            .andThen(new frc.robot.commands.Intake.Up()
+                .withName("Intake_a_Note")));
+
+    runAuto = drivetrain.getAutoPath("New Auto");
 
     configureBindings();
     LiveWindow.enableTelemetry(m_indexer);

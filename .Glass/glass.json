@@ -23,9 +23,6 @@
           "open": true
         },
         "open": true
-      },
-      "SmartDashboard": {
-        "open": true
       }
     },
     "types": {
@@ -61,6 +58,13 @@
       "/SmartDashboard/Speaker.Middle": "Command",
       "/SmartDashboard/Speaker.Right": "Command",
       "/SmartDashboard/robot": "Mechanism2d"
+    },
+    "windows": {
+      "/SmartDashboard/Amp.Shoot": {
+        "window": {
+          "visible": true
+        }
+      }
     }
   },
   "NetworkTables Info": {
