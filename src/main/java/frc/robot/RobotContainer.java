@@ -14,19 +14,19 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.Indexer.Storage;
-import frc.robot.commands.Intake.Down;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
@@ -35,9 +35,11 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Tracking;
 
 public class RobotContainer {
-  private double MaxSpeed = 1; // 6 meters per second desired top speed
+  private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // 6 meters per second desired top speed
   private double MaxAngularRate = 1.25 * Math.PI; // 3/4 of a rotation per second max angular velocity
   private final CommandXboxController joystick = new CommandXboxController(0); // My joystick
+  private Joystick m_gridSelector2 = new Joystick(2);
+  private Joystick m_gridSelector = new Joystick(1);
 
   Trigger leftTrigger = new Trigger(
       () -> joystick.getRawAxis(XboxController.Axis.kLeftTrigger.value) >= 0.5);
@@ -74,6 +76,7 @@ public class RobotContainer {
 
   private static double slewLimit = 0.6;
   private static double rslewlimit = 0.3;
+  private static double boostLimit = 0.6;
   private static double nudge = 0.7;
   private static double nudgeanglepower = .2;
 
@@ -82,7 +85,7 @@ public class RobotContainer {
 
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
-  private SlewRateLimiter m_slewLeftY = new SlewRateLimiter(1.5);
+  private SlewRateLimiter m_slewLeftY = new SlewRateLimiter(2.5);
 
   public double getInputLeftY() {
     double driverLeftY = modifyAxis(joystick.getLeftY());
@@ -92,7 +95,7 @@ public class RobotContainer {
     return slew;
   }
 
-  private SlewRateLimiter m_slewLeftX = new SlewRateLimiter(1.5);
+  private SlewRateLimiter m_slewLeftX = new SlewRateLimiter(2.5);
 
   public double getInputLeftX() {
     double driverLeftX = modifyAxis(joystick.getLeftX());
@@ -102,7 +105,7 @@ public class RobotContainer {
     return slew;
   }
 
-  private SlewRateLimiter m_slewRightX = new SlewRateLimiter(1.5);
+  private SlewRateLimiter m_slewRightX = new SlewRateLimiter(6);
 
   public double getInputRightX() {
     double driverRightX = modifyAxis(joystick.getRightX());
@@ -117,20 +120,21 @@ public class RobotContainer {
 
     Command cmd;
 
-    leftTrigger.onTrue(Commands.runOnce(() -> slewLimit = 1.0));
-    leftTrigger.onFalse(Commands.runOnce(() -> slewLimit = 0.6));
+    leftTrigger.onTrue(Commands.runOnce(() -> boostLimit = 1.4));
+    leftTrigger.onFalse(Commands.runOnce(() -> boostLimit = 0.6));
 
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-        drivetrain.applyRequest(() -> drive.withVelocityX(-getInputLeftY()) // Drive forward with
-                                                                            // negative Y (forward)
-            .withVelocityY(-getInputLeftX()) // Drive left with negative X (left)
+        drivetrain.applyRequest(() -> drive.withVelocityX(getInputLeftY() * MaxSpeed * boostLimit) // Drive forward
+                                                                                                   // with
+            // negative Y (forward)
+            .withVelocityY(getInputLeftX() * MaxSpeed * boostLimit) // Drive left with negative X (left)
             .withRotationalRate(-getInputRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
         ).ignoringDisable(true));
 
     // left trigger invoke target tracking
     // Rotation2d rot = new Rotation2d(Math.toRadians(0.0));
-    targetDrive.HeadingController.setP(3.0);
-    targetDrive.HeadingController.enableContinuousInput(0, 360);
+    targetDrive.HeadingController.setP(5.0);
+    targetDrive.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
     targetDrive.HeadingController.setIntegratorRange(-0.25, 0.25);
 
     joystick.leftBumper()

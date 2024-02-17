@@ -1,6 +1,9 @@
 {
   "NetworkTables": {
     "transitory": {
+      "Drive": {
+        "open": true
+      },
       "LiveWindow": {
         "Ungrouped": {
           "AnalogInput[1]": {
@@ -22,6 +25,12 @@
         "Shooter": {
           "open": true
         },
+        "Tracking": {
+          "open": true
+        },
+        "open": true
+      },
+      "SmartDashboard": {
         "open": true
       }
     },
@@ -60,6 +69,11 @@
       "/SmartDashboard/robot": "Mechanism2d"
     },
     "windows": {
+      "/Pose": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Amp.Shoot": {
         "window": {
           "visible": true

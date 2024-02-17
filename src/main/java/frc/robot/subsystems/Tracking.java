@@ -258,7 +258,7 @@ public class Tracking extends SubsystemBase {
     switch (targetID) {
       case 7:
       case 4:
-        goal = -0.92; // TODO tune this
+        goal = -1.0; // TODO tune this
         break;
       default:
         goal = 0.0;
@@ -279,7 +279,7 @@ public class Tracking extends SubsystemBase {
 
     double deadzone = 0.05; // TODO tune this
     double kP = 1.0; // TODO tune this
-    double kS = 0.10; // TODO tune this
+    double kS = 0.1; // TODO tune this
 
     if (offset < 0.0) {
       kS = kS * -1;
@@ -308,7 +308,11 @@ public class Tracking extends SubsystemBase {
 
     double deadzone = 0.05; // TODO tune this
     double kP = 0.5; // TODO tune this
-    double kS = 0.00; // TODO tune this
+    double kS = 1; // TODO tune this
+
+    if (offset < 0.0) {
+      kS = kS * -1;
+    }
 
     answer = (offset * kP) + kS;
 
@@ -322,15 +326,17 @@ public class Tracking extends SubsystemBase {
   }
 
   public Rotation2d getTargetAngle() {
+    // double rot = m_TargetAngle.getDouble(-1.0);
+    // if (head)
     return new Rotation2d(Math.toRadians(m_TargetAngle.getDouble(-1.0)));
   }
 
   public double getGamePiece_VelocityY() {
     double answer = 0;
-    double offset = m_GamePieceOffset.getDouble(0.0);
+    double offset = -m_GamePieceOffset.getDouble(0.0);
 
     double deadzone = 0.05; // TODO tune this
-    double kP = 1.0; // TODO tune this
+    double kP = 2.0; // TODO tune this
     double kS = 0.1; // TODO tune this
 
     if (offset < 0.0) {
@@ -338,6 +344,10 @@ public class Tracking extends SubsystemBase {
     }
 
     answer = (offset * kP) + kS;
+
+    // if (answer <= 3) {
+    // answer = 3;
+    // }
 
     if (Math.abs(offset) < deadzone) {
       answer = 0;
@@ -350,7 +360,7 @@ public class Tracking extends SubsystemBase {
 
   public double getGamePiece_VelocityX() {
     double answer = 0;
-    double offset = -m_GamePieceDistance.getDouble(0.0);
+    double offset = m_GamePieceDistance.getDouble(0.0);
 
     double deadzone = 0.05; // TODO tune this
     double kP = 1.0; // TODO tune this
@@ -361,6 +371,10 @@ public class Tracking extends SubsystemBase {
     }
 
     answer = (offset * kP) + kS;
+
+    if (answer <= 3) {
+      answer = 3;
+    }
 
     if (Math.abs(offset) < deadzone) {
       answer = 0;
@@ -381,7 +395,7 @@ public class Tracking extends SubsystemBase {
     double offset = -Math.toRadians(m_LL_GamePiece.getEntry("tx").getDouble(0));
 
     double deadzone = 0.05; // TODO tune this
-    double kP = 1.5; // TODO tune this
+    double kP = 5; // TODO tune this
     double kS = 0.1; // TODO tune this
 
     if (offset < 0.0) {

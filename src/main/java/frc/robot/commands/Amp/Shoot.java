@@ -30,10 +30,10 @@ public class Shoot extends Command {
 
     if (isRedAlliance) {
       RobotContainer.m_tracking.setTargetID(5);
-      RobotContainer.m_tracking.setTargetAngle(270);
+      RobotContainer.m_tracking.setTargetAngle(-90);
     } else {
       RobotContainer.m_tracking.setTargetID(6);
-      RobotContainer.m_tracking.setTargetAngle(270);
+      RobotContainer.m_tracking.setTargetAngle(-90);
     }
   }
 

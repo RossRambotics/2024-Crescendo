@@ -30,7 +30,7 @@ public class Middle extends Command {
 
     if (isRedAlliance) {
       RobotContainer.m_tracking.setTargetID(4);
-      RobotContainer.m_tracking.setTargetAngle(0 + 180);
+      RobotContainer.m_tracking.setTargetAngle(0 - 178);
     } else {
       RobotContainer.m_tracking.setTargetID(7);
       RobotContainer.m_tracking.setTargetAngle(0);
