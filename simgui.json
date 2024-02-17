@@ -64,6 +64,11 @@
           "visible": true
         }
       },
+      "/SmartDashboard/Indexer.Shoot": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Robot Pose": {
         "bottom": 1476,
         "height": 8.210550308227539,
