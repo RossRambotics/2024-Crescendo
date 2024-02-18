@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.Indexer.Storage;
+import frc.robot.commands.Indexer.StoreOneNote;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
@@ -116,7 +116,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    m_indexer.setDefaultCommand(new Storage());
+    m_indexer.setDefaultCommand(new StoreOneNote());
 
     Command cmd;
 
@@ -272,6 +272,8 @@ public class RobotContainer {
   public RobotContainer() {
 
     // Named Commands must be created BEFORE AUTOs and PATHs!!!!!!!!!!!!!!!!!!!!!
+    NamedCommands.registerCommand("Indexer.Storage", new frc.robot.commands.Indexer.Storage());
+
     NamedCommands.registerCommand("Speaker.Middle",
         new frc.robot.commands.Speaker.Middle()
             .andThen(new frc.robot.commands.Shooter.Start())
@@ -290,11 +292,9 @@ public class RobotContainer {
             .withName("Auto.Indexer.Shoot.Fast"));
 
     NamedCommands.registerCommand("Indexer.Shoot",
-        new frc.robot.commands.Shooter.Start()
-            .andThen(new WaitUntilCommand(() -> m_shooter.isShooterReady()))
-            .andThen(new frc.robot.commands.Indexer.Shoot())
-            .andThen(new WaitCommand(0.5))
-            .andThen(new frc.robot.commands.Shooter.Stop())
+        new frc.robot.commands.Indexer.Shoot()
+            .repeatedly()
+            .withTimeout(.5)
             .andThen(new frc.robot.commands.Indexer.Stop())
             .withName("Auto.Indexer.Shoot"));
 
@@ -318,7 +318,34 @@ public class RobotContainer {
             .andThen(new frc.robot.commands.Intake.Up()
                 .withName("Intake_a_Note")));
 
-    runAuto = drivetrain.getAutoPath("New Auto");
+    Command autoDrive = drivetrain
+        .applyRequest(() -> gamePieceDrive.withVelocityX(m_tracking.getGamePiece_VelocityX() / 3)
+            .withVelocityY(m_tracking.getGamePiece_VelocityY() / 3)
+            .withRotationalRate(m_tracking.getGamePiece_RotationalRate()))
+        .alongWith(m_tracking.NoteTrackingMode());
+
+    Command cmd = new frc.robot.commands.Intake.Down()
+        .andThen(new frc.robot.commands.Intake.IntakeStart()
+            .andThen(drivetrain.applyRequest(() -> gamePieceDrive.withVelocityX(m_tracking.getGamePiece_VelocityX())
+                .withVelocityY(m_tracking.getGamePiece_VelocityY())
+                .withRotationalRate(m_tracking.getGamePiece_RotationalRate()))
+                .alongWith(m_tracking.NoteTrackingMode())
+                .until(() -> m_indexer.isNoteBottom())
+                .withTimeout(2)
+                .withName("Auto Intake Note")));
+
+    NamedCommands.registerCommand("Auto.Pick.Up",
+        new frc.robot.commands.Intake.Down()
+            .andThen(new frc.robot.commands.Intake.IntakeStart()
+                .andThen(new frc.robot.commands.Indexer.Intake())
+                .andThen(autoDrive)
+                .until(() -> m_indexer.isNoteBottom())
+                .withTimeout(2)
+                .withName("Auto Intake Note")));
+
+    SmartDashboard.putData("Auto.Intake.Note", cmd);
+
+    runAuto = drivetrain.getAutoPath("Four Note");
 
     configureBindings();
     LiveWindow.enableTelemetry(m_indexer);

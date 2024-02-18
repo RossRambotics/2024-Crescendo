@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
-import frc.robot.commands.Indexer.Storage;
+import frc.robot.commands.Indexer.StoreOneNote;
 
 public class Indexer extends SubsystemBase {
   private final CANSparkMax m_topMotor = new CANSparkMax(Constants.kRio_CAN_Indexer_Top_Motor, MotorType.kBrushless);
@@ -99,6 +99,7 @@ public class Indexer extends SubsystemBase {
         .add("2-MiddleSensor", false).getEntry();
     m_BottomSensor = Shuffleboard.getTab("Indexer")
         .add("3-BottomSensor", false).getEntry();
+
   }
 
   @Override

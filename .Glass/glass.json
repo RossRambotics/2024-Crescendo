@@ -31,6 +31,27 @@
         "open": true
       },
       "SmartDashboard": {
+        "Module 1": {
+          "RootDirection": {
+            "Direction": {
+              "open": true
+            },
+            "open": true
+          },
+          "RootSpeed": {
+            "Speed": {
+              "open": true
+            },
+            "open": true
+          },
+          "open": true
+        },
+        "Robot Pose": {
+          "open": true
+        },
+        "Robot.ResetPose": {
+          "open": true
+        },
         "open": true
       }
     },
@@ -42,6 +63,7 @@
       "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
       "/Pose": "Field2d",
       "/SmartDashboard/Amp.Shoot": "Command",
+      "/SmartDashboard/Auto.Intake.Note": "Command",
       "/SmartDashboard/Indexer.Intake": "Command",
       "/SmartDashboard/Indexer.Retract": "Command",
       "/SmartDashboard/Indexer.Reverse": "Command",
@@ -75,6 +97,11 @@
         }
       },
       "/SmartDashboard/Amp.Shoot": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Auto.Intake.Note": {
         "window": {
           "visible": true
         }

@@ -77,7 +77,7 @@ public class RobotMechanism extends SubsystemBase {
       SmartDashboard.putData("Indexer.Stop", new frc.robot.commands.Indexer.Stop());
       SmartDashboard.putData("Indexer.Intake", new frc.robot.commands.Indexer.Intake());
       SmartDashboard.putData("Indexer.Retract", new frc.robot.commands.Indexer.Retract());
-      SmartDashboard.putData("Indexer.Storage", new frc.robot.commands.Indexer.Storage());
+      SmartDashboard.putData("Indexer.Storage", new frc.robot.commands.Indexer.StoreOneNote());
       SmartDashboard.putData("Shooter.Start", new frc.robot.commands.Shooter.Start());
       SmartDashboard.putData("Shooter.Stop", new frc.robot.commands.Shooter.Stop());
       SmartDashboard.putData("Shooter.Reverse", new frc.robot.commands.Shooter.Reverse());
