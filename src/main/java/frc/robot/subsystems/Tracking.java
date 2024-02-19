@@ -258,7 +258,7 @@ public class Tracking extends SubsystemBase {
     switch (targetID) {
       case 7:
       case 4:
-        goal = -1.1; // TODO tune this
+        goal = -1.0; // TODO tune this
         break;
       default:
         goal = 0.0;

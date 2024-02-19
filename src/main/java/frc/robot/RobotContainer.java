@@ -187,6 +187,7 @@ public class RobotContainer {
     joystick.a().onTrue(new frc.robot.commands.Intake.Down()
         .andThen(new frc.robot.commands.Intake.IntakeStart())
         .andThen(new frc.robot.commands.Indexer.Stop())
+        .andThen(new frc.robot.commands.Shooter.Stop())
         .andThen(new frc.robot.commands.Indexer.Intake())
         .andThen(new WaitUntilCommand(() -> m_indexer.isNoteMiddle()))
         .andThen(new frc.robot.commands.Intake.IntakeStop())
