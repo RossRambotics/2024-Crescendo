@@ -14,8 +14,14 @@ import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import static frc.robot.Constants.*;
 
+import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdleConfiguration;
+import com.ctre.phoenix.led.ColorFlowAnimation;
+import com.ctre.phoenix.led.RainbowAnimation;
+import com.ctre.phoenix.led.RgbFadeAnimation;
+import com.ctre.phoenix.led.SingleFadeAnimation;
+import com.ctre.phoenix.led.StrobeAnimation;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.CANdle.VBatOutputMode;
 
@@ -30,8 +36,12 @@ public class LEDs extends SubsystemBase {
   private final static int kPANEL_START = 0;
   private final static int kLED_TOTAL = kLED_COLUMNS * kLED_ROWS + kSTRIP_LENGTH;
 
+  private static final int LedCount = 0;
+
   private boolean m_isPanelDisabled = false;
   private GenericEntry m_pixel = null;
+
+  Animation m_police = null;
 
   /** Creates a new LedPannel. */
   public LEDs() {
@@ -47,52 +57,49 @@ public class LEDs extends SubsystemBase {
         .add("Pixel", 0).getEntry();
     Shuffleboard.getTab("LEDs").add(this.PixelOn());
     Shuffleboard.getTab("LEDs").add(this.PixelOff());
+
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 8, 32 * 8);
+
   }
 
   private static Timer m_Timer = new Timer();
+  private static boolean m_even = true;
 
   private static int m_counter = 0;
 
   @Override
   public void periodic() {
     // limit to 10x a second
-    if (m_Timer.advanceIfElapsed(1.0)) {
+    if (m_Timer.advanceIfElapsed(0.2)) {
       // Only run if not disabled
-      if (DriverStation.isDisabled()) {
+      m_even = !m_even;
 
-        showCone();
+      // Turn panel to black
+      // m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 8, 32 * 8);
 
-        if (true)
-          return;
-        // Turn panel to black
-        m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 8, 32 * 8);
-
-        // this is half of the note going down
-
-        // This is the orange blob
-
-        m_candle.setLEDs(225, 40, 0, 40, kPANEL_START + 78, 4);
-        m_candle.setLEDs(225, 40, 0, 40, kPANEL_START + 190, 4);
-        m_candle.setLEDs(225, 40, 0, 40, kPANEL_START + 93, 2);
-        m_candle.setLEDs(225, 40, 0, 40, kPANEL_START + 98, 2);
-        m_candle.setLEDs(225, 40, 0, 40, kPANEL_START + 158, 2);
-        m_candle.setLEDs(225, 40, 0, 40, kPANEL_START + 124, 2);
+    } else {
+      if (RobotContainer.m_indexer.isNoteBottom()) {
+        this.showNoteDown();
+      } else if (RobotContainer.m_indexer.isNoteTop()) {
+        this.showNoteUp();
+      } else if (RobotContainer.m_indexer.isNoteMiddle()) {
+        this.showNote();
       }
 
-      // if (RobotContainer.m_Tracking.isTrackingTarget()) {
-      // this.showTrackingStatusGreen();
-      // } else {
-      // this.showTrackingStatusRed();
-      // }
-
-      // if (RobotContainer.m_GridSelector.isCube()) {
-      // this.showCube();
-      // } else {
-      // this.showCone();
-      // }
     }
-
   }
+
+  // if (RobotContainer.m_Tracking.isTrackingTarget()) {
+  // this.showTrackingStatusGreen();
+  // } else {
+  // this.showTrackingStatusRed();
+  // }
+
+  // if (RobotContainer.m_GridSelector.isCube()) {
+  // this.showCube();
+  // } else {
+  // this.showCone();
+  // }
 
   public Command PixelOn() {
     int pixel = (int) m_pixel.getInteger(0);
@@ -102,6 +109,53 @@ public class LEDs extends SubsystemBase {
   public Command PixelOff() {
     int pixel = (int) m_pixel.getInteger(0);
     return runOnce(() -> m_candle.setLEDs(0, 0, 0, 0, 12, 1)).withName("PixelOff");
+  }
+
+  public void showBlue() {
+    m_candle.setLEDs(0, 0, 225, 0, kPANEL_START + 0, 24);
+  }
+
+  public void showRed() {
+    m_candle.setLEDs(225, 0, 0, 0, kPANEL_START + 0, 24);
+  }
+
+  public void showOrange() {
+    m_candle.setLEDs(225, 40, 0, 40, kPANEL_START + 0, 24);
+  }
+
+  public Void showPoliceLights() {
+    if (m_even) {
+      // System.out.println("Red");
+      m_candle.setLEDs(225, 0, 0, 0, kPANEL_START + 0, 24);
+    } else {
+      // System.out.println("Blue");
+      m_candle.setLEDs(0, 0, 225, 0, kPANEL_START + 0, 24);
+    }
+    return null;
+  }
+
+  public void showNoteDown() {
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 8, 32 * 8);
+
+    // this is half of the note going down
+
+    // This is the orange blob
+
+    m_candle.setLEDs(225, 40, 0, 40, kPANEL_START + 78, 4);
+    // m_candle.setLEDs(225, 40, 0, 40, kPANEL_START + 190, 4);
+    m_candle.setLEDs(225, 40, 0, 40, kPANEL_START + 93, 2);
+    m_candle.setLEDs(225, 40, 0, 40, kPANEL_START + 98, 2);
+    m_candle.setLEDs(225, 40, 0, 40, kPANEL_START + 124, 2);
+    m_candle.setLEDs(225, 40, 0, 40, kPANEL_START + 114, 2);
+    m_candle.setLEDs(225, 40, 0, 40, kPANEL_START + 108, 2);
+    m_candle.setLEDs(225, 40, 0, 40, kPANEL_START + 130, 2);
+    m_candle.setLEDs(225, 40, 0, 40, kPANEL_START + 140, 2);
+    m_candle.setLEDs(225, 40, 0, 40, kPANEL_START + 146, 2);
+    m_candle.setLEDs(225, 40, 0, 40, kPANEL_START + 156, 2);
+    m_candle.setLEDs(225, 40, 0, 40, kPANEL_START + 162, 2);
+    m_candle.setLEDs(225, 40, 0, 40, kPANEL_START + 176, 2);
+    m_candle.setLEDs(225, 40, 0, 40, kPANEL_START + 190, 2);
+    m_candle.setLEDs(225, 40, 0, 40, kPANEL_START + 173, 2);
   }
 
   public void showNoteUp() {
