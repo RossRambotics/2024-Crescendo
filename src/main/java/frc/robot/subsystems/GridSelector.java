@@ -81,7 +81,7 @@ public class GridSelector extends SubsystemBase {
         // btnIndexerForward.onTrue(cmd);
 
         Trigger btnIndexerReverse = new JoystickButton(m_bbox1, 3);
-        cmd = new frc.robot.commands.Indexer.Reverse();
+        cmd = new frc.robot.commands.Indexer.Reverse().repeatedly();
         btnIndexerReverse.whileTrue(cmd);
 
         Trigger btnShooterReverse = new JoystickButton(m_bbox1, 4);
