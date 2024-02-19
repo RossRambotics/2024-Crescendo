@@ -36,7 +36,7 @@
           }
         },
         {
-          "type": "race",
+          "type": "sequential",
           "data": {
             "commands": [
               {
@@ -61,7 +61,13 @@
           }
         },
         {
-          "type": "race",
+          "type": "named",
+          "data": {
+            "name": "Intake.Down"
+          }
+        },
+        {
+          "type": "sequential",
           "data": {
             "commands": [
               {
@@ -86,7 +92,13 @@
           }
         },
         {
-          "type": "race",
+          "type": "named",
+          "data": {
+            "name": "Intake.Down"
+          }
+        },
+        {
+          "type": "sequential",
           "data": {
             "commands": [
               {

@@ -150,13 +150,13 @@ public class Indexer extends SubsystemBase {
   }
 
   public void intake() {
-    double setPoint = -2 * 2000;
+    double setPoint = -2 * 3500;
 
     m_bottomPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
   }
 
   public void Retract() {
-    double setPoint = -2 * 60;
+    double setPoint = -2 * 600;
 
     m_topPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
   }
