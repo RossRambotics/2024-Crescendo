@@ -135,6 +135,7 @@ public class LEDs extends SubsystemBase {
   }
 
   public Void showPoliceLights() {
+    m_Timer.hasElapsed(0.2);
     if (m_even) {
       // System.out.println("Red");
       m_candle.setLEDs(225, 0, 0, 0, kPANEL_START + 0, 24);
