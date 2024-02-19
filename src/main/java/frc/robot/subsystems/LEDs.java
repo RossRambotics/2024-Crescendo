@@ -145,6 +145,7 @@ public class LEDs extends SubsystemBase {
     }
     return null;
   }
+  
 
   public void showNoteDown() {
     m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 8, 32 * 8);

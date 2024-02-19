@@ -101,9 +101,9 @@ public class GridSelector extends SubsystemBase {
         // cmd = new frc.robot.commands.Speaker.Left();
         // btnSourceLeft.onTrue(cmd);
 
-        // Trigger btnSourceMiddle = new JoystickButton(m_bbox1, 7);
-        // cmd = new frc.robot.commands.Speaker.Middle();
-        // btnSourceMiddle.onTrue(cmd);
+        Trigger btnSourceMiddle = new JoystickButton(m_bbox1, 7);
+        cmd = new frc.robot.commands.Source.Middle();
+        btnSourceMiddle.onTrue(cmd);
 
         // Trigger btnSourceRight = new JoystickButton(m_bbox1, 8);
         // cmd = new frc.robot.commands.Speaker.Right();

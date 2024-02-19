@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.commands.Indexer.StoreOneNote;
 
 public class Indexer extends SubsystemBase {
@@ -143,10 +144,16 @@ public class Indexer extends SubsystemBase {
   }
 
   public void shoot() {
-    double setPoint = -2 * 3500;
+    double setPointtop = -2 * 3500;
+    double setPointbotom = -2 * 3500;
 
-    m_topPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
-    m_bottomPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
+    if (RobotContainer.m_shooter.getTopMotorSpeed() > 0) {
+      setPointtop = setPointtop * -1;
+      setPointbotom = 0;
+    }
+
+    m_topPIDController.setReference(setPointtop, CANSparkMax.ControlType.kVelocity);
+    m_bottomPIDController.setReference(setPointbotom, CANSparkMax.ControlType.kVelocity);
   }
 
   public void intake() {
@@ -162,7 +169,7 @@ public class Indexer extends SubsystemBase {
   }
 
   public void reverse() {
-    double setPoint = 8 * 500;
+    double setPoint = 8 * 1000;
 
     m_topPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
     // m_bottomPIDController.setReference(setPoint,
