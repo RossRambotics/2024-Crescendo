@@ -41,9 +41,11 @@
           "RootSpeed": {
             "Speed": {
               "open": true
-            },
-            "open": true
+            }
           },
+          "open": true
+        },
+        "Module 3": {
           "open": true
         },
         "Robot Pose": {
@@ -57,6 +59,7 @@
     },
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Indexer": "Subsystem",
       "/LiveWindow/Intake": "Subsystem",
       "/LiveWindow/Shooter": "Subsystem",
       "/LiveWindow/Tracking": "Subsystem",

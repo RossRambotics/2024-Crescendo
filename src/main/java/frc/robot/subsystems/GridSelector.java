@@ -25,21 +25,21 @@ public class GridSelector extends SubsystemBase {
         Command cmd;
 
         // Need to add climb commands
-        // Trigger joyRClimbUp = new Trigger(() -> m_bbox2.getRawAxis(1) <= -0.5);
-        // cmd = new frc.robot.commands.Shooter.Start();
-        // joyRClimbUp.onTrue(cmd);
+        Trigger joyRClimbUp = new Trigger(() -> m_bbox2.getRawAxis(1) <= -0.5);
+        cmd = new frc.robot.commands.Climb.RClimbUp();
+        joyRClimbUp.onTrue(cmd);
 
-        // Trigger joyRClimbDown = new Trigger(() -> m_bbox1.getRawAxis(1) >= 0.5);
-        // cmd = new frc.robot.commands.Shooter.Start();
-        // joyRClimbDown.onTrue(cmd);
+        Trigger joyRClimbDown = new Trigger(() -> m_bbox1.getRawAxis(1) >= 0.5);
+        cmd = new frc.robot.commands.Climb.RClimbDown();
+        joyRClimbDown.onTrue(cmd);
 
-        // Trigger joyLClimbUp = new Trigger(() -> m_bbox1.getRawAxis(1) <= -0.5);
-        // cmd = new frc.robot.commands.Shooter.Start();
-        // joyLClimbUp.onTrue(cmd);
+        Trigger joyLClimbUp = new Trigger(() -> m_bbox1.getRawAxis(1) <= -0.5);
+        cmd = new frc.robot.commands.Climb.LClimbUp();
+        joyLClimbUp.onTrue(cmd);
 
-        // Trigger joyLClimbDown = new Trigger(() -> m_bbox1.getRawAxis(1) >= 0.5);
-        // cmd = new frc.robot.commands.Shooter.Start();
-        // joyLClimbDown.onTrue(cmd);
+        Trigger joyLClimbDown = new Trigger(() -> m_bbox1.getRawAxis(1) >= 0.5);
+        cmd = new frc.robot.commands.Climb.LClimbDown();
+        joyLClimbDown.onTrue(cmd);
 
         // add Trap command
         // Trigger btnTrap = new JoystickButton(m_bbox2, 11);
