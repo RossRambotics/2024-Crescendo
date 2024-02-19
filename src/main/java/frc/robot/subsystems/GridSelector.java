@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.RClimb.*;
+import frc.robot.commands.LClimb.*;
 
 /** Add your docs here. */
 public class GridSelector extends SubsystemBase {
@@ -26,19 +28,19 @@ public class GridSelector extends SubsystemBase {
 
         // Need to add climb commands
         Trigger joyRClimbUp = new Trigger(() -> m_bbox2.getRawAxis(1) == -1);
-        cmd = new frc.robot.commands.Climb.RClimbUp();
+        cmd = new RClimbUp();
         joyRClimbUp.whileTrue(cmd);
 
         Trigger joyRClimbDown = new Trigger(() -> m_bbox2.getRawAxis(1) == 1);
-        cmd = new frc.robot.commands.Climb.RClimbDown();
+        cmd = new RClimbDown();
         joyRClimbDown.whileTrue(cmd);
 
         Trigger joyLClimbUp = new Trigger(() -> m_bbox1.getRawAxis(1) == -1);
-        cmd = new frc.robot.commands.Climb.LClimbUp();
+        cmd = new LClimbUp();
         joyLClimbUp.whileTrue(cmd);
 
         Trigger joyLClimbDown = new Trigger(() -> m_bbox1.getRawAxis(1) == 1);
-        cmd = new frc.robot.commands.Climb.LClimbDown();
+        cmd = new LClimbDown();
         joyLClimbDown.whileTrue(cmd);
 
         // add Trap command

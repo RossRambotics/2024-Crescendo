@@ -27,10 +27,11 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.Indexer.StoreOneNote;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.Climb;
+import frc.robot.subsystems.RClimb;
 import frc.robot.subsystems.GridSelector;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.LClimb;
 import frc.robot.subsystems.RobotMechanism;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Tracking;
@@ -66,7 +67,8 @@ public class RobotContainer {
   public static final Indexer m_indexer = new Indexer();
   public static final Intake m_intake = new Intake();
   public static final Shooter m_shooter = new Shooter();
-  public static Climb m_climb = new Climb();
+  public static final RClimb m_rClimb = new RClimb();
+  public static final LClimb m_lClimb = new LClimb();
   public static GridSelector m_gridSelector = new GridSelector();
   // public static final Indexer m_indexer = null;
   // public static final Intake m_intake = null;
@@ -87,7 +89,7 @@ public class RobotContainer {
 
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
-  private SlewRateLimiter m_slewLeftY = new SlewRateLimiter(2.5);
+  private SlewRateLimiter m_slewLeftY = new SlewRateLimiter(6);
 
   public double getInputLeftY() {
     double driverLeftY = modifyAxis(joystick.getLeftY());
@@ -97,7 +99,7 @@ public class RobotContainer {
     return slew;
   }
 
-  private SlewRateLimiter m_slewLeftX = new SlewRateLimiter(2.5);
+  private SlewRateLimiter m_slewLeftX = new SlewRateLimiter(6);
 
   public double getInputLeftX() {
     double driverLeftX = modifyAxis(joystick.getLeftX());
@@ -252,6 +254,8 @@ public class RobotContainer {
     this.resetFieldHeading();
 
     drivetrain.registerTelemetry(logger::telemeterize);
+
+    m_gridSelector.initialize();
 
   }
 

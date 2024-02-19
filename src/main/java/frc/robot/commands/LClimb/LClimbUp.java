@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Climb;
+package frc.robot.commands.LClimb;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
@@ -11,13 +11,13 @@ public class LClimbUp extends Command {
   /** Creates a new LCimbUp. */
   public LClimbUp() {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.addRequirements(RobotContainer.m_climb);
+    this.addRequirements(RobotContainer.m_lClimb);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.m_climb.lClimbUp();
+    RobotContainer.m_lClimb.lClimbUp();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -28,7 +28,7 @@ public class LClimbUp extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.m_climb.lClimbStop();
+    RobotContainer.m_lClimb.lClimbStop();
   }
 
   // Returns true when the command should end.
