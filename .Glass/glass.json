@@ -1,9 +1,6 @@
 {
   "NetworkTables": {
     "transitory": {
-      "Drive": {
-        "open": true
-      },
       "LiveWindow": {
         "Ungrouped": {
           "AnalogInput[1]": {

@@ -18,21 +18,15 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.15
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "Indexer.Shoot"
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 0.25
+            "name": "Intake.Down"
           }
         },
         {
@@ -45,6 +39,12 @@
           "type": "named",
           "data": {
             "name": "Auto.Pick.Up"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Indexer.Storage"
           }
         },
         {

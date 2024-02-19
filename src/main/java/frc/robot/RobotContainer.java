@@ -186,6 +186,7 @@ public class RobotContainer {
     // deploy the intake
     joystick.a().onTrue(new frc.robot.commands.Intake.Down()
         .andThen(new frc.robot.commands.Intake.IntakeStart())
+        .andThen(new frc.robot.commands.Indexer.Stop())
         .andThen(new frc.robot.commands.Indexer.Intake())
         .andThen(new WaitUntilCommand(() -> m_indexer.isNoteMiddle()))
         .andThen(new frc.robot.commands.Intake.IntakeStop())
@@ -390,7 +391,7 @@ public class RobotContainer {
 
     SmartDashboard.putData("Auto.Intake.Note", cmd);
 
-    runAuto = drivetrain.getAutoPath("Four Note");
+    runAuto = drivetrain.getAutoPath("Test");
 
     configureBindings();
     LiveWindow.enableTelemetry(m_indexer);

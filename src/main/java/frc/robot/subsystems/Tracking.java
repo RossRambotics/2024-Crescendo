@@ -258,7 +258,7 @@ public class Tracking extends SubsystemBase {
     switch (targetID) {
       case 7:
       case 4:
-        goal = -1.0; // TODO tune this
+        goal = -1.1; // TODO tune this
         break;
       default:
         goal = 0.0;
@@ -306,7 +306,7 @@ public class Tracking extends SubsystemBase {
 
     double offset = getTargetDistanceError();
 
-    double deadzone = 0.05; // TODO tune this
+    double deadzone = 0.2; // TODO tune this
     double kP = 0.5; // TODO tune this
     double kS = 1; // TODO tune this
 
