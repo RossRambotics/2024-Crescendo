@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -32,6 +33,7 @@ import frc.robot.subsystems.GridSelector;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LClimb;
+import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.RobotMechanism;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Tracking;
@@ -70,6 +72,7 @@ public class RobotContainer {
   public static final RClimb m_rClimb = new RClimb();
   public static final LClimb m_lClimb = new LClimb();
   public static GridSelector m_gridSelector = new GridSelector();
+  public static LEDs m_LEDs = new LEDs();
   // public static final Indexer m_indexer = null;
   // public static final Intake m_intake = null;
   // public static final Shooter m_shooter = null;
@@ -305,7 +308,9 @@ public class RobotContainer {
   public RobotContainer() {
 
     // Named Commands must be created BEFORE AUTOs and PATHs!!!!!!!!!!!!!!!!!!!!!
-    NamedCommands.registerCommand("Indexer.Storage", new frc.robot.commands.Indexer.Storage());
+    NamedCommands.registerCommand("Indexer.Storage",
+        new frc.robot.commands.Indexer.StoreOneNote()
+            .withTimeout(1.0));
 
     NamedCommands.registerCommand("Speaker.Middle",
         new frc.robot.commands.Speaker.Middle()
@@ -325,15 +330,17 @@ public class RobotContainer {
             .withName("Auto.Indexer.Shoot.Fast"));
 
     NamedCommands.registerCommand("Indexer.Shoot",
-        new frc.robot.commands.Indexer.Shoot()
-            .repeatedly()
-            .withTimeout(.5)
+        new WaitUntilCommand(() -> m_shooter.isShooterReady())
+            .andThen(new frc.robot.commands.Indexer.Shoot())
+            .andThen(new WaitCommand(0.15))
             .andThen(new frc.robot.commands.Indexer.Stop())
+            .andThen(new frc.robot.commands.Indexer.Intake())
             .withName("Auto.Indexer.Shoot"));
 
     NamedCommands.registerCommand("Intake.Down",
         new frc.robot.commands.Intake.Down()
             .andThen(new frc.robot.commands.Intake.IntakeStart())
+            .andThen(new frc.robot.commands.Indexer.Intake())
             .withName("Auto.Indexer.Down"));
 
     NamedCommands.registerCommand("Intake.Up",
