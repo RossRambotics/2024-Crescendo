@@ -75,7 +75,7 @@ public class LEDs extends SubsystemBase {
       m_even = !m_even;
 
       // Turn panel to black
-      // m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 8, 32 * 8);
+      m_candle.setLEDs(100, 100, 100, 0, kPANEL_START + 8, 32 * 8);
 
     } else {
       if (RobotContainer.m_indexer.isNoteBottom()) {
@@ -145,7 +145,6 @@ public class LEDs extends SubsystemBase {
     }
     return null;
   }
-  
 
   public void showNoteDown() {
     m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 8, 32 * 8);
