@@ -13,6 +13,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
@@ -429,10 +430,14 @@ public class Tracking extends SubsystemBase {
   public Command NoteTrackingMode() {
     Command c;
 
-    c = new StartEndCommand(() -> {
-      m_isNoteTracking = true;
-      RobotContainer.m_LEDs.noteTrackingMode();
-    }, () -> m_isNoteTracking = false)
+    c = new FunctionalCommand(
+        () -> m_isNoteTracking = true,
+        () -> RobotContainer.m_LEDs.noteTrackingMode(),
+        interrupted -> m_isNoteTracking = false,
+        () -> {
+          return false;
+        })
+
         .withName("NoteTrackingMode");
 
     return c;
