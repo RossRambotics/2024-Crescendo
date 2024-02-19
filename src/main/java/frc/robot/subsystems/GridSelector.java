@@ -60,20 +60,20 @@ public class GridSelector extends SubsystemBase {
         Trigger btnIntakeOff = new JoystickButton(m_bbox2, 1);
         cmd = new frc.robot.commands.Intake.IntakeStop()
                 .andThen(new frc.robot.commands.Intake.Up());
-        btnIntakeOff.onTrue(cmd);
+        btnIntakeOff.whileTrue(cmd);
 
         Trigger btnIntakeIn = new JoystickButton(m_bbox2, 2);
         cmd = new frc.robot.commands.Intake.Up()
                 .andThen(new frc.robot.commands.Intake.IntakeStart());
-        btnIntakeIn.onTrue(cmd);
+        btnIntakeIn.whileTrue(cmd);
 
         Trigger btnIntakeReverse = new JoystickButton(m_bbox2, 2);
         cmd = new frc.robot.commands.Intake.IntakeReverse();
-        btnIntakeReverse.onTrue(cmd);
+        btnIntakeReverse.whileTrue(cmd);
 
         Trigger btnIndexerShoot = new JoystickButton(m_bbox1, 1);
         cmd = new frc.robot.commands.Indexer.Shoot();
-        btnIndexerShoot.onTrue(cmd);
+        btnIndexerShoot.whileTrue(cmd);
 
         // add indexer forward
         // Trigger btnIndexerForward = new JoystickButton(m_bbox1, 2);
@@ -82,15 +82,15 @@ public class GridSelector extends SubsystemBase {
 
         Trigger btnIndexerReverse = new JoystickButton(m_bbox1, 3);
         cmd = new frc.robot.commands.Indexer.Reverse();
-        btnIndexerReverse.onTrue(cmd);
+        btnIndexerReverse.whileTrue(cmd);
 
         Trigger btnShooterReverse = new JoystickButton(m_bbox1, 4);
         cmd = new frc.robot.commands.Shooter.Reverse();
-        btnShooterReverse.onTrue(cmd);
+        btnShooterReverse.whileTrue(cmd);
 
         Trigger btnShooterStop = new JoystickButton(m_bbox1, 5);
         cmd = new frc.robot.commands.Shooter.Stop();
-        btnShooterStop.onTrue(cmd);
+        btnShooterStop.whileTrue(cmd);
 
         Trigger btnShooterStart = new JoystickButton(m_bbox1, 6);
         cmd = new frc.robot.commands.Shooter.Start();

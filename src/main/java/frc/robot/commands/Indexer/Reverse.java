@@ -28,6 +28,7 @@ public class Reverse extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    RobotContainer.m_indexer.stop();
   }
 
   // Returns true when the command should end.

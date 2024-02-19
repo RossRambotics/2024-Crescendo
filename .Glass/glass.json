@@ -65,6 +65,8 @@
       "/LiveWindow/Tracking": "Subsystem",
       "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
       "/Pose": "Field2d",
+      "/Shuffleboard/LEDs/PixelOff": "Command",
+      "/Shuffleboard/LEDs/PixelOn": "Command",
       "/SmartDashboard/Amp.Shoot": "Command",
       "/SmartDashboard/Auto.Intake.Note": "Command",
       "/SmartDashboard/Indexer.Intake": "Command",
