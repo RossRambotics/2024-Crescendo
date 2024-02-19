@@ -85,7 +85,6 @@ public class LEDs extends SubsystemBase {
       } else if (RobotContainer.m_indexer.isNoteMiddle()) {
         this.showNote();
       }
-
     }
   }
 
@@ -100,6 +99,18 @@ public class LEDs extends SubsystemBase {
   // } else {
   // this.showCone();
   // }
+
+  public void noteTrackingMode() {
+    this.showPoliceLights();
+  }
+
+  public void targetTrackingMode() {
+
+  }
+
+  public void noTrackingMode() {
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 0, 24);
+  }
 
   public Command PixelOn() {
     int pixel = (int) m_pixel.getInteger(0);

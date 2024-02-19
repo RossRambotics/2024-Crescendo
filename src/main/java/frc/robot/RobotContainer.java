@@ -151,7 +151,8 @@ public class RobotContainer {
                                                                         // negative
                                                                         // X
                                                                         // (left)
-        ).ignoringDisable(true));
+        ).ignoringDisable(true)
+            .alongWith(m_tracking.NoTrackingMode()));
 
     // left trigger invoke target tracking
     // Rotation2d rot = new Rotation2d(Math.toRadians(0.0));
