@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.Indexer.StoreOneNote;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Climb;
+import frc.robot.subsystems.GridSelector;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.RobotMechanism;
@@ -38,8 +39,6 @@ public class RobotContainer {
         private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // 6 meters per second desired top speed
         private double MaxAngularRate = 1.25 * Math.PI; // 3/4 of a rotation per second max angular velocity
         private final CommandXboxController joystick = new CommandXboxController(0); // My joystick
-        private Joystick m_gridSelector2 = new Joystick(2);
-        private Joystick m_gridSelector = new Joystick(1);
         private double m_joystickAlliance = 1;
 
         Trigger leftTrigger = new Trigger(
@@ -68,6 +67,7 @@ public class RobotContainer {
         public static final Intake m_intake = new Intake();
         public static final Shooter m_shooter = new Shooter();
         public static Climb m_climb = new Climb();
+        public static GridSelector m_gridSelector = new GridSelector();
         // public static final Indexer m_indexer = null;
         // public static final Intake m_intake = null;
         // public static final Shooter m_shooter = null;
@@ -132,6 +132,7 @@ public class RobotContainer {
                                                                                       // forward
                                                                 // with
                                                                 // negative Y (forward)
+
                                                                 .withVelocityY(getInputLeftX() * MaxSpeed * boostLimit
                                                                                 * m_joystickAlliance) // Drive
                                                                                                       // left
@@ -209,34 +210,8 @@ public class RobotContainer {
                                 .andThen(new WaitCommand(1.0))
                                 .andThen(new frc.robot.commands.Shooter.Stop())
                                 .andThen(new frc.robot.commands.Indexer.Stop())
-                                .withName("Shoot_a_Note")
-                /* */);
-
-                Trigger joyRClimbUp = new Trigger(() -> m_gridSelector2.getRawAxis(1) == -1);
-                cmd = new frc.robot.commands.Climb.RClimbUp();
-                joyRClimbUp.onTrue(cmd);
-
-                Trigger joyRClimbDown = new Trigger(() -> m_gridSelector2.getRawAxis(1) == 1);
-                cmd = new frc.robot.commands.Climb.RClimbDown();
-                joyRClimbDown.onTrue(cmd);
-
-                Trigger joyLClimbUp = new Trigger(() -> m_gridSelector.getRawAxis(1) == -1);
-                cmd = new frc.robot.commands.Climb.LClimbUp();
-                joyLClimbUp.onTrue(cmd);
-
-                Trigger joyLClimbDown = new Trigger(() -> m_gridSelector.getRawAxis(1) == 1);
-                cmd = new frc.robot.commands.Climb.LClimbDown();
-                joyLClimbDown.onTrue(cmd);
-
-                // Trigger joyLClimbStop = new Trigger(() -> m_gridSelector2.getRawAxis(1) <= 1)
-                // .and(() -> m_gridSelector.getRawAxis(1) >= -1);
-                // cmd = new frc.robot.commands.Climb.LClimbStop();
-                // joyLClimbStop.onTrue(cmd);
-
-                // Trigger joyRClimbStop = new Trigger(() -> m_gridSelector2.getRawAxis(1) <= 1)
-                // .and(() -> m_gridSelector.getRawAxis(1) >= -1);
-                // cmd = new frc.robot.commands.Climb.RClimbStop();
-                // joyRClimbStop.onTrue(cmd);
+                                .withName("Shoot_a_Note"));
+                /* */
 
                 // joystick.x().onTrue(new frc.robot.commands.Shooter.Reverse()
                 // .andThen(new frc.robot.commands.Indexer.Reverse()

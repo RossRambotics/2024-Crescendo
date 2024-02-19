@@ -29,7 +29,6 @@ public class LClimbDown extends Command {
   @Override
   public void end(boolean interrupted) {
     RobotContainer.m_climb.lClimbStop();
-
   }
 
   // Returns true when the command should end.

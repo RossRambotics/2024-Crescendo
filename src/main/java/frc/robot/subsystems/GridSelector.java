@@ -25,21 +25,21 @@ public class GridSelector extends SubsystemBase {
         Command cmd;
 
         // Need to add climb commands
-        Trigger joyRClimbUp = new Trigger(() -> m_bbox2.getRawAxis(1) <= -0.5);
+        Trigger joyRClimbUp = new Trigger(() -> m_bbox2.getRawAxis(1) == -1);
         cmd = new frc.robot.commands.Climb.RClimbUp();
-        joyRClimbUp.onTrue(cmd);
+        joyRClimbUp.whileTrue(cmd);
 
-        Trigger joyRClimbDown = new Trigger(() -> m_bbox1.getRawAxis(1) >= 0.5);
+        Trigger joyRClimbDown = new Trigger(() -> m_bbox2.getRawAxis(1) == 1);
         cmd = new frc.robot.commands.Climb.RClimbDown();
-        joyRClimbDown.onTrue(cmd);
+        joyRClimbDown.whileTrue(cmd);
 
-        Trigger joyLClimbUp = new Trigger(() -> m_bbox1.getRawAxis(1) <= -0.5);
+        Trigger joyLClimbUp = new Trigger(() -> m_bbox1.getRawAxis(1) == -1);
         cmd = new frc.robot.commands.Climb.LClimbUp();
-        joyLClimbUp.onTrue(cmd);
+        joyLClimbUp.whileTrue(cmd);
 
-        Trigger joyLClimbDown = new Trigger(() -> m_bbox1.getRawAxis(1) >= 0.5);
+        Trigger joyLClimbDown = new Trigger(() -> m_bbox1.getRawAxis(1) == 1);
         cmd = new frc.robot.commands.Climb.LClimbDown();
-        joyLClimbDown.onTrue(cmd);
+        joyLClimbDown.whileTrue(cmd);
 
         // add Trap command
         // Trigger btnTrap = new JoystickButton(m_bbox2, 11);

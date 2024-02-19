@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -25,6 +26,9 @@ public class Climb extends SubsystemBase {
   public Climb() {
     m_lClimbMotor.getEncoder().setPosition(0);
     m_rClimbMotor.getEncoder().setPosition(0);
+
+    m_lClimbMotor.setIdleMode(IdleMode.kBrake);
+    m_rClimbMotor.setIdleMode(IdleMode.kBrake);
 
   }
 
@@ -64,11 +68,11 @@ public class Climb extends SubsystemBase {
   }
 
   public void rClimbStop() {
-    m_lClimbMotor.set(0);
+    m_rClimbMotor.set(0);
   }
 
   public void lClimbStop() {
-    m_rClimbMotor.set(0);
+    m_lClimbMotor.set(0);
   }
 
 }
