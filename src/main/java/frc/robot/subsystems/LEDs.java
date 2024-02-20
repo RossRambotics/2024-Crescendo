@@ -89,18 +89,6 @@ public class LEDs extends SubsystemBase {
     }
   }
 
-  // if (RobotContainer.m_Tracking.isTrackingTarget()) {
-  // this.showTrackingStatusGreen();
-  // } else {
-  // this.showTrackingStatusRed();
-  // }
-
-  // if (RobotContainer.m_GridSelector.isCube()) {
-  // this.showCube();
-  // } else {
-  // this.showCone();
-  // }
-
   public void noteTrackingMode() {
     this.showPoliceLights();
   }
@@ -328,38 +316,6 @@ public class LEDs extends SubsystemBase {
     m_candle.setLEDs(0, 0, 0, 0, 170, 4);
     m_candle.setLEDs(0, 0, 0, 0, 179, 2);
 
-  }
-
-  public void showCone() {
-    m_candle.setLEDs(255, 255, 0, 0, 0, 33 * 8);
-  }
-
-  public void showCube() {
-    m_candle.setLEDs(138, 43, 226, 0, 0, 33 * 8);
-  }
-
-  public void showVisionStatusGreen() {
-    m_candle.setLEDs(0, 255, 0, 0, kSTRIP_START, kSTRIP_LENGTH);
-  }
-
-  public void showVisionStatusRed() {
-    m_candle.setLEDs(255, 0, 0, 0, kSTRIP_START, kSTRIP_LENGTH);
-  }
-
-  public void showVisionStatusYellow() {
-    m_candle.setLEDs(255, 255, 0, 0, kSTRIP_START, kSTRIP_LENGTH);
-  }
-
-  public void showTrackingStatusGreen() {
-    m_candle.setLEDs(0, 255, 0, 0, 100, 80);
-  }
-
-  public void showTrackingStatusRed() {
-    m_candle.setLEDs(255, 0, 0, 0, 100, 80);
-  }
-
-  public void showTrackingStatusYellow() {
-    m_candle.setLEDs(255, 255, 0, 0, 100, 3);
   }
 
 }

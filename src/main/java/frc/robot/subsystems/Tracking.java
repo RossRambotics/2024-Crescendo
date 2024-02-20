@@ -453,7 +453,13 @@ public class Tracking extends SubsystemBase {
   public Command TargetTrackingMode() {
     Command c;
 
-    c = new StartEndCommand(() -> m_isTargetTracking = true, () -> m_isTargetTracking = false)
+    c = new FunctionalCommand(
+        () -> m_isTargetTracking = true,
+        () -> RobotContainer.m_LEDs.targetTrackingMode(),
+        interrupted -> m_isTargetTracking = false,
+        () -> {
+          return false;
+        })
         .withName("TargetTrackingMode");
 
     return c;
@@ -469,7 +475,6 @@ public class Tracking extends SubsystemBase {
         () -> {
           return false;
         })
-
         .withName("NoteTrackingMode");
 
     return c;
@@ -477,11 +482,17 @@ public class Tracking extends SubsystemBase {
 
   public Command NoTrackingMode() {
     Command c;
-    c = new StartEndCommand(() -> {
-      m_isNoteTracking = false;
-      m_isTargetTracking = false;
-      RobotContainer.m_LEDs.noTrackingMode();
-    }, () -> m_isNoteTracking = false)
+
+    c = new FunctionalCommand(
+        () -> {
+          m_isNoteTracking = false;
+          m_isTargetTracking = false;
+        },
+        () -> RobotContainer.m_LEDs.noTrackingMode(),
+        interrupted -> m_isNoteTracking = false,
+        () -> {
+          return false;
+        })
         .withName("NoTrackingMode");
 
     return c;
