@@ -74,9 +74,10 @@ public class LEDs extends SubsystemBase {
       // Only run if not disabled
       m_even = !m_even;
 
-      // Turn panel to black
-      m_candle.setLEDs(100, 100, 100, 0, kPANEL_START + 8, 32 * 8);
-
+      if (DriverStation.isDisabled()) {
+        // Turn panel to black
+        m_candle.setLEDs(100, 100, 100, 0, kPANEL_START + 8, 32 * 8);
+      }
     } else {
       if (RobotContainer.m_indexer.isNoteBottom()) {
         this.showNoteDown();

@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -268,19 +269,55 @@ public class Tracking extends SubsystemBase {
     return m_TargetDistance.getDouble(0.0) - goal;
   }
 
-  public double getTarget_VelocityY(DoubleSupplier joystick_value) {
+  public double getTarget_VelocityY_Adjusted(DoubleSupplier joystick_value) {
 
+    // see if we should just use the joystick because we aren't on heading or too
+    // far away, etc.
     double angleError = this.getTargetAngle().getDegrees() - m_CurrentHeading;
     if (Math.abs(angleError) > 5 || !isTargetIDFound() || m_TargetDistance.getDouble(5) > 3.0) {
       return joystick_value.getAsDouble();
     }
 
+    double vY = this.getTarget_VelocityY(joystick_value);
+    double vX = this.getTarget_VelocityX(joystick_value);
+
+    Translation2d vector = new Translation2d(vX, vY);
+    Rotation2d rot = new Rotation2d(Math.toRadians(m_CurrentHeading));
+
+    vector = vector.rotateBy(rot);
+
+    // return 0;
+    return vector.getY();
+  }
+
+  public double getTarget_VelocityX_Adjusted(DoubleSupplier joystick_value) {
+
+    // see if we should just use the joystick because we aren't on heading or too
+    // far away, etc.
+    double angleError = this.getTargetAngle().getDegrees() - m_CurrentHeading;
+    if (Math.abs(angleError) > 5 || !isTargetIDFound() || m_TargetDistance.getDouble(5) > 3.0) {
+      return joystick_value.getAsDouble();
+    }
+
+    double vY = this.getTarget_VelocityY(joystick_value);
+    double vX = this.getTarget_VelocityX(joystick_value);
+
+    Translation2d vector = new Translation2d(vX, vY);
+    Rotation2d rot = new Rotation2d(Math.toRadians(m_CurrentHeading));
+
+    vector = vector.rotateBy(rot);
+
+    return vector.getX();
+  }
+
+  private double getTarget_VelocityY(DoubleSupplier joystick_value) {
+
     double offset = -m_TargetOffset.getDouble(0.0);
     double answer = 0.0;
 
-    double deadzone = 0.05; // TODO tune this
-    double kP = 1.0; // TODO tune this
-    double kS = 0.1; // TODO tune this
+    double deadzone = 0.02; // TODO tune this
+    double kP = 2.0; // TODO tune this
+    double kS = 0.2; // TODO tune this
 
     if (offset < 0.0) {
       kS = kS * -1;
@@ -296,18 +333,13 @@ public class Tracking extends SubsystemBase {
     return answer;
   }
 
-  public double getTarget_VelocityX(DoubleSupplier joystick_value) {
-
-    double angleError = this.getTargetAngle().getDegrees() - m_CurrentHeading;
-    if (Math.abs(angleError) > 5 || !isTargetIDFound() || m_TargetDistance.getDouble(5) > 3.0) {
-      return joystick_value.getAsDouble();
-    }
+  private double getTarget_VelocityX(DoubleSupplier joystick_value) {
 
     double answer = 0.0;
 
     double offset = getTargetDistanceError();
 
-    double deadzone = 0.2; // TODO tune this
+    double deadzone = 0.05; // TODO tune this
     double kP = 0.5; // TODO tune this
     double kS = 1; // TODO tune this
 

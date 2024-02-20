@@ -164,11 +164,11 @@ public class RobotContainer {
         .whileTrue(drivetrain
             .applyRequest(() -> targetDrive
                 .withVelocityX(
-                    m_tracking.getTarget_VelocityX(
+                    m_tracking.getTarget_VelocityX_Adjusted(
                         () -> -getInputLeftY()
                             * m_joystickAlliance))
                 .withVelocityY(
-                    m_tracking.getTarget_VelocityY(
+                    m_tracking.getTarget_VelocityY_Adjusted(
                         () -> -getInputLeftX()
                             * m_joystickAlliance))
                 .withTargetDirection(m_tracking.getTargetAngle()))
