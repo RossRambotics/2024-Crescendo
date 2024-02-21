@@ -2,6 +2,9 @@
   "NetworkTables": {
     "transitory": {
       "LiveWindow": {
+        "Tracking": {
+          "open": true
+        },
         "Ungrouped": {
           "AnalogInput[1]": {
             "open": true
@@ -16,12 +19,6 @@
         "open": true
       },
       "Shuffleboard": {
-        "Indexer": {
-          "open": true
-        },
-        "Shooter": {
-          "open": true
-        },
         "Tracking": {
           "open": true
         },
@@ -32,24 +29,13 @@
           "RootDirection": {
             "Direction": {
               "open": true
-            },
-            "open": true
+            }
           },
           "RootSpeed": {
             "Speed": {
               "open": true
             }
-          },
-          "open": true
-        },
-        "Module 3": {
-          "open": true
-        },
-        "Robot Pose": {
-          "open": true
-        },
-        "Robot.ResetPose": {
-          "open": true
+          }
         },
         "open": true
       }
