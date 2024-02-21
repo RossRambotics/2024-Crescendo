@@ -98,6 +98,11 @@ public class LEDs extends SubsystemBase {
   }
 
   public void noteTrackingMode() {
+    // if we have a note go orange
+    if (RobotContainer.m_indexer.isNoteMiddle()) {
+      this.showOrange();
+      return;
+    }
     if (RobotContainer.m_tracking.isGamePieceFound()) {
       this.showPoliceLights2();
     } else {
