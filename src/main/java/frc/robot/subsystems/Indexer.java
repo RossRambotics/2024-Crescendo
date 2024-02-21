@@ -17,7 +17,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
-import frc.robot.commands.Indexer.Storage;
+import frc.robot.RobotContainer;
+import frc.robot.commands.Indexer.StoreOneNote;
 
 public class Indexer extends SubsystemBase {
   private final CANSparkMax m_topMotor = new CANSparkMax(Constants.kRio_CAN_Indexer_Top_Motor, MotorType.kBrushless);
@@ -99,6 +100,7 @@ public class Indexer extends SubsystemBase {
         .add("2-MiddleSensor", false).getEntry();
     m_BottomSensor = Shuffleboard.getTab("Indexer")
         .add("3-BottomSensor", false).getEntry();
+
   }
 
   @Override
@@ -142,26 +144,32 @@ public class Indexer extends SubsystemBase {
   }
 
   public void shoot() {
-    double setPoint = -2 * 3500;
+    double setPointtop = -2 * 3500;
+    double setPointbotom = -2 * 3500;
 
-    m_topPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
-    m_bottomPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
+    if (RobotContainer.m_shooter.getTopMotorSpeed() > 0) {
+      setPointtop = setPointtop * -1;
+      setPointbotom = 0;
+    }
+
+    m_topPIDController.setReference(setPointtop, CANSparkMax.ControlType.kVelocity);
+    m_bottomPIDController.setReference(setPointbotom, CANSparkMax.ControlType.kVelocity);
   }
 
   public void intake() {
-    double setPoint = -2 * 2000;
+    double setPoint = -2 * 2500;
 
     m_bottomPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
   }
 
   public void Retract() {
-    double setPoint = -2 * 60;
+    double setPoint = 2 * 600;
 
     m_topPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
   }
 
   public void reverse() {
-    double setPoint = 8 * 500;
+    double setPoint = 8 * 1000;
 
     m_topPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
     // m_bottomPIDController.setReference(setPoint,

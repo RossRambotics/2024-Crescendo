@@ -7,33 +7,47 @@ package frc.robot.commands.Indexer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 
-public class Shoot extends Command {
-  /** Creates a new ShootSpeaker. */
-  public Shoot() {
+public class StoreOneNote extends Command {
+  private boolean m_isFinished = false;
+
+  /** Creates a new storage. */
+  public StoreOneNote() {
     // Use addRequirements() here to declare subsystem dependencies.
     this.addRequirements(RobotContainer.m_indexer);
   }
 
-  // Called when the command is initially scheduled.
-  @Override
+  // Called
+
   public void initialize() {
-    RobotContainer.m_indexer.shoot();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (RobotContainer.m_indexer.isNoteBottom()) {
+      RobotContainer.m_indexer.intake();
+    } else {
+      RobotContainer.m_indexer.stopBottom();
+    }
+
+    if (RobotContainer.m_indexer.isNoteTop()) {
+      RobotContainer.m_indexer.Retract();
+    } else {
+      RobotContainer.m_indexer.stopTop();
+    }
+
+    m_isFinished = true;
   }
 
   // Called once the command ends or is interrupted.
   @Override
+
   public void end(boolean interrupted) {
-  
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return m_isFinished;
   }
 }

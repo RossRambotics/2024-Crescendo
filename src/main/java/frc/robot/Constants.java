@@ -14,6 +14,9 @@ public final class Constants {
     public static final int kRio_CAN_Shooter_Top_Motor = 23;
     public static final int kRio_CAN_Shooter_Bottom_Motor = 24;
 
+    public static final int kRio_CAN_Climb_Left_Motor = 25;
+    public static final int kRio_CAN_Climb_Right_Motor = 26;
+
     public static final int kRio_CAN_CANDLE = 30;
     public static final int PNEUMATIC_HUB = 50;
 

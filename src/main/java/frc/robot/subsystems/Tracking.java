@@ -7,12 +7,14 @@ package frc.robot.subsystems;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
@@ -258,7 +260,7 @@ public class Tracking extends SubsystemBase {
     switch (targetID) {
       case 7:
       case 4:
-        goal = -0.92; // TODO tune this
+        goal = -1.0; // TODO tune this
         break;
       default:
         goal = 0.0;
@@ -267,19 +269,55 @@ public class Tracking extends SubsystemBase {
     return m_TargetDistance.getDouble(0.0) - goal;
   }
 
-  public double getTarget_VelocityY(DoubleSupplier joystick_value) {
+  public double getTarget_VelocityY_Adjusted(DoubleSupplier joystick_value) {
 
+    // see if we should just use the joystick because we aren't on heading or too
+    // far away, etc.
     double angleError = this.getTargetAngle().getDegrees() - m_CurrentHeading;
     if (Math.abs(angleError) > 5 || !isTargetIDFound() || m_TargetDistance.getDouble(5) > 3.0) {
       return joystick_value.getAsDouble();
     }
 
+    double vY = this.getTarget_VelocityY(joystick_value);
+    double vX = this.getTarget_VelocityX(joystick_value);
+
+    Translation2d vector = new Translation2d(vX, vY);
+    Rotation2d rot = new Rotation2d(Math.toRadians(m_CurrentHeading));
+
+    vector = vector.rotateBy(rot);
+
+    // return 0;
+    return vector.getY();
+  }
+
+  public double getTarget_VelocityX_Adjusted(DoubleSupplier joystick_value) {
+
+    // see if we should just use the joystick because we aren't on heading or too
+    // far away, etc.
+    double angleError = this.getTargetAngle().getDegrees() - m_CurrentHeading;
+    if (Math.abs(angleError) > 5 || !isTargetIDFound() || m_TargetDistance.getDouble(5) > 3.0) {
+      return joystick_value.getAsDouble();
+    }
+
+    double vY = this.getTarget_VelocityY(joystick_value);
+    double vX = this.getTarget_VelocityX(joystick_value);
+
+    Translation2d vector = new Translation2d(vX, vY);
+    Rotation2d rot = new Rotation2d(Math.toRadians(m_CurrentHeading));
+
+    vector = vector.rotateBy(rot);
+
+    return vector.getX();
+  }
+
+  private double getTarget_VelocityY(DoubleSupplier joystick_value) {
+
     double offset = -m_TargetOffset.getDouble(0.0);
     double answer = 0.0;
 
-    double deadzone = 0.05; // TODO tune this
-    double kP = 1.0; // TODO tune this
-    double kS = 0.10; // TODO tune this
+    double deadzone = 0.02; // TODO tune this
+    double kP = 2.0; // TODO tune this
+    double kS = 0.2; // TODO tune this
 
     if (offset < 0.0) {
       kS = kS * -1;
@@ -295,12 +333,7 @@ public class Tracking extends SubsystemBase {
     return answer;
   }
 
-  public double getTarget_VelocityX(DoubleSupplier joystick_value) {
-
-    double angleError = this.getTargetAngle().getDegrees() - m_CurrentHeading;
-    if (Math.abs(angleError) > 5 || !isTargetIDFound() || m_TargetDistance.getDouble(5) > 3.0) {
-      return joystick_value.getAsDouble();
-    }
+  private double getTarget_VelocityX(DoubleSupplier joystick_value) {
 
     double answer = 0.0;
 
@@ -308,7 +341,11 @@ public class Tracking extends SubsystemBase {
 
     double deadzone = 0.05; // TODO tune this
     double kP = 0.5; // TODO tune this
-    double kS = 0.00; // TODO tune this
+    double kS = 1; // TODO tune this
+
+    if (offset < 0.0) {
+      kS = kS * -1;
+    }
 
     answer = (offset * kP) + kS;
 
@@ -322,15 +359,17 @@ public class Tracking extends SubsystemBase {
   }
 
   public Rotation2d getTargetAngle() {
+    // double rot = m_TargetAngle.getDouble(-1.0);
+    // if (head)
     return new Rotation2d(Math.toRadians(m_TargetAngle.getDouble(-1.0)));
   }
 
   public double getGamePiece_VelocityY() {
     double answer = 0;
-    double offset = m_GamePieceOffset.getDouble(0.0);
+    double offset = -m_GamePieceOffset.getDouble(0.0);
 
     double deadzone = 0.05; // TODO tune this
-    double kP = 1.0; // TODO tune this
+    double kP = 2.0; // TODO tune this
     double kS = 0.1; // TODO tune this
 
     if (offset < 0.0) {
@@ -338,6 +377,10 @@ public class Tracking extends SubsystemBase {
     }
 
     answer = (offset * kP) + kS;
+
+    // if (answer <= 3) {
+    // answer = 3;
+    // }
 
     if (Math.abs(offset) < deadzone) {
       answer = 0;
@@ -350,7 +393,7 @@ public class Tracking extends SubsystemBase {
 
   public double getGamePiece_VelocityX() {
     double answer = 0;
-    double offset = -m_GamePieceDistance.getDouble(0.0);
+    double offset = m_GamePieceDistance.getDouble(0.0);
 
     double deadzone = 0.05; // TODO tune this
     double kP = 1.0; // TODO tune this
@@ -361,6 +404,10 @@ public class Tracking extends SubsystemBase {
     }
 
     answer = (offset * kP) + kS;
+
+    if (answer <= 3) {
+      answer = 3;
+    }
 
     if (Math.abs(offset) < deadzone) {
       answer = 0;
@@ -381,7 +428,7 @@ public class Tracking extends SubsystemBase {
     double offset = -Math.toRadians(m_LL_GamePiece.getEntry("tx").getDouble(0));
 
     double deadzone = 0.05; // TODO tune this
-    double kP = 1.5; // TODO tune this
+    double kP = 5; // TODO tune this
     double kS = 0.1; // TODO tune this
 
     if (offset < 0.0) {
@@ -406,7 +453,13 @@ public class Tracking extends SubsystemBase {
   public Command TargetTrackingMode() {
     Command c;
 
-    c = new StartEndCommand(() -> m_isTargetTracking = true, () -> m_isTargetTracking = false)
+    c = new FunctionalCommand(
+        () -> m_isTargetTracking = true,
+        () -> RobotContainer.m_LEDs.targetTrackingMode(),
+        interrupted -> m_isTargetTracking = false,
+        () -> {
+          return false;
+        })
         .withName("TargetTrackingMode");
 
     return c;
@@ -415,8 +468,32 @@ public class Tracking extends SubsystemBase {
   public Command NoteTrackingMode() {
     Command c;
 
-    c = new StartEndCommand(() -> m_isNoteTracking = true, () -> m_isNoteTracking = false)
+    c = new FunctionalCommand(
+        () -> m_isNoteTracking = true,
+        () -> RobotContainer.m_LEDs.noteTrackingMode(),
+        interrupted -> m_isNoteTracking = false,
+        () -> {
+          return false;
+        })
         .withName("NoteTrackingMode");
+
+    return c;
+  }
+
+  public Command NoTrackingMode() {
+    Command c;
+
+    c = new FunctionalCommand(
+        () -> {
+          m_isNoteTracking = false;
+          m_isTargetTracking = false;
+        },
+        () -> RobotContainer.m_LEDs.noTrackingMode(),
+        interrupted -> m_isNoteTracking = false,
+        () -> {
+          return false;
+        })
+        .withName("NoTrackingMode");
 
     return c;
   }

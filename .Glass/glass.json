@@ -22,17 +22,50 @@
         "Shooter": {
           "open": true
         },
+        "Tracking": {
+          "open": true
+        },
+        "open": true
+      },
+      "SmartDashboard": {
+        "Module 1": {
+          "RootDirection": {
+            "Direction": {
+              "open": true
+            },
+            "open": true
+          },
+          "RootSpeed": {
+            "Speed": {
+              "open": true
+            }
+          },
+          "open": true
+        },
+        "Module 3": {
+          "open": true
+        },
+        "Robot Pose": {
+          "open": true
+        },
+        "Robot.ResetPose": {
+          "open": true
+        },
         "open": true
       }
     },
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Indexer": "Subsystem",
       "/LiveWindow/Intake": "Subsystem",
       "/LiveWindow/Shooter": "Subsystem",
       "/LiveWindow/Tracking": "Subsystem",
       "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
       "/Pose": "Field2d",
+      "/Shuffleboard/LEDs/PixelOff": "Command",
+      "/Shuffleboard/LEDs/PixelOn": "Command",
       "/SmartDashboard/Amp.Shoot": "Command",
+      "/SmartDashboard/Auto.Intake.Note": "Command",
       "/SmartDashboard/Indexer.Intake": "Command",
       "/SmartDashboard/Indexer.Retract": "Command",
       "/SmartDashboard/Indexer.Reverse": "Command",
@@ -60,7 +93,17 @@
       "/SmartDashboard/robot": "Mechanism2d"
     },
     "windows": {
+      "/Pose": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Amp.Shoot": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Auto.Intake.Note": {
         "window": {
           "visible": true
         }

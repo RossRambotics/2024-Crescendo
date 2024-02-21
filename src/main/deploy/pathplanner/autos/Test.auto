@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3,
-      "y": 5.55
+      "x": 1.2798717547345657,
+      "y": 5.521816553472107
     },
-    "rotation": 0.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -14,55 +14,49 @@
         {
           "type": "named",
           "data": {
-            "name": "SetShooterSpeaker"
+            "name": "Speaker.Middle"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Indexer.Shoot"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "IntakeNote"
+            "name": "Intake.Down"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Hollis_Test1"
+            "pathName": "Speaker to Note"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Auto.Pick.Up"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Indexer.Storage"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Hollis_Test2"
+            "pathName": "Note to Speaker"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Hollis_Test1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
+            "name": "Indexer.Shoot"
           }
         }
       ]

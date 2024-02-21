@@ -14,30 +14,35 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.Indexer.Storage;
-import frc.robot.commands.Intake.Down;
+import frc.robot.commands.Indexer.StoreOneNote;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.RClimb;
+import frc.robot.subsystems.GridSelector;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.LClimb;
+import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.RobotMechanism;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Tracking;
 
 public class RobotContainer {
-  private double MaxSpeed = 1; // 6 meters per second desired top speed
+  private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // 6 meters per second desired top speed
   private double MaxAngularRate = 1.25 * Math.PI; // 3/4 of a rotation per second max angular velocity
   private final CommandXboxController joystick = new CommandXboxController(0); // My joystick
+  private double m_joystickAlliance = 1;
 
   Trigger leftTrigger = new Trigger(
       () -> joystick.getRawAxis(XboxController.Axis.kLeftTrigger.value) >= 0.5);
@@ -64,6 +69,10 @@ public class RobotContainer {
   public static final Indexer m_indexer = new Indexer();
   public static final Intake m_intake = new Intake();
   public static final Shooter m_shooter = new Shooter();
+  public static final RClimb m_rClimb = new RClimb();
+  public static final LClimb m_lClimb = new LClimb();
+  public static GridSelector m_gridSelector = new GridSelector();
+  public static LEDs m_LEDs = new LEDs();
   // public static final Indexer m_indexer = null;
   // public static final Intake m_intake = null;
   // public static final Shooter m_shooter = null;
@@ -74,6 +83,7 @@ public class RobotContainer {
 
   private static double slewLimit = 0.6;
   private static double rslewlimit = 0.3;
+  private static double boostLimit = 0.6;
   private static double nudge = 0.7;
   private static double nudgeanglepower = .2;
 
@@ -82,7 +92,7 @@ public class RobotContainer {
 
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
-  private SlewRateLimiter m_slewLeftY = new SlewRateLimiter(1.5);
+  private SlewRateLimiter m_slewLeftY = new SlewRateLimiter(6);
 
   public double getInputLeftY() {
     double driverLeftY = modifyAxis(joystick.getLeftY());
@@ -92,7 +102,7 @@ public class RobotContainer {
     return slew;
   }
 
-  private SlewRateLimiter m_slewLeftX = new SlewRateLimiter(1.5);
+  private SlewRateLimiter m_slewLeftX = new SlewRateLimiter(6);
 
   public double getInputLeftX() {
     double driverLeftX = modifyAxis(joystick.getLeftX());
@@ -102,7 +112,7 @@ public class RobotContainer {
     return slew;
   }
 
-  private SlewRateLimiter m_slewRightX = new SlewRateLimiter(1.5);
+  private SlewRateLimiter m_slewRightX = new SlewRateLimiter(6);
 
   public double getInputRightX() {
     double driverRightX = modifyAxis(joystick.getRightX());
@@ -113,43 +123,82 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    m_indexer.setDefaultCommand(new Storage());
+    m_indexer.setDefaultCommand(new StoreOneNote());
 
     Command cmd;
 
-    leftTrigger.onTrue(Commands.runOnce(() -> slewLimit = 1.0));
-    leftTrigger.onFalse(Commands.runOnce(() -> slewLimit = 0.6));
+    leftTrigger.onTrue(Commands.runOnce(() -> boostLimit = 1.4));
+    leftTrigger.onFalse(Commands.runOnce(() -> boostLimit = 0.6));
 
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-        drivetrain.applyRequest(() -> drive.withVelocityX(-getInputLeftY()) // Drive forward with
-                                                                            // negative Y (forward)
-            .withVelocityY(-getInputLeftX()) // Drive left with negative X (left)
-            .withRotationalRate(-getInputRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
-        ).ignoringDisable(true));
+        drivetrain.applyRequest(
+            () -> drive.withVelocityX(getInputLeftY() * MaxSpeed * boostLimit
+                * m_joystickAlliance) // Drive
+                                      // forward
+                // with
+                // negative Y (forward)
+
+                .withVelocityY(getInputLeftX() * MaxSpeed * boostLimit
+                    * m_joystickAlliance) // Drive
+                                          // left
+                                          // with
+                                          // negative
+                                          // X
+                                          // (left)
+                .withRotationalRate(-getInputRightX() * MaxAngularRate) // Drive
+                                                                        // counterclockwise
+                                                                        // with
+                                                                        // negative
+                                                                        // X
+                                                                        // (left)
+        ).ignoringDisable(true)
+            .alongWith(m_tracking.NoTrackingMode()));
 
     // left trigger invoke target tracking
     // Rotation2d rot = new Rotation2d(Math.toRadians(0.0));
-    targetDrive.HeadingController.setP(3.0);
-    targetDrive.HeadingController.enableContinuousInput(0, 360);
+    targetDrive.HeadingController.setP(5.0);
+    targetDrive.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
     targetDrive.HeadingController.setIntegratorRange(-0.25, 0.25);
 
     joystick.leftBumper()
         .whileTrue(drivetrain
-            .applyRequest(() -> targetDrive.withVelocityX(m_tracking.getTarget_VelocityX(() -> -getInputLeftY()))
-                .withVelocityY(m_tracking.getTarget_VelocityY(() -> -getInputLeftX()))
+            .applyRequest(() -> targetDrive
+                .withVelocityX(
+                    m_tracking.getTarget_VelocityX_Adjusted(
+                        () -> -getInputLeftY()
+                            * m_joystickAlliance))
+                .withVelocityY(
+                    m_tracking.getTarget_VelocityY_Adjusted(
+                        () -> -getInputLeftX()
+                            * m_joystickAlliance))
                 .withTargetDirection(m_tracking.getTargetAngle()))
             .alongWith(m_tracking.TargetTrackingMode()));
 
     // right trigger invoke game piece tracking
     joystick.rightBumper()
-        .whileTrue(drivetrain.applyRequest(() -> gamePieceDrive.withVelocityX(m_tracking.getGamePiece_VelocityX())
-            .withVelocityY(m_tracking.getGamePiece_VelocityY())
-            .withRotationalRate(m_tracking.getGamePiece_RotationalRate()))
+        .whileTrue(drivetrain
+            .applyRequest(() -> gamePieceDrive
+                .withVelocityX(m_tracking.getGamePiece_VelocityX())
+                .withVelocityY(m_tracking.getGamePiece_VelocityY())
+                .withRotationalRate(m_tracking
+                    .getGamePiece_RotationalRate()))
             .alongWith(m_tracking.NoteTrackingMode()));
+
+    joystick.rightBumper().onTrue(new frc.robot.commands.Intake.Down()
+        .andThen(new frc.robot.commands.Intake.IntakeStart())
+        .andThen(new frc.robot.commands.Indexer.Stop())
+        .andThen(new frc.robot.commands.Shooter.Stop())
+        .andThen(new frc.robot.commands.Indexer.Intake())
+        .andThen(new WaitUntilCommand(() -> m_indexer.isNoteMiddle()))
+        .andThen(new frc.robot.commands.Intake.IntakeStop())
+        .andThen(new frc.robot.commands.Indexer.Stop())
+        .andThen(new frc.robot.commands.Intake.Up()));
 
     // deploy the intake
     joystick.a().onTrue(new frc.robot.commands.Intake.Down()
         .andThen(new frc.robot.commands.Intake.IntakeStart())
+        .andThen(new frc.robot.commands.Indexer.Stop())
+        .andThen(new frc.robot.commands.Shooter.Stop())
         .andThen(new frc.robot.commands.Indexer.Intake())
         .andThen(new WaitUntilCommand(() -> m_indexer.isNoteMiddle()))
         .andThen(new frc.robot.commands.Intake.IntakeStop())
@@ -179,8 +228,8 @@ public class RobotContainer {
         .andThen(new WaitCommand(1.0))
         .andThen(new frc.robot.commands.Shooter.Stop())
         .andThen(new frc.robot.commands.Indexer.Stop())
-        .withName("Shoot_a_Note")
-    /* */);
+        .withName("Shoot_a_Note"));
+    /* */
 
     // joystick.x().onTrue(new frc.robot.commands.Shooter.Reverse()
     // .andThen(new frc.robot.commands.Indexer.Reverse()
@@ -193,23 +242,23 @@ public class RobotContainer {
     // Rotation2d(-getInputLeftY(), getInputLeftX()))));
 
     joystick.pov(0).whileTrue(drivetrain.applyRequest(() -> drive
-        .withVelocityX(nudge) // Drive forward with negative Y (forward)
-        .withVelocityY(0) // Drive left with negative X (left)
+        .withVelocityX(nudge * m_joystickAlliance) // Drive forward with negative Y (forward)
+        .withVelocityY(0 * m_joystickAlliance) // Drive left with negative X (left)
         .withRotationalRate(-getInputRightX() * MaxAngularRate * nudgeanglepower)));
 
     joystick.pov(180).whileTrue(drivetrain.applyRequest(() -> drive
-        .withVelocityX(-nudge) // Drive forward with negative Y (forward)
-        .withVelocityY(0) // Drive left with negative X (left)
+        .withVelocityX(-nudge * m_joystickAlliance) // Drive forward with negative Y (forward)
+        .withVelocityY(0 * m_joystickAlliance) // Drive left with negative X (left)
         .withRotationalRate(-getInputRightX() * MaxAngularRate * nudgeanglepower)));
 
     joystick.pov(90).whileTrue(drivetrain.applyRequest(() -> drive
-        .withVelocityX(0) // Drive forward with negative Y (forward)
-        .withVelocityY(-nudge) // Drive left with negative X (left)
+        .withVelocityX(0 * m_joystickAlliance) // Drive forward with negative Y (forward)
+        .withVelocityY(-nudge * m_joystickAlliance) // Drive left with negative X (left)
         .withRotationalRate(-getInputRightX() * MaxAngularRate * nudgeanglepower)));
 
     joystick.pov(270).whileTrue(drivetrain.applyRequest(() -> drive
-        .withVelocityX(0) // Drive forward with negative Y (forward)
-        .withVelocityY(nudge) // Drive left with negative X (left)
+        .withVelocityX(0 * m_joystickAlliance) // Drive forward with negative Y (forward)
+        .withVelocityY(nudge * m_joystickAlliance) // Drive left with negative X (left)
         .withRotationalRate(-getInputRightX() * MaxAngularRate * nudgeanglepower)));
 
     // reset the field-centric heading on left bumper press
@@ -221,6 +270,8 @@ public class RobotContainer {
     this.resetFieldHeading();
 
     drivetrain.registerTelemetry(logger::telemeterize);
+
+    m_gridSelector.initialize();
 
   }
 
@@ -235,12 +286,14 @@ public class RobotContainer {
         DataLogManager.log("%%%%%%%%%% resetFieldHeading: Red.");
         drivetrain.seedFieldRelative(new Pose2d(15.25, 5.5,
             Rotation2d.fromDegrees(180)));
+        m_joystickAlliance = 1;
         return;
       }
     }
     DataLogManager.log("%%%%%%%%%% resetFieldHeading: Blue.");
     drivetrain.seedFieldRelative(new Pose2d(1.3, 5.5,
         Rotation2d.fromDegrees(0.0)));
+    m_joystickAlliance = -1;
   }
 
   private static double deadband(double value, double deadband) {
@@ -268,6 +321,10 @@ public class RobotContainer {
   public RobotContainer() {
 
     // Named Commands must be created BEFORE AUTOs and PATHs!!!!!!!!!!!!!!!!!!!!!
+    NamedCommands.registerCommand("Indexer.Storage",
+        new frc.robot.commands.Indexer.StoreOneNote()
+            .withTimeout(1.0));
+
     NamedCommands.registerCommand("Speaker.Middle",
         new frc.robot.commands.Speaker.Middle()
             .andThen(new frc.robot.commands.Shooter.Start())
@@ -286,17 +343,17 @@ public class RobotContainer {
             .withName("Auto.Indexer.Shoot.Fast"));
 
     NamedCommands.registerCommand("Indexer.Shoot",
-        new frc.robot.commands.Shooter.Start()
-            .andThen(new WaitUntilCommand(() -> m_shooter.isShooterReady()))
+        new WaitUntilCommand(() -> m_shooter.isShooterReady())
             .andThen(new frc.robot.commands.Indexer.Shoot())
-            .andThen(new WaitCommand(0.5))
-            .andThen(new frc.robot.commands.Shooter.Stop())
+            .andThen(new WaitCommand(0.15))
             .andThen(new frc.robot.commands.Indexer.Stop())
+            .andThen(new frc.robot.commands.Indexer.Intake())
             .withName("Auto.Indexer.Shoot"));
 
     NamedCommands.registerCommand("Intake.Down",
         new frc.robot.commands.Intake.Down()
             .andThen(new frc.robot.commands.Intake.IntakeStart())
+            .andThen(new frc.robot.commands.Indexer.Intake())
             .withName("Auto.Indexer.Down"));
 
     NamedCommands.registerCommand("Intake.Up",
@@ -314,7 +371,39 @@ public class RobotContainer {
             .andThen(new frc.robot.commands.Intake.Up()
                 .withName("Intake_a_Note")));
 
-    runAuto = drivetrain.getAutoPath("New Auto");
+    Command autoDrive = drivetrain
+        .applyRequest(() -> gamePieceDrive
+            .withVelocityX(m_tracking.getGamePiece_VelocityX() / 3)
+            .withVelocityY(m_tracking.getGamePiece_VelocityY() / 3)
+            .withRotationalRate(m_tracking.getGamePiece_RotationalRate()))
+        .alongWith(m_tracking.NoteTrackingMode());
+
+    Command cmd = new frc.robot.commands.Intake.Down()
+        .andThen(new frc.robot.commands.Intake.IntakeStart()
+            .andThen(drivetrain
+                .applyRequest(() -> gamePieceDrive.withVelocityX(
+                    m_tracking.getGamePiece_VelocityX())
+                    .withVelocityY(m_tracking
+                        .getGamePiece_VelocityY())
+                    .withRotationalRate(m_tracking
+                        .getGamePiece_RotationalRate()))
+                .alongWith(m_tracking.NoteTrackingMode())
+                .until(() -> m_indexer.isNoteBottom())
+                .withTimeout(2)
+                .withName("Auto Intake Note")));
+
+    NamedCommands.registerCommand("Auto.Pick.Up",
+        new frc.robot.commands.Intake.Down()
+            .andThen(new frc.robot.commands.Intake.IntakeStart()
+                .andThen(new frc.robot.commands.Indexer.Intake())
+                .andThen(autoDrive)
+                .until(() -> m_indexer.isNoteBottom())
+                .withTimeout(2)
+                .withName("Auto Intake Note")));
+
+    SmartDashboard.putData("Auto.Intake.Note", cmd);
+
+    runAuto = drivetrain.getAutoPath("Test");
 
     configureBindings();
     LiveWindow.enableTelemetry(m_indexer);
