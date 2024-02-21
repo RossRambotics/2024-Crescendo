@@ -66,6 +66,7 @@ public class LEDs extends SubsystemBase {
   private static boolean m_even = true;
 
   private static int m_counter = 0;
+  private boolean m_once = true;
 
   @Override
   public void periodic() {
@@ -76,9 +77,15 @@ public class LEDs extends SubsystemBase {
 
       if (DriverStation.isDisabled()) {
         // Turn panel to black
-        m_candle.setLEDs(100, 100, 100, 0, kPANEL_START + 8, 32 * 8);
+        RainbowAnimation animation = new RainbowAnimation(.5, .5, 24);
+        m_candle.animate(animation, 0);
+
       }
     } else {
+      if (m_once) {
+        m_once = false;
+        m_candle.clearAnimation(0);
+      }
       if (RobotContainer.m_indexer.isNoteBottom()) {
         this.showNoteDown();
       } else if (RobotContainer.m_indexer.isNoteTop()) {
@@ -90,15 +97,27 @@ public class LEDs extends SubsystemBase {
   }
 
   public void noteTrackingMode() {
-    this.showPoliceLights();
+    if (RobotContainer.m_tracking.isGamePieceFound()) {
+      this.showPoliceLights2();
+    } else {
+      this.showRed();
+    }
   }
 
   public void targetTrackingMode() {
-
+    if (RobotContainer.m_tracking.isTargetIDFound()) {
+      this.showTrackingLights();
+    } else {
+      this.showRed();
+    }
   }
 
   public void noTrackingMode() {
-    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 0, 24);
+    if (RobotContainer.m_indexer.isNoteMiddle()) {
+      this.showOrange();
+    } else {
+      this.showBlack();
+    }
   }
 
   public Command PixelOn() {
@@ -119,6 +138,10 @@ public class LEDs extends SubsystemBase {
     m_candle.setLEDs(225, 0, 0, 0, kPANEL_START + 0, 24);
   }
 
+  public void showBlack() {
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 0, 24);
+  }
+
   public void showOrange() {
     m_candle.setLEDs(225, 40, 0, 40, kPANEL_START + 0, 24);
   }
@@ -131,6 +154,33 @@ public class LEDs extends SubsystemBase {
     } else {
       // System.out.println("Blue");
       m_candle.setLEDs(0, 0, 225, 0, kPANEL_START + 0, 24);
+    }
+    return null;
+  }
+
+  public Void showPoliceLights2() {
+    m_Timer.hasElapsed(0.2);
+    if (m_even) {
+
+      m_candle.setLEDs(0, 0, 225, 0, kPANEL_START + 8 + 0, 6);
+      m_candle.setLEDs(225, 0, 0, 0, kPANEL_START + 8 + 6, 7);
+      m_candle.setLEDs(0, 0, 225, 0, kPANEL_START + 8 + 13, 1);
+    } else {
+      m_candle.setLEDs(225, 0, 0, 0, kPANEL_START + 8 + 0, 6);
+      m_candle.setLEDs(0, 0, 225, 0, kPANEL_START + 8 + 6, 7);
+      m_candle.setLEDs(225, 0, 0, 0, kPANEL_START + 8 + 13, 1);
+    }
+    return null;
+  }
+
+  public Void showTrackingLights() {
+    m_Timer.hasElapsed(0.2);
+    if (m_even) {
+      // System.out.println("green");
+      m_candle.setLEDs(0, 255, 0, 0, kPANEL_START + 0, 24);
+    } else {
+      // System.out.println("yellow");
+      m_candle.setLEDs(225, 225, 0, 0, kPANEL_START + 0, 24);
     }
     return null;
   }
