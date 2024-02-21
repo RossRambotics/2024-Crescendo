@@ -1,0 +1,74 @@
+<dashboard-tab
+    tab-name="TeleOperated"
+    slot="tab"
+    source-provider="NetworkTables"
+></dashboard-tab><dashboard-tab
+    slot="tab"
+    tab-name="Autonomous"
+    source-provider="NetworkTables"
+></dashboard-tab><dashboard-tab
+    tab-name="Oops"
+    slot="tab"
+    source-provider="NetworkTables"
+    selected=""
+><frc-camera-wrapper
+        source-provider="NetworkTables"
+        style="transform: translate(0px, 0px); width: 643.323px; height: 570.667px;"
+        streams="[]"
+        background-color="black"
+        wait-image="./no-camera-stream.jpg"
+        crosshair-color="white"
+    ></frc-camera-wrapper><frc-boolean-box
+        source-provider="NetworkTables"
+        style="transform: translate(584.334px, 428px); width: 46.6666px; height: 48.6667px;"
+        source-key="/Shuffleboard/Indexer/1-TopSensor"
+        label="top"
+    ></frc-boolean-box><frc-boolean-box
+        source-provider="NetworkTables"
+        style="transform: translate(583.636px, 473.334px); width: 47.9584px; height: 49.9792px;"
+        source-key="/Shuffleboard/Indexer/2-MiddleSensor"
+        label="mid"
+    ></frc-boolean-box><frc-boolean-box
+        source-provider="NetworkTables"
+        style="transform: translate(583px, 520.698px); width: 47.9791px; height: 49.9688px;"
+        source-key="/Shuffleboard/Indexer/3-BottomSensor"
+        label="bot"
+    ></frc-boolean-box><frc-voltage-view
+        source-provider="NetworkTables"
+        style="transform: translate(157.99px, 493.323px); width: 300px; height: 22.6667px;"
+        max="14"
+        min="7"
+    ></frc-voltage-view><frc-boolean-box
+        source-provider="NetworkTables"
+        style="transform: translate(478.667px, 475.332px);"
+        label="Intake"
+    ></frc-boolean-box><frc-boolean-box
+        source-provider="NetworkTables"
+        style="transform: translate(37.6667px, 476px);"
+    ></frc-boolean-box><frc-camera-wrapper
+        source-provider="NetworkTables"
+        style="transform: translate(643.344px, 0px); width: 636.667px; height: 570.667px;"
+        streams="[]"
+        background-color="black"
+        wait-image="./no-camera-stream.jpg"
+        crosshair-color="white"
+    ></frc-camera-wrapper><frc-gyro
+        source-provider="NetworkTables"
+        style="transform: translate(1140px, 410.667px); width: 140px; height: 134px;"
+    ></frc-gyro><frc-field-wrapper
+        source-key="/SmartDashboard/Field"
+        source-provider="NetworkTables"
+        style="transform: translate(162.666px, 0px); width: 327.333px; height: 111.99px;"
+        game="Crescendo"
+        grid-size="1"
+    >
+    </frc-field-wrapper><frc-boolean-box
+        source-provider="NetworkTables"
+        style="transform: translate(1037px, 482px);"
+        source-key="/Shuffleboard/Tracking/isGamePieceFound"
+        label="Note"
+    ></frc-boolean-box><frc-boolean-box
+        source-provider="NetworkTables"
+        style="transform: translate(935px, 482px);"
+        label="LimeLight"
+    ></frc-boolean-box></dashboard-tab>
