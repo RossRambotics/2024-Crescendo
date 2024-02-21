@@ -74,6 +74,7 @@ public class LEDs extends SubsystemBase {
     if (m_Timer.advanceIfElapsed(0.2)) {
       // Only run if not disabled
       m_even = !m_even;
+      m_once = true;
 
       if (DriverStation.isDisabled()) {
         // Turn panel to black
