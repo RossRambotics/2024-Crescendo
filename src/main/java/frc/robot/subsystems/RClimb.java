@@ -5,9 +5,14 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxAlternateEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -16,36 +21,46 @@ public class RClimb extends SubsystemBase {
  
   private final CANSparkMax m_rClimbMotor = new CANSparkMax(Constants.kRio_CAN_Climb_Right_Motor, MotorType.kBrushless);
 
-  double climbSpeed = -0.4;
+  double climbSpeed = 2;
   double climbmax = 1000;
   double climbmin = 0;
-  double mrClimbEncoder = m_rClimbMotor.getEncoder().getPosition();
+ 
 
   /** Creates a new Climb. */
   public RClimb() {
+    m_rClimbMotor.setInverted(true);
     m_rClimbMotor.getEncoder().setPosition(0);
     m_rClimbMotor.setIdleMode(IdleMode.kBrake);
-
+  
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
 
+
+    SmartDashboard.putNumber("Right Climb Motor Pos", m_rClimbMotor.getEncoder().getPosition());
+
+    if (m_rClimbMotor.getEncoder().getPosition() >= 250 && m_rClimbMotor.getEncoder().getVelocity() > 0) {
+    m_rClimbMotor.set(0);
+    }
+
+    if (m_rClimbMotor.getEncoder().getPosition() <= 0 && m_rClimbMotor.getEncoder().getVelocity() < 0) {
+    m_rClimbMotor.set(0);
+    }
+
   }
 
   public void rClimbUp() {
-    m_rClimbMotor.set(-climbSpeed);
+    m_rClimbMotor.set(climbSpeed);
+
+
+    
   }
 
   public void rClimbDown() {
-    // if (mrClimbEncoder <= 10) {
-    // m_rClimbMotor.set(0);
-    // } else {
-    // m_rClimbMotor.set(climbSpeed);
-    // }
 
-    m_rClimbMotor.set(climbSpeed);
+    m_rClimbMotor.set(-climbSpeed);
 
   }
 
