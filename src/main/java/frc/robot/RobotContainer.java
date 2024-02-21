@@ -83,7 +83,7 @@ public class RobotContainer {
 
   private static double slewLimit = 0.6;
   private static double rslewlimit = 0.3;
-  private static double boostLimit = 0.6;
+  private static double boostLimit = 0.4;
   private static double nudge = 0.7;
   private static double nudgeanglepower = .2;
 
@@ -128,7 +128,7 @@ public class RobotContainer {
     Command cmd;
 
     leftTrigger.onTrue(Commands.runOnce(() -> boostLimit = 1.4));
-    leftTrigger.onFalse(Commands.runOnce(() -> boostLimit = 0.6));
+    leftTrigger.onFalse(Commands.runOnce(() -> boostLimit = 0.4));
 
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
         drivetrain.applyRequest(

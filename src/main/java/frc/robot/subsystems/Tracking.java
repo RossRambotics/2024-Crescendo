@@ -260,7 +260,7 @@ public class Tracking extends SubsystemBase {
     switch (targetID) {
       case 7:
       case 4:
-        goal = -1.0; // TODO tune this
+        goal = -1.05; // TODO tune this
         break;
       default:
         goal = 0.0;
@@ -274,7 +274,7 @@ public class Tracking extends SubsystemBase {
     // see if we should just use the joystick because we aren't on heading or too
     // far away, etc.
     double angleError = this.getTargetAngle().getDegrees() - m_CurrentHeading;
-    if (Math.abs(angleError) > 5 || !isTargetIDFound() || m_TargetDistance.getDouble(5) > 3.0) {
+    if (Math.abs(angleError) > 5 || !isTargetIDFound() || m_TargetDistance.getDouble(3) > 3.0) {
       return joystick_value.getAsDouble();
     }
 
@@ -295,7 +295,7 @@ public class Tracking extends SubsystemBase {
     // see if we should just use the joystick because we aren't on heading or too
     // far away, etc.
     double angleError = this.getTargetAngle().getDegrees() - m_CurrentHeading;
-    if (Math.abs(angleError) > 5 || !isTargetIDFound() || m_TargetDistance.getDouble(5) > 3.0) {
+    if (Math.abs(angleError) > 5 || !isTargetIDFound() || m_TargetDistance.getDouble(3) > 3.0) {
       return joystick_value.getAsDouble();
     }
 
@@ -315,9 +315,9 @@ public class Tracking extends SubsystemBase {
     double offset = -m_TargetOffset.getDouble(0.0);
     double answer = 0.0;
 
-    double deadzone = 0.02; // TODO tune this
-    double kP = 2.0; // TODO tune this
-    double kS = 0.2; // TODO tune this
+    double deadzone = 0.1; // TODO tune this
+    double kP = 1.5; // TODO tune this
+    double kS = 0.5; // TODO tune this
 
     if (offset < 0.0) {
       kS = kS * -1;
@@ -339,9 +339,9 @@ public class Tracking extends SubsystemBase {
 
     double offset = getTargetDistanceError();
 
-    double deadzone = 0.05; // TODO tune this
-    double kP = 0.5; // TODO tune this
-    double kS = 1; // TODO tune this
+    double deadzone = 0.1; // TODO tune this
+    double kP = 1.5; // TODO tune this
+    double kS = 0.5; // TODO tune this
 
     if (offset < 0.0) {
       kS = kS * -1;
