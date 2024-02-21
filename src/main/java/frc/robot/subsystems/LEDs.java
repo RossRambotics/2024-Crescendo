@@ -48,7 +48,7 @@ public class LEDs extends SubsystemBase {
     CANdleConfiguration configALL = new CANdleConfiguration();
     configALL.disableWhenLOS = false;
     configALL.stripType = LEDStripType.GRB;
-    configALL.brightnessScalar = 0.1; // dim the LEDs to half brightness
+    configALL.brightnessScalar = 0.1; // dim the LEDs to 10% brightness
     // configALL.vBatOutputMode = VBatOutputMode.Modulated;
     m_candle.configAllSettings(configALL, 100);
     m_Timer.start();
@@ -98,6 +98,11 @@ public class LEDs extends SubsystemBase {
   }
 
   public void noteTrackingMode() {
+    // if we have a note go orange
+    if (RobotContainer.m_indexer.isNoteMiddle()) {
+      this.showOrange();
+      return;
+    }
     if (RobotContainer.m_tracking.isGamePieceFound()) {
       this.showPoliceLights2();
     } else {
