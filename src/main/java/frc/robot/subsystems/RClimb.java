@@ -21,7 +21,7 @@ public class RClimb extends SubsystemBase {
  
   private final CANSparkMax m_rClimbMotor = new CANSparkMax(Constants.kRio_CAN_Climb_Right_Motor, MotorType.kBrushless);
 
-  double climbSpeed = 2;
+  double climbSpeed = 1;
   double climbmax = 1000;
   double climbmin = 0;
  
@@ -29,7 +29,7 @@ public class RClimb extends SubsystemBase {
   /** Creates a new Climb. */
   public RClimb() {
     m_rClimbMotor.setInverted(true);
-    m_rClimbMotor.getEncoder().setPosition(0);
+    m_rClimbMotor.getEncoder().setPosition(3);
     m_rClimbMotor.setIdleMode(IdleMode.kBrake);
   
   }

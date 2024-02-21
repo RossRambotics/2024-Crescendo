@@ -18,14 +18,14 @@ public class LClimb extends SubsystemBase {
 
   private final CANSparkMax m_lClimbMotor = new CANSparkMax(Constants.kRio_CAN_Climb_Left_Motor, MotorType.kBrushless);
   
-  double climbSpeed = 2;
+  double climbSpeed = 1;
   double climbmax = 1000;
   double climbmin = 0;
   
 
   /** Creates a new Climb. */
   public LClimb() {
-    m_lClimbMotor.getEncoder().setPosition(0);
+    m_lClimbMotor.getEncoder().setPosition(3);
     m_lClimbMotor.setIdleMode(IdleMode.kBrake);
 
   }
