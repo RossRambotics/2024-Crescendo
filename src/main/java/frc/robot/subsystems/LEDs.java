@@ -80,18 +80,18 @@ public class LEDs extends SubsystemBase {
         RainbowAnimation animation = new RainbowAnimation(.5, .5, 24);
         m_candle.animate(animation, 0);
 
-      }
-    } else {
-      if (m_once) {
-        m_once = false;
-        m_candle.clearAnimation(0);
-      }
-      if (RobotContainer.m_indexer.isNoteBottom()) {
-        this.showNoteDown();
-      } else if (RobotContainer.m_indexer.isNoteTop()) {
-        this.showNoteUp();
-      } else if (RobotContainer.m_indexer.isNoteMiddle()) {
-        this.showNote();
+      } else {
+        if (m_once) {
+          m_once = false;
+          m_candle.clearAnimation(0);
+        }
+        if (RobotContainer.m_indexer.isNoteBottom()) {
+          this.showNoteDown();
+        } else if (RobotContainer.m_indexer.isNoteTop()) {
+          this.showNoteUp();
+        } else if (RobotContainer.m_indexer.isNoteMiddle()) {
+          this.showNote();
+        }
       }
     }
   }
