@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7113445212805922,
-      "y": 6.474938020298576
+      "x": 0.8099299203965142,
+      "y": 6.564499998409658
     },
-    "rotation": 64.53665493812841
+    "rotation": 60.467903755066615
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": null
+            "name": "Speaker.Middle"
           }
         },
         {
