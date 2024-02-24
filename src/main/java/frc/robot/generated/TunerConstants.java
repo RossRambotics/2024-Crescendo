@@ -60,8 +60,8 @@ public class TunerConstants {
         private static final double kSteerInertia = 0.00001;
         private static final double kDriveInertia = 0.001;
         // Simulated voltage necessary to overcome friction
-        private static final double kSteerFrictionVoltage = 0.25;
-        private static final double kDriveFrictionVoltage = 0.25;
+        private static final double kSteerFrictionVoltage = .25;
+        private static final double kDriveFrictionVoltage = 7;
 
         private static final SwerveDrivetrainConstants DrivetrainConstants = new SwerveDrivetrainConstants()
                         .withPigeon2Id(kPigeonId)

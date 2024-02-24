@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.robot.commands.RClimb.RClimbUp;
 
 public class RobotMechanism extends SubsystemBase {
   Mechanism2d mech = new Mechanism2d(4, 4);
@@ -66,10 +67,8 @@ public class RobotMechanism extends SubsystemBase {
   private boolean m_firstTime = true;
 
   @Override
+
   public void periodic() {
-    if (Robot.isReal()) {
-      return;
-    }
     if (m_firstTime) {
       m_firstTime = false;
       SmartDashboard.putData("Indexer.Shoot", new frc.robot.commands.Indexer.Shoot().andThen(new WaitCommand(10)));
@@ -96,72 +95,86 @@ public class RobotMechanism extends SubsystemBase {
       SmartDashboard.putData("Speaker.Right", new frc.robot.commands.Speaker.Right());
       SmartDashboard.putData("Speaker.Left", new frc.robot.commands.Speaker.Left());
       SmartDashboard.putData("Amp.Shoot", new frc.robot.commands.Amp.Shoot());
-
-      Command c = new frc.robot.commands.Shooter.Start()
-          .andThen(new frc.robot.commands.Indexer.Shoot())
-          .andThen(new WaitCommand(2.0))
-          .andThen(new frc.robot.commands.Shooter.Stop())
-          .andThen(new frc.robot.commands.Indexer.Stop());
-
-      SmartDashboard.putData("Robot.ShootSpeaker", c);
-
+      SmartDashboard.putData("LClimbDown", new frc.robot.commands.LClimb.LClimbDown());
+      SmartDashboard.putData("LClimbUp", new frc.robot.commands.LClimb.LClimbUp());
+      SmartDashboard.putData("LClimbStop", new frc.robot.commands.LClimb.LClimbStop());
+      SmartDashboard.putData("RClimbDown", new frc.robot.commands.RClimb.RClimbDown());
+      SmartDashboard.putData("RClimbUp", new frc.robot.commands.RClimb.RClimbUp());
+      SmartDashboard.putData("RClimbStop", new frc.robot.commands.RClimb.RClimbStop());
+      if (Robot.isReal()) {
+        return;
+      }
     }
+    // Command c = new frc.robot.commands.Shooter.Start()
+    // .andThen(new frc.robot.commands.Indexer.Shoot())
+    // .andThen(new WaitCommand(2.0))
+    // .andThen(new frc.robot.commands.Shooter.Stop())
+    // .andThen(new frc.robot.commands.Indexer.Stop());
 
-    // This method will be called once per scheduler run
-    m_simFrame += 5;
-    if (m_simFrame > 10000) {
-      m_simFrame = 0;
-    }
+    // SmartDashboard.putData("Robot.ShootSpeaker", c);
 
-    indexerTL.setAngle(RobotContainer.m_indexer.getTopMotorSpeed() * m_simFrame * 0.05);
-    indexerTR.setAngle(-RobotContainer.m_indexer.getTopMotorSpeed() * m_simFrame * 0.05);
+    // }
 
-    indexerBL.setAngle(RobotContainer.m_indexer.getBottomMotorSpeed() * m_simFrame * 0.05);
-    indexerBR.setAngle(-RobotContainer.m_indexer.getBottomMotorSpeed() * m_simFrame * 0.05);
+    // // This method will be called once per scheduler run
+    // m_simFrame += 5;
+    // if (m_simFrame > 10000) {
+    // m_simFrame = 0;
+    // }
 
-    intake.setAngle(RobotContainer.m_intake.getMotorSpeed() * m_simFrame * 0.05);
+    // indexerTL.setAngle(RobotContainer.m_indexer.getTopMotorSpeed() * m_simFrame *
+    // 0.05);
+    // indexerTR.setAngle(-RobotContainer.m_indexer.getTopMotorSpeed() * m_simFrame
+    // * 0.05);
 
-    // shooter to falcons units is rotations per second, so convert to degrees
-    shooterTopAngle += RobotContainer.m_shooter.getTopMotorSpeed() * 360 * 0.01;
-    shooterBottomAngle += RobotContainer.m_shooter.getBottomMotorSpeed() * 360 * 0.01;
-    if (shooterTopAngle > 360.0) {
-      shooterTopAngle -= 360.0;
-    }
+    // indexerBL.setAngle(RobotContainer.m_indexer.getBottomMotorSpeed() *
+    // m_simFrame * 0.05);
+    // indexerBR.setAngle(-RobotContainer.m_indexer.getBottomMotorSpeed() *
+    // m_simFrame * 0.05);
 
-    if (shooterBottomAngle > 360.0) {
-      shooterBottomAngle -= 360.0;
-    }
+    // intake.setAngle(RobotContainer.m_intake.getMotorSpeed() * m_simFrame * 0.05);
 
-    shooterTop.setAngle(shooterTopAngle);
-    shooterBottom.setAngle(-shooterBottomAngle);
+    // // shooter to falcons units is rotations per second, so convert to degrees
+    // shooterTopAngle += RobotContainer.m_shooter.getTopMotorSpeed() * 360 * 0.01;
+    // shooterBottomAngle += RobotContainer.m_shooter.getBottomMotorSpeed() * 360 *
+    // 0.01;
+    // if (shooterTopAngle > 360.0) {
+    // shooterTopAngle -= 360.0;
+    // }
 
-    if (RobotContainer.m_intake.isIntakeExtended()) {
-      intakePistons.setAngle(270);
-      intakePistons.setColor(new Color8Bit(Color.kYellow));
-    } else {
-      intakePistons.setAngle(90);
-      intakePistons.setColor(new Color8Bit(Color.kGreen));
-    }
+    // if (shooterBottomAngle > 360.0) {
+    // shooterBottomAngle -= 360.0;
+    // }
 
-    if (RobotContainer.m_indexer.isNoteTop()) {
-      topSensor.setColor(new Color8Bit(Color.kRed));
-    } else {
-      topSensor.setColor(new Color8Bit(Color.kWhite));
-    }
+    // shooterTop.setAngle(shooterTopAngle);
+    // shooterBottom.setAngle(-shooterBottomAngle);
 
-    if (RobotContainer.m_indexer.isNoteMiddle()) {
-      middleSensor.setColor(new Color8Bit(Color.kRed));
-    } else {
-      middleSensor.setColor(new Color8Bit(Color.kWhite));
-    }
+    // if (RobotContainer.m_intake.isIntakeExtended()) {
+    // intakePistons.setAngle(270);
+    // intakePistons.setColor(new Color8Bit(Color.kYellow));
+    // } else {
+    // intakePistons.setAngle(90);
+    // intakePistons.setColor(new Color8Bit(Color.kGreen));
+    // }
 
-    if (RobotContainer.m_indexer.isNoteBottom()) {
-      bottomSensor.setColor(new Color8Bit(Color.kRed));
-    } else {
-      bottomSensor.setColor(new Color8Bit(Color.kWhite));
-    }
+    // if (RobotContainer.m_indexer.isNoteTop()) {
+    // topSensor.setColor(new Color8Bit(Color.kRed));
+    // } else {
+    // topSensor.setColor(new Color8Bit(Color.kWhite));
+    // }
 
-    SmartDashboard.putData("robot", mech); // Creates mech2d in SmartDashboard
+    // if (RobotContainer.m_indexer.isNoteMiddle()) {
+    // middleSensor.setColor(new Color8Bit(Color.kRed));
+    // } else {
+    // middleSensor.setColor(new Color8Bit(Color.kWhite));
+    // }
+
+    // if (RobotContainer.m_indexer.isNoteBottom()) {
+    // bottomSensor.setColor(new Color8Bit(Color.kRed));
+    // } else {
+    // bottomSensor.setColor(new Color8Bit(Color.kWhite));
+    // }
+
+    // SmartDashboard.putData("robot", mech); // Creates mech2d in SmartDashboard
 
   }
 

@@ -14,6 +14,7 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Indexer": "Subsystem",
       "/LiveWindow/Tracking": "Subsystem",
       "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
       "/Pose": "Field2d",
@@ -36,10 +37,16 @@
       "/SmartDashboard/Intake.IntakeStop": "Command",
       "/SmartDashboard/Intake.IntakeUp": "Command",
       "/SmartDashboard/Intake.StopUp": "Command",
+      "/SmartDashboard/LClimbDown": "Command",
+      "/SmartDashboard/LClimbStop": "Command",
+      "/SmartDashboard/LClimbUp": "Command",
       "/SmartDashboard/Module 0": "Mechanism2d",
       "/SmartDashboard/Module 1": "Mechanism2d",
       "/SmartDashboard/Module 2": "Mechanism2d",
       "/SmartDashboard/Module 3": "Mechanism2d",
+      "/SmartDashboard/RClimbDown": "Command",
+      "/SmartDashboard/RClimbStop": "Command",
+      "/SmartDashboard/RClimbUp": "Command",
       "/SmartDashboard/Robot Pose": "Field2d",
       "/SmartDashboard/Robot.ResetPose": "Command",
       "/SmartDashboard/Robot.ShootSpeaker": "Command",
@@ -62,9 +69,22 @@
         "left": 150,
         "right": 2961,
         "top": 79,
-        "width": 16.541748046875
+        "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
       },
       "/SmartDashboard/Indexer.Shoot": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/LClimbDown": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/LClimbUp": {
         "window": {
           "visible": true
         }

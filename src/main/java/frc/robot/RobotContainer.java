@@ -95,7 +95,7 @@ public class RobotContainer {
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
-    private SlewRateLimiter m_slewLeftY = new SlewRateLimiter(1.5);
+    private SlewRateLimiter m_slewLeftY = new SlewRateLimiter(5);
 
     public double getInputLeftY() {
         double driverLeftY = modifyAxis(joystick.getLeftY());
@@ -105,7 +105,7 @@ public class RobotContainer {
         return slew;
     }
 
-    private SlewRateLimiter m_slewLeftX = new SlewRateLimiter(1.5);
+    private SlewRateLimiter m_slewLeftX = new SlewRateLimiter(5);
 
     public double getInputLeftX() {
         double driverLeftX = modifyAxis(joystick.getLeftX());
