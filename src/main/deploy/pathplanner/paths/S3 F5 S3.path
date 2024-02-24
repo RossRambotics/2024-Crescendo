@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7,
-        "y": 4.62
+        "x": 0.7402504945854966,
+        "y": 4.50933183556508
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.93935385724081,
-        "y": 0.3965134227227311
+        "x": 2.979604351826307,
+        "y": 0.28584525828781077
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "S3"
     },
     {
       "anchor": {
@@ -32,19 +32,25 @@
     },
     {
       "anchor": {
-        "x": 0.7,
-        "y": 4.62
+        "x": 0.7402504945854966,
+        "y": 4.50933183556508
       },
       "prevControl": {
-        "x": 2.93935385724081,
-        "y": 0.3818277403996678
+        "x": 2.979604351826307,
+        "y": 0.2711595759647475
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "S3"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -56,7 +62,7 @@
   "goalEndState": {
     "velocity": 0,
     "rotation": -63.10931913743944,
-    "rotateFast": false
+    "rotateFast": true
   },
   "reversed": false,
   "folder": null,

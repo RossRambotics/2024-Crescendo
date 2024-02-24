@@ -1,0 +1,99 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.2624379142839282,
+      "y": 5.521670357982461
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "Speaker.Middle"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.15
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Indexer.Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake.Down"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "S2 F2 S2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Indexer.Storage"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Indexer.Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake.Down"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "S2 F1 S2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Indexer.Storage"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake.Down"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
