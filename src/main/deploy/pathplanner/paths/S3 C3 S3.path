@@ -3,51 +3,56 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.25,
-        "y": 5.51
+        "x": 0.7402504945854966,
+        "y": 4.50933183556508
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.844371753144222,
-        "y": 7.298784114562863
+        "x": 1.6910708597803608,
+        "y": 4.009191274196502
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "S3"
     },
     {
       "anchor": {
-        "x": 8.094028352636311,
-        "y": 7.4309552554704394
+        "x": 2.4987833875488867,
+        "y": 4.067934003488759
       },
       "prevControl": {
-        "x": 7.69751492991358,
-        "y": 7.313469796885927
+        "x": 2.2638124703798606,
+        "y": 4.067934003488759
       },
       "nextControl": {
-        "x": 8.30877023558549,
-        "y": 7.494582480047974
+        "x": 2.9867037443216296,
+        "y": 4.067934003488759
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.25,
-        "y": 5.51
+        "x": 0.7402504945854966,
+        "y": 4.50933183556508
       },
       "prevControl": {
-        "x": 7.87374311779035,
-        "y": 7.269412749916735
+        "x": 1.6910708597803608,
+        "y": 3.9945055918734385
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "S3"
     }
   ],
   "rotationTargets": [
     {
       "waypointRelativePos": 1,
-      "rotationDegrees": 13.570434385161434,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 1.35,
+      "rotationDegrees": 0,
       "rotateFast": false
     }
   ],
@@ -61,13 +66,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": -59.979575338967635,
     "rotateFast": true
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -60.25827982459513,
     "velocity": 0
   },
   "useDefaultConstraints": true
