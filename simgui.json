@@ -17,6 +17,8 @@
       "/LiveWindow/Tracking": "Subsystem",
       "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
       "/Pose": "Field2d",
+      "/Shuffleboard/LEDs/PixelOff": "Command",
+      "/Shuffleboard/LEDs/PixelOn": "Command",
       "/SmartDashboard/Amp.Shoot": "Command",
       "/SmartDashboard/Auto.Intake.Note": "Command",
       "/SmartDashboard/Indexer.Intake": "Command",
@@ -73,7 +75,10 @@
         "left": 150,
         "right": 2961,
         "top": 79,
-        "width": 16.541748046875
+        "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
       },
       "/SmartDashboard/Robot.ResetPose": {
         "window": {

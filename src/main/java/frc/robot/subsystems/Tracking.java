@@ -140,16 +140,16 @@ public class Tracking extends SubsystemBase {
 
   @Override
   public void periodic() {
-    double d = 0.0;
+    double dv = 0.0;
 
     // This method will be called once per scheduler run
 
     // do we see the correct target
-    d = m_LL_Tracking.getEntry("tv").getDouble(0);
-    if (d > 0.0) {
+    dv = m_LL_Tracking.getEntry("tv").getDouble(0);
+    if (dv > 0.0) {
       // saw an april tag... so check if it is the correct one
       double da = m_LL_Tracking.getEntry("tid").getDouble(-1.0);
-      if (da > 0 && da == m_TargetID.getDouble(-1.0)) {
+      if (dv > 0 && da == m_TargetID.getDouble(-1.0)) {
         m_isTargetIDFound.setBoolean(true);
       } else {
         m_isTargetIDFound.setBoolean(false);
@@ -157,8 +157,8 @@ public class Tracking extends SubsystemBase {
     }
 
     // do we see a game piece
-    d = m_LL_GamePiece.getEntry("tv").getDouble(0);
-    if (d > 0) {
+    dv = m_LL_GamePiece.getEntry("tv").getDouble(0);
+    if (dv > 0) {
       m_isGamePieceFound.setBoolean(true);
     } else {
       m_isGamePieceFound.setBoolean(false);
@@ -260,7 +260,7 @@ public class Tracking extends SubsystemBase {
     switch (targetID) {
       case 7:
       case 4:
-        goal = -1.15; // TODO tune this
+        goal = -1.1; // TODO tune this
         break;
       default:
         goal = 0.0;
@@ -274,7 +274,18 @@ public class Tracking extends SubsystemBase {
     // see if we should just use the joystick because we aren't on heading or too
     // far away, etc.
     double angleError = this.getTargetAngle().getDegrees() - m_CurrentHeading;
-    if (Math.abs(angleError) > 5 || !isTargetIDFound() || m_TargetDistance.getDouble(3) > 3.0) {
+
+    DataLogManager.log(
+        "Angle Error: " + angleError + " Found?: " + isTargetIDFound() + " Distance: " + m_TargetDistance.getDouble(3));
+
+    if (Math.abs(angleError) > 5) {
+      return joystick_value.getAsDouble();
+    }
+    if ((!isTargetIDFound())) {
+      return joystick_value.getAsDouble();
+    }
+
+    if (Math.abs(m_TargetDistance.getDouble(5)) > 5.0) {
       return joystick_value.getAsDouble();
     }
 
@@ -295,7 +306,17 @@ public class Tracking extends SubsystemBase {
     // see if we should just use the joystick because we aren't on heading or too
     // far away, etc.
     double angleError = this.getTargetAngle().getDegrees() - m_CurrentHeading;
-    if (Math.abs(angleError) > 5 || !isTargetIDFound() || m_TargetDistance.getDouble(3) > 3.0) {
+
+    DataLogManager.log(
+        "Angle Error: " + angleError + " Found?: " + isTargetIDFound() + " Distance: " + m_TargetDistance.getDouble(3));
+
+    if (Math.abs(angleError) > 5) {
+      return joystick_value.getAsDouble();
+    }
+    if ((!isTargetIDFound())) {
+      return joystick_value.getAsDouble();
+    }
+    if (Math.abs(m_TargetDistance.getDouble(5)) > 5.0) {
       return joystick_value.getAsDouble();
     }
 
@@ -315,7 +336,7 @@ public class Tracking extends SubsystemBase {
     double offset = -m_TargetOffset.getDouble(0.0);
     double answer = 0.0;
 
-    double deadzone = 0.1; // TODO tune this
+    double deadzone = 0.5; // TODO tune this
     double kP = 1.5; // TODO tune this
     double kS = 0.5; // TODO tune this
 
@@ -339,7 +360,7 @@ public class Tracking extends SubsystemBase {
 
     double offset = getTargetDistanceError();
 
-    double deadzone = 0.1; // TODO tune this
+    double deadzone = 0.05; // TODO tune this
     double kP = 1.5; // TODO tune this
     double kS = 0.5; // TODO tune this
 

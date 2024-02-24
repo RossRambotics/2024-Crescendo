@@ -19,5 +19,6 @@ public final class Constants {
 
     public static final int kRio_CAN_CANDLE = 30;
     public static final int PNEUMATIC_HUB = 50;
+    public static final int pDP = 51;
 
 }

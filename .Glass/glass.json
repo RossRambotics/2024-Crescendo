@@ -15,14 +15,12 @@
           "DigitalInput[0]": {
             "open": true
           }
-        },
-        "open": true
+        }
       },
       "Shuffleboard": {
         "Tracking": {
           "open": true
-        },
-        "open": true
+        }
       },
       "SmartDashboard": {
         "Module 1": {

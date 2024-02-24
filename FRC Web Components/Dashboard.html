@@ -18,6 +18,7 @@
         background-color="black"
         wait-image="./no-camera-stream.jpg"
         crosshair-color="white"
+        source-key="/CameraPublisher/limelight-target"
     ></frc-camera-wrapper><frc-boolean-box
         source-provider="NetworkTables"
         style="transform: translate(584.334px, 428px); width: 46.6666px; height: 48.6667px;"
@@ -42,6 +43,7 @@
         source-provider="NetworkTables"
         style="transform: translate(478.667px, 475.332px);"
         label="Intake"
+        source-key="/SmartDashboard/isIntakeDown?"
     ></frc-boolean-box><frc-boolean-box
         source-provider="NetworkTables"
         style="transform: translate(37.6667px, 476px);"
@@ -52,17 +54,13 @@
         background-color="black"
         wait-image="./no-camera-stream.jpg"
         crosshair-color="white"
+        source-key="/CameraPublisher/limelight-note"
     ></frc-camera-wrapper><frc-gyro
         source-provider="NetworkTables"
         style="transform: translate(1140px, 410.667px); width: 140px; height: 134px;"
-    ></frc-gyro><frc-field-wrapper
-        source-key="/SmartDashboard/Field"
-        source-provider="NetworkTables"
-        style="transform: translate(162.666px, 0px); width: 327.333px; height: 111.99px;"
-        game="Crescendo"
-        grid-size="1"
-    >
-    </frc-field-wrapper><frc-boolean-box
+        source-key="/SmartDashboard/Gyro Heading"
+        precision="1"
+    ></frc-gyro><frc-boolean-box
         source-provider="NetworkTables"
         style="transform: translate(1037px, 482px);"
         source-key="/Shuffleboard/Tracking/isGamePieceFound"
@@ -70,5 +68,6 @@
     ></frc-boolean-box><frc-boolean-box
         source-provider="NetworkTables"
         style="transform: translate(935px, 482px);"
-        label="LimeLight"
+        label="April Tag"
+        source-key="/Shuffleboard/Tracking/isTargetIDFound"
     ></frc-boolean-box></dashboard-tab>

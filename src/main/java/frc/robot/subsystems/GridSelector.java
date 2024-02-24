@@ -5,18 +5,23 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.RClimb.*;
+import frc.robot.Constants;
 import frc.robot.commands.LClimb.*;
 
 /** Add your docs here. */
 public class GridSelector extends SubsystemBase {
     private Joystick m_bbox1 = new Joystick(1);
     private Joystick m_bbox2 = new Joystick(2);
+    PowerDistribution pDP = new PowerDistribution(Constants.pDP, ModuleType.kRev);
 
     /** Creates a new GridSelector2. */
     public GridSelector() {
@@ -60,12 +65,12 @@ public class GridSelector extends SubsystemBase {
         Trigger btnIntakeOff = new JoystickButton(m_bbox2, 1);
         cmd = new frc.robot.commands.Intake.IntakeStop()
                 .andThen(new frc.robot.commands.Intake.Up());
-        btnIntakeOff.whileTrue(cmd);
+        btnIntakeOff.onTrue(cmd);
 
         Trigger btnIntakeIn = new JoystickButton(m_bbox2, 2);
         cmd = new frc.robot.commands.Intake.Up()
                 .andThen(new frc.robot.commands.Intake.IntakeStart());
-        btnIntakeIn.whileTrue(cmd);
+        btnIntakeIn.onTrue(cmd);
 
         Trigger btnIntakeReverse = new JoystickButton(m_bbox2, 2);
         cmd = new frc.robot.commands.Intake.IntakeReverse();
@@ -125,5 +130,6 @@ public class GridSelector extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("Battery Volts", pDP.getVoltage());
     }
 }
