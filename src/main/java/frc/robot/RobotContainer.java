@@ -225,13 +225,16 @@ public class RobotContainer {
                 .andThen(new frc.robot.commands.Shooter.Stop()));
 
         // shoot
-        rightTrigger.onTrue(new frc.robot.commands.Shooter.Start()
+        Command shoot = new frc.robot.commands.Shooter.Start()
                 .andThen(new WaitUntilCommand(() -> m_shooter.isShooterReady()))
                 .andThen(new frc.robot.commands.Indexer.Shoot())
                 .andThen(new WaitCommand(1.0))
                 .andThen(new frc.robot.commands.Shooter.Stop())
                 .andThen(new frc.robot.commands.Indexer.Stop())
-                .withName("Shoot_a_Note"));
+                .withName("Shoot_a_Note");
+        rightTrigger.onTrue(shoot);
+
+        SmartDashboard.putData("Indexer.Shooter", shoot);
         /* */
 
         // joystick.x().onTrue(new frc.robot.commands.Shooter.Reverse()
@@ -406,7 +409,7 @@ public class RobotContainer {
 
         SmartDashboard.putData("Auto.Intake.Note", cmd);
 
-        runAuto = drivetrain.getAutoPath("Four Note");
+        runAuto = drivetrain.getAutoPath("Testing Far Auton");
 
         configureBindings();
         LiveWindow.enableTelemetry(m_indexer);

@@ -27,7 +27,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
 
     m_robotContainer.drivetrain.getDaqThread().setThreadPriority(99);
-
+    m_robotContainer.m_intake.startCompresser();
   }
 
   @Override

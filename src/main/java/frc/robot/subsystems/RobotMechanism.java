@@ -71,7 +71,7 @@ public class RobotMechanism extends SubsystemBase {
   public void periodic() {
     if (m_firstTime) {
       m_firstTime = false;
-      SmartDashboard.putData("Indexer.Shoot", new frc.robot.commands.Indexer.Shoot().repeatedly());
+
       SmartDashboard.putData("Indexer.Reverse", new frc.robot.commands.Indexer.Reverse().repeatedly());
       SmartDashboard.putData("Indexer.Stop", new frc.robot.commands.Indexer.Stop());
       SmartDashboard.putData("Indexer.Intake", new frc.robot.commands.Indexer.Intake().repeatedly());

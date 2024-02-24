@@ -10,11 +10,13 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.RClimb.*;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.commands.LClimb.*;
 
 /** Add your docs here. */
@@ -53,10 +55,11 @@ public class GridSelector extends SubsystemBase {
         // cmd = new frc.robot.commands.Shooter.Start();
         // btnTrap.onTrue(cmd);
 
-        // add Pass command
-        // Trigger btnPass = new JoystickButton(m_bbox2, 11);
-        // cmd = new frc.robot.commands.Shooter.Start();
-        // btnPass.onTrue(cmd);
+        // Removes the climb limits when the climb is being held down
+        Trigger btnPass = new JoystickButton(m_bbox2, 12);
+        cmd = RobotContainer.m_lClimb.getOverRideCommand()
+                .alongWith(RobotContainer.m_rClimb.getOverRideCommand());
+        btnPass.whileTrue(cmd);
 
         Trigger btnAmp = new JoystickButton(m_bbox1, 11);
         cmd = new frc.robot.commands.Amp.Shoot();
@@ -80,10 +83,9 @@ public class GridSelector extends SubsystemBase {
         cmd = new frc.robot.commands.Indexer.Shoot().repeatedly();
         btnIndexerShoot.whileTrue(cmd);
 
-        // add indexer forward
-        // Trigger btnIndexerForward = new JoystickButton(m_bbox1, 2);
-        // cmd = new frc.robot.commands.Indexer.Shoot();
-        // btnIndexerForward.onTrue(cmd);
+        Trigger btnIndexerForward = new JoystickButton(m_bbox1, 2);
+        cmd = new frc.robot.commands.Indexer.Intake().repeatedly();
+        btnIndexerForward.onTrue(cmd);
 
         Trigger btnIndexerReverse = new JoystickButton(m_bbox1, 3);
         cmd = new frc.robot.commands.Indexer.Reverse().repeatedly();
@@ -101,18 +103,17 @@ public class GridSelector extends SubsystemBase {
         cmd = new frc.robot.commands.Shooter.Start();
         btnShooterStart.onTrue(cmd);
 
-        // Need to make a source command
-        // Trigger btnSourceLeft = new JoystickButton(m_bbox2, 5);
-        // cmd = new frc.robot.commands.Speaker.Left();
-        // btnSourceLeft.onTrue(cmd);
+        Trigger btnSourceLeft = new JoystickButton(m_bbox2, 5);
+        cmd = new frc.robot.commands.Source.Middle();
+        btnSourceLeft.onTrue(cmd);
 
         Trigger btnSourceMiddle = new JoystickButton(m_bbox1, 7);
         cmd = new frc.robot.commands.Source.Middle();
         btnSourceMiddle.onTrue(cmd);
 
-        // Trigger btnSourceRight = new JoystickButton(m_bbox1, 8);
-        // cmd = new frc.robot.commands.Speaker.Right();
-        // btnSourceRight.onTrue(cmd);
+        Trigger btnSourceRight = new JoystickButton(m_bbox1, 8);
+        cmd = new frc.robot.commands.Source.Middle();
+        btnSourceRight.onTrue(cmd);
 
         Trigger btnSpeakerLeft = new JoystickButton(m_bbox2, 6);
         cmd = new frc.robot.commands.Speaker.Left();

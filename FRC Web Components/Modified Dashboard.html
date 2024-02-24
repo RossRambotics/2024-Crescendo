@@ -2,7 +2,6 @@
     tab-name="TeleOperated"
     slot="tab"
     source-provider="NetworkTables"
-    selected=""
 >
     <frc-robot-command
         source-provider="NetworkTables"
@@ -31,9 +30,9 @@
     ></frc-label><frc-robot-command
         source-provider="NetworkTables"
         style="transform: translate(534px, 187px); width: 145px; height: 71px;"
-        source-key="/SmartDashboard/Indexer.ShootSpeaker"
         name=""
         label="Shoot"
+        source-key="/SmartDashboard/Indexer.Shooter"
     ></frc-robot-command><frc-robot-command
         source-provider="NetworkTables"
         style="transform: translate(532px, 281px); width: 148px; height: 70px;"
@@ -45,6 +44,7 @@
         style="transform: translate(532px, 381px); width: 149px; height: 72px;"
         name=""
         label="Reverse"
+        source-key="/SmartDashboard/Indexer.Reverse"
     ></frc-robot-command><frc-robot-command
         source-provider="NetworkTables"
         style="transform: translate(531px, 480px); width: 150px; height: 79px;"
@@ -163,6 +163,18 @@
         source-key="/SmartDashboard/RClimbDown"
         name=""
         label="Down"
+    ></frc-robot-command><frc-robot-command
+        source-provider="NetworkTables"
+        style="transform: translate(261px, 70px); width: 166px; height: 59px;"
+        source-key="/SmartDashboard/LClimbStop"
+        name=""
+        label="Stop"
+    ></frc-robot-command><frc-robot-command
+        source-provider="NetworkTables"
+        style="transform: translate(922px, 92px); width: 168px; height: 61px;"
+        source-key="/SmartDashboard/RClimbStop"
+        name=""
+        label="Stop"
     ></frc-robot-command></dashboard-tab><dashboard-tab
     slot="tab"
     tab-name="Autonomous"
@@ -171,6 +183,7 @@
     tab-name="Oops"
     slot="tab"
     source-provider="NetworkTables"
+    selected=""
 ><frc-camera-wrapper
         source-provider="NetworkTables"
         style="transform: translate(0px, 0px); width: 643.323px; height: 570.667px;"

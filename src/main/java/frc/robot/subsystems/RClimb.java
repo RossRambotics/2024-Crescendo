@@ -13,63 +13,70 @@ import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class RClimb extends SubsystemBase {
 
- 
   private final CANSparkMax m_rClimbMotor = new CANSparkMax(Constants.kRio_CAN_Climb_Right_Motor, MotorType.kBrushless);
 
   double climbSpeed = 1;
+  double currentClimbSpeed = 0;
   double climbmax = 1000;
   double climbmin = 0;
- 
+
+  private boolean m_isOverRide = false;
 
   /** Creates a new Climb. */
   public RClimb() {
     m_rClimbMotor.setInverted(true);
     m_rClimbMotor.getEncoder().setPosition(3);
     m_rClimbMotor.setIdleMode(IdleMode.kBrake);
-  
+
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
 
-
     SmartDashboard.putNumber("Right Climb Motor Pos", m_rClimbMotor.getEncoder().getPosition());
 
-    if (m_rClimbMotor.getEncoder().getPosition() >= 250 && m_rClimbMotor.getEncoder().getVelocity() > 0) {
-    m_rClimbMotor.set(0);
-    }
+    if (!m_isOverRide) {
+      if (m_rClimbMotor.getEncoder().getPosition() >= 250 && m_rClimbMotor.getEncoder().getVelocity() > 0) {
+        m_rClimbMotor.set(0);
+      }
 
-    if (m_rClimbMotor.getEncoder().getPosition() <= 0 && m_rClimbMotor.getEncoder().getVelocity() < 0) {
-    m_rClimbMotor.set(0);
+      if (m_rClimbMotor.getEncoder().getPosition() <= 0 && m_rClimbMotor.getEncoder().getVelocity() < 0) {
+        m_rClimbMotor.set(0);
+      }
+
+    } else {
+      m_rClimbMotor.set(currentClimbSpeed);
     }
 
   }
 
   public void rClimbUp() {
-    m_rClimbMotor.set(climbSpeed);
+    currentClimbSpeed = climbSpeed;
+    m_rClimbMotor.set(currentClimbSpeed);
 
-
-    
   }
 
   public void rClimbDown() {
-
-    m_rClimbMotor.set(-climbSpeed);
+    currentClimbSpeed = -climbSpeed;
+    m_rClimbMotor.set(currentClimbSpeed);
 
   }
 
   public void rClimbStop() {
-    m_rClimbMotor.set(0);
+    currentClimbSpeed = 0;
+    m_rClimbMotor.set(currentClimbSpeed);
+
   }
 
-  public class RClimbUp {
+  public Command getOverRideCommand() {
+    return Commands.startEnd(() -> m_isOverRide = true, () -> m_isOverRide = false);
   }
-
-
 }

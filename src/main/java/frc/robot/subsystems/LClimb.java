@@ -10,18 +10,23 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxAlternateEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class LClimb extends SubsystemBase {
 
   private final CANSparkMax m_lClimbMotor = new CANSparkMax(Constants.kRio_CAN_Climb_Left_Motor, MotorType.kBrushless);
-  
+
   double climbSpeed = 1;
+  double currentClimbSpeed = 0;
   double climbmax = 1000;
   double climbmin = 0;
-  
+
+  private boolean m_isOverRide = false;
 
   /** Creates a new Climb. */
   public LClimb() {
@@ -36,29 +41,39 @@ public class LClimb extends SubsystemBase {
 
     SmartDashboard.putNumber("Left Climb Motor Pos", m_lClimbMotor.getEncoder().getPosition());
 
-    if (m_lClimbMotor.getEncoder().getPosition() >= 250 && m_lClimbMotor.getEncoder().getVelocity() > 0) {
-    m_lClimbMotor.set(0);
-    }
+    if (!m_isOverRide) {
+      if (m_lClimbMotor.getEncoder().getPosition() >= 250 && m_lClimbMotor.getEncoder().getVelocity() > 0) {
+        m_lClimbMotor.set(0);
+      }
 
-    if (m_lClimbMotor.getEncoder().getPosition() <= 0 && m_lClimbMotor.getEncoder().getVelocity() < 0) {
-    m_lClimbMotor.set(0);
-    }
+      if (m_lClimbMotor.getEncoder().getPosition() <= 0 && m_lClimbMotor.getEncoder().getVelocity() < 0) {
+        m_lClimbMotor.set(0);
+      }
 
+    } else {
+      m_lClimbMotor.set(currentClimbSpeed);
+    }
 
   }
 
   public void lClimbUp() {
-    climbSpeed = climbSpeed;
-    m_lClimbMotor.set(climbSpeed);
+    currentClimbSpeed = climbSpeed;
+    m_lClimbMotor.set(currentClimbSpeed);
   }
 
   public void lClimbDown() {
-    m_lClimbMotor.set(-climbSpeed);
+    currentClimbSpeed = -climbSpeed;
+    m_lClimbMotor.set(currentClimbSpeed);
 
   }
 
   public void lClimbStop() {
-    m_lClimbMotor.set(0);
+    currentClimbSpeed = 0;
+    m_lClimbMotor.set(currentClimbSpeed);
+  }
+
+  public Command getOverRideCommand() {
+    return Commands.startEnd(() -> m_isOverRide = true, () -> m_isOverRide = false);
   }
 
 }
