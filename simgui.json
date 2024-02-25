@@ -28,6 +28,7 @@
       "/SmartDashboard/Indexer.Shoot": "Command",
       "/SmartDashboard/Indexer.ShootSpeaker": "Command",
       "/SmartDashboard/Indexer.ShootSpeakerReverse": "Command",
+      "/SmartDashboard/Indexer.Shooter": "Command",
       "/SmartDashboard/Indexer.Stop": "Command",
       "/SmartDashboard/Indexer.Storage": "Command",
       "/SmartDashboard/Intake.DownStart": "Command",
@@ -50,6 +51,7 @@
       "/SmartDashboard/Robot Pose": "Field2d",
       "/SmartDashboard/Robot.ResetPose": "Command",
       "/SmartDashboard/Robot.ShootSpeaker": "Command",
+      "/SmartDashboard/SendableChooser[0]": "String Chooser",
       "/SmartDashboard/Shooter.Reverse": "Command",
       "/SmartDashboard/Shooter.ShootAmp": "Command",
       "/SmartDashboard/Shooter.ShootSpeaker": "Command",
@@ -69,10 +71,7 @@
         "left": 150,
         "right": 2961,
         "top": 79,
-        "width": 16.541748046875,
-        "window": {
-          "visible": true
-        }
+        "width": 16.541748046875
       },
       "/SmartDashboard/Indexer.Shoot": {
         "window": {
@@ -101,6 +100,11 @@
         }
       },
       "/SmartDashboard/Robot.ResetPose": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/SendableChooser[0]": {
         "window": {
           "visible": true
         }
