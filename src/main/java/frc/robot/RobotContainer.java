@@ -408,7 +408,7 @@ public class RobotContainer {
                                 .withName("Auto Intake Note")));
 
         SmartDashboard.putData("Auto.Intake.Note", cmd);
-        runAuto = drivetrain.getAutoPath("Bottom Four Note");
+        runAuto = drivetrain.getAutoPath("Testing Far Auton");
 
         configureBindings();
         LiveWindow.enableTelemetry(m_indexer);

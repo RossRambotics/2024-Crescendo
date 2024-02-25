@@ -68,6 +68,8 @@ public class LEDs extends SubsystemBase {
   private static int m_counter = 0;
   private boolean m_once = true;
 
+  private int m_notePosLast = 0;
+
   @Override
   public void periodic() {
     // limit to 10x a second
@@ -86,12 +88,27 @@ public class LEDs extends SubsystemBase {
           m_once = false;
           m_candle.clearAnimation(0);
         }
-        if (RobotContainer.m_indexer.isNoteBottom()) {
+
+      }
+      if (RobotContainer.m_indexer.isNoteBottom()) {
+        if (m_notePosLast != 1) {
+          m_notePosLast = 1;
           this.showNoteDown();
-        } else if (RobotContainer.m_indexer.isNoteTop()) {
+        }
+      } else if (RobotContainer.m_indexer.isNoteTop()) {
+        if (m_notePosLast != 2) {
+          m_notePosLast = 2;
           this.showNoteUp();
-        } else if (RobotContainer.m_indexer.isNoteMiddle()) {
+        }
+      } else if (RobotContainer.m_indexer.isNoteMiddle()) {
+        if (m_notePosLast != 3) {
+          m_notePosLast = 3;
           this.showNote();
+        }
+      } else {
+        if (m_notePosLast != 4) {
+          m_notePosLast = 4;
+          this.showNoNote();
         }
       }
     }
@@ -191,8 +208,12 @@ public class LEDs extends SubsystemBase {
     return null;
   }
 
+  public void showNoNote() {
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 72, 32 * 8);
+  }
+
   public void showNoteDown() {
-    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 8, 32 * 8);
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 72, 32 * 8);
 
     // this is half of the note going down
 
@@ -218,7 +239,7 @@ public class LEDs extends SubsystemBase {
   public void showNoteUp() {
 
     // Turn panel to black
-    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 8, 32 * 8);
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 72, 32 * 8);
 
     // this is half of the note going up
 

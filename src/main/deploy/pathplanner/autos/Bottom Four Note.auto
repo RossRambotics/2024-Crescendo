@@ -119,6 +119,12 @@
         {
           "type": "named",
           "data": {
+            "name": "Indexer.Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "Intake.Down"
           }
         }
