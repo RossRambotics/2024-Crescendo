@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -55,6 +56,8 @@ public class RobotContainer {
             () -> joystick.getRawAxis(XboxController.Axis.kRightTrigger.value) >= 0.5);
     Trigger aButton = new Trigger(joystick.a());
     Trigger bButton = new Trigger(joystick.b());
+
+    SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
     /* Setting up bindings for necessary control of the swerve drive platform */
 
@@ -408,7 +411,13 @@ public class RobotContainer {
                                 .withName("Auto Intake Note")));
 
         SmartDashboard.putData("Auto.Intake.Note", cmd);
-        runAuto = drivetrain.getAutoPath("Testing Far Auton");
+
+        // m_autoChooser.setDefaultOption("Dont Move", drivetrain.getAutoPath("Dont
+        // Move"));
+        // m_autoChooser.addOption("S2 C1 C2 C3", drivetrain.getAutoPath("S2 C1 C2
+        // C3"));
+
+        SmartDashboard.putData(m_autoChooser);
 
         configureBindings();
         LiveWindow.enableTelemetry(m_indexer);
@@ -435,6 +444,6 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         /* First put the drivetrain into auto run mode, then run the auto */
-        return runAuto;
+        return m_autoChooser.getSelected();
     }
 }
