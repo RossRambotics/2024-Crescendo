@@ -25,8 +25,8 @@ public class Middle extends Command {
       }
     }
 
-    RobotContainer.m_shooter.setShooterTopVel(-45);
-    RobotContainer.m_shooter.setShooterBottomVel(-45);
+    RobotContainer.m_shooter.setShooterTopVel(-55);
+    RobotContainer.m_shooter.setShooterBottomVel(-35);
 
     if (isRedAlliance) {
       RobotContainer.m_tracking.setTargetID(4);
