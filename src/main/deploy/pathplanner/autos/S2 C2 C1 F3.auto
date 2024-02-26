@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.2211290254423093,
-      "y": 5.565873600441298
+      "x": 1.2750110007262272,
+      "y": 5.578852847846542
     },
     "rotation": 0
   },
@@ -14,26 +14,13 @@
         {
           "type": "named",
           "data": {
-            "name": "Indexer.Shoot"
+            "name": "Speaker.Middle"
           }
         },
         {
-          "type": "parallel",
+          "type": "wait",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Pick.Up"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "S2 C1 S2"
-                }
-              }
-            ]
+            "waitTime": 0.25
           }
         },
         {
@@ -43,44 +30,25 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
+          "data": {
+            "name": "Intake.Down"
+          }
+        },
+        {
+          "type": "sequential",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Pick.Up"
-                }
-              },
               {
                 "type": "path",
                 "data": {
                   "pathName": "S2 C2 S2"
                 }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Indexer.Shoot"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
+              },
               {
                 "type": "named",
                 "data": {
-                  "name": "Pick.Up"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "S2 C3 S2"
+                  "name": "Indexer.Storage"
                 }
               }
             ]
@@ -90,6 +58,68 @@
           "type": "named",
           "data": {
             "name": "Indexer.Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake.Down"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "S2 C1 S2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Indexer.Storage"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Indexer.Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake.Down"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "S2 F3 S2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Indexer.Storage"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Indexer.Storage"
           }
         }
       ]

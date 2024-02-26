@@ -260,7 +260,11 @@ public class Tracking extends SubsystemBase {
     switch (targetID) {
       case 7:
       case 4:
-        goal = -0.9; // TODO tune this
+        if (m_TargetAngle.getDouble(0) == 0 || m_TargetAngle.getDouble(0) == 180) {
+          goal = -0.9; // TODO tune this
+        } else {
+          goal = -1.57;
+        }
         break;
       default:
         goal = 0.0;

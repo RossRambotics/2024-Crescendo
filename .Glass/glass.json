@@ -18,9 +18,6 @@
         }
       },
       "Shuffleboard": {
-        "Tracking": {
-          "open": true
-        },
         "open": true
       },
       "SmartDashboard": {
@@ -35,7 +32,11 @@
               "open": true
             }
           }
-        }
+        },
+        "SendableChooser[0]": {
+          "open": true
+        },
+        "open": true
       }
     },
     "types": {
@@ -78,6 +79,7 @@
       "/SmartDashboard/Robot.ResetPose": "Command",
       "/SmartDashboard/Robot.ShootSpeaker": "Command",
       "/SmartDashboard/SendableChooser[0]": "String Chooser",
+      "/SmartDashboard/Set Auto Command": "Command",
       "/SmartDashboard/Shooter.Reverse": "Command",
       "/SmartDashboard/Shooter.Start": "Command",
       "/SmartDashboard/Shooter.Stop": "Command",
@@ -98,6 +100,11 @@
         }
       },
       "/SmartDashboard/Auto.Intake.Note": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/SendableChooser[0]": {
         "window": {
           "visible": true
         }
