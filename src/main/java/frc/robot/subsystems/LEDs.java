@@ -162,7 +162,7 @@ public class LEDs extends SubsystemBase {
   }
 
   public void showBlack() {
-    m_candle.setLEDs(0, 0, 0, 0, kSTRIP_START + 0, 24);
+    m_candle.setLEDs(0, 0, 0, 0, kSTRIP_START + 0, 32);
   }
 
   public void showOrange() {
