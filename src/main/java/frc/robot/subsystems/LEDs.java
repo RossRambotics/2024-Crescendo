@@ -214,7 +214,7 @@ public class LEDs extends SubsystemBase {
   }
 
   public void showNoteDown() {
-    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 72, 32 * 8);
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 72, 32 * 10);
 
     // this is half of the note going down
 
@@ -240,7 +240,7 @@ public class LEDs extends SubsystemBase {
   public void showNoteUp() {
 
     // Turn panel to black
-    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 72, 32 * 8);
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 72, 32 * 10);
 
     // this is half of the note going up
 
@@ -370,29 +370,29 @@ public class LEDs extends SubsystemBase {
 
   public void showNote() {
     // this is the shape of the note
-    m_candle.setLEDs(255, 40, 0, 40, 72, 128);
-    m_candle.setLEDs(0, 0, 0, 0, 72, 3);
-    m_candle.setLEDs(0, 0, 0, 0, 77, 3);
-    m_candle.setLEDs(0, 0, 0, 0, 192, 3);
-    m_candle.setLEDs(0, 0, 0, 0, 197, 3);
-    m_candle.setLEDs(0, 0, 0, 0, 80, 1);
-    m_candle.setLEDs(0, 0, 0, 0, 87, 1);
-    m_candle.setLEDs(0, 0, 0, 0, 184, 1);
-    m_candle.setLEDs(0, 0, 0, 0, 191, 1);
+    m_candle.setLEDs(255, 40, 0, 40, kPANEL_START + 72, 128);
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 72, 3);
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 77, 3);
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 192, 3);
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 197, 3);
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 80, 1);
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 87, 1);
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 184, 1);
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 191, 1);
 
     // this the the middle being black
-    m_candle.setLEDs(0, 0, 0, 0, 91, 2);
-    m_candle.setLEDs(0, 0, 0, 0, 98, 4);
-    m_candle.setLEDs(0, 0, 0, 0, 106, 4);
-    m_candle.setLEDs(0, 0, 0, 0, 114, 4);
-    m_candle.setLEDs(0, 0, 0, 0, 122, 4);
-    m_candle.setLEDs(0, 0, 0, 0, 130, 4);
-    m_candle.setLEDs(0, 0, 0, 0, 138, 4);
-    m_candle.setLEDs(0, 0, 0, 0, 146, 4);
-    m_candle.setLEDs(0, 0, 0, 0, 154, 4);
-    m_candle.setLEDs(0, 0, 0, 0, 162, 4);
-    m_candle.setLEDs(0, 0, 0, 0, 170, 4);
-    m_candle.setLEDs(0, 0, 0, 0, 179, 2);
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 91, 2);
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 98, 4);
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 106, 4);
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 114, 4);
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 122, 4);
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 130, 4);
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 138, 4);
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 146, 4);
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 154, 4);
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 162, 4);
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 170, 4);
+    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 179, 2);
 
   }
 
