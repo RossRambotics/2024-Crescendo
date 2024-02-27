@@ -1,15 +1,157 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "window": {
+        "visible": false
+      }
+    },
+    "Timing": {
+      "window": {
+        "visible": false
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Indexer": "Subsystem",
+      "/LiveWindow/Tracking": "Subsystem",
+      "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
       "/Pose": "Field2d",
+      "/Shuffleboard/LEDs/PixelOff": "Command",
+      "/Shuffleboard/LEDs/PixelOn": "Command",
+      "/SmartDashboard/Amp.Shoot": "Command",
+      "/SmartDashboard/Auto.Intake.Note": "Command",
+      "/SmartDashboard/Indexer.Intake": "Command",
+      "/SmartDashboard/Indexer.Retract": "Command",
+      "/SmartDashboard/Indexer.Reverse": "Command",
+      "/SmartDashboard/Indexer.Shoot": "Command",
+      "/SmartDashboard/Indexer.ShootSpeaker": "Command",
+      "/SmartDashboard/Indexer.ShootSpeakerReverse": "Command",
+      "/SmartDashboard/Indexer.Shooter": "Command",
+      "/SmartDashboard/Indexer.Stop": "Command",
+      "/SmartDashboard/Indexer.Storage": "Command",
+      "/SmartDashboard/Intake.DownStart": "Command",
+      "/SmartDashboard/Intake.IntakeDown": "Command",
+      "/SmartDashboard/Intake.IntakeReverse": "Command",
+      "/SmartDashboard/Intake.IntakeStart": "Command",
+      "/SmartDashboard/Intake.IntakeStop": "Command",
+      "/SmartDashboard/Intake.IntakeUp": "Command",
+      "/SmartDashboard/Intake.StopUp": "Command",
+      "/SmartDashboard/LClimbDown": "Command",
+      "/SmartDashboard/LClimbStop": "Command",
+      "/SmartDashboard/LClimbUp": "Command",
       "/SmartDashboard/Module 0": "Mechanism2d",
       "/SmartDashboard/Module 1": "Mechanism2d",
       "/SmartDashboard/Module 2": "Mechanism2d",
-      "/SmartDashboard/Module 3": "Mechanism2d"
+      "/SmartDashboard/Module 3": "Mechanism2d",
+      "/SmartDashboard/RClimbDown": "Command",
+      "/SmartDashboard/RClimbStop": "Command",
+      "/SmartDashboard/RClimbUp": "Command",
+      "/SmartDashboard/Robot Pose": "Field2d",
+      "/SmartDashboard/Robot.ResetPose": "Command",
+      "/SmartDashboard/Robot.ShootSpeaker": "Command",
+      "/SmartDashboard/SendableChooser[0]": "String Chooser",
+      "/SmartDashboard/Shooter.Reverse": "Command",
+      "/SmartDashboard/Shooter.ShootAmp": "Command",
+      "/SmartDashboard/Shooter.ShootSpeaker": "Command",
+      "/SmartDashboard/Shooter.ShootTrap": "Command",
+      "/SmartDashboard/Shooter.Start": "Command",
+      "/SmartDashboard/Shooter.Stop": "Command",
+      "/SmartDashboard/ShooterAmp.Stop": "Command",
+      "/SmartDashboard/Speaker.Left": "Command",
+      "/SmartDashboard/Speaker.Middle": "Command",
+      "/SmartDashboard/Speaker.Right": "Command",
+      "/SmartDashboard/robot": "Mechanism2d"
+    },
+    "windows": {
+      "/Pose": {
+        "bottom": 1476,
+        "height": 8.210550308227539,
+        "left": 150,
+        "right": 2961,
+        "top": 79,
+        "width": 16.541748046875
+      },
+      "/SmartDashboard/Indexer.Shoot": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/LClimbDown": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/LClimbUp": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Robot Pose": {
+        "bottom": 1476,
+        "height": 8.210550308227539,
+        "left": 150,
+        "right": 2961,
+        "top": 79,
+        "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Robot.ResetPose": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/SendableChooser[0]": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/robot": {
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  },
+  "NetworkTables": {
+    "Retained Values": {
+      "open": false
+    },
+    "transitory": {
+      "LiveWindow": {
+        "Indexer": {
+          "open": true
+        },
+        "Intake": {
+          "open": true
+        },
+        "open": true
+      },
+      "Shuffleboard": {
+        "Shooter": {
+          "open": true
+        },
+        "Tracking": {
+          "open": true
+        },
+        "open": true
+      },
+      "SmartDashboard": {
+        "Robot Pose": {
+          "double[]##v_/SmartDashboard/Robot Pose/Robot": {
+            "open": true
+          }
+        }
+      }
     }
   },
   "NetworkTables Info": {
     "visible": true
+  },
+  "NetworkTables View": {
+    "visible": false
   }
 }

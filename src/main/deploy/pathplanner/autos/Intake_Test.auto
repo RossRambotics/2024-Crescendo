@@ -1,0 +1,55 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.3456223718002993,
+      "y": 5.547391673487052
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake.Down"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Hollis_Test1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake.Up"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Speaker.Middle"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Hollis_Test2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Indexer.Shoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

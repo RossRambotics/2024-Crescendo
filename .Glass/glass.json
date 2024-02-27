@@ -1,0 +1,121 @@
+{
+  "NetworkTables": {
+    "transitory": {
+      "LiveWindow": {
+        "Tracking": {
+          "open": true
+        },
+        "Ungrouped": {
+          "AnalogInput[1]": {
+            "open": true
+          },
+          "AnalogInput[3]": {
+            "open": true
+          },
+          "DigitalInput[0]": {
+            "open": true
+          }
+        }
+      },
+      "Shuffleboard": {
+        "open": true
+      },
+      "SmartDashboard": {
+        "Module 1": {
+          "RootDirection": {
+            "Direction": {
+              "open": true
+            }
+          },
+          "RootSpeed": {
+            "Speed": {
+              "open": true
+            }
+          }
+        },
+        "SendableChooser[0]": {
+          "open": true
+        },
+        "open": true
+      }
+    },
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Indexer": "Subsystem",
+      "/LiveWindow/Intake": "Subsystem",
+      "/LiveWindow/Shooter": "Subsystem",
+      "/LiveWindow/Tracking": "Subsystem",
+      "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
+      "/Pose": "Field2d",
+      "/Shuffleboard/LEDs/PixelOff": "Command",
+      "/Shuffleboard/LEDs/PixelOn": "Command",
+      "/SmartDashboard/Amp.Shoot": "Command",
+      "/SmartDashboard/Auto.Intake.Note": "Command",
+      "/SmartDashboard/Indexer.Intake": "Command",
+      "/SmartDashboard/Indexer.Retract": "Command",
+      "/SmartDashboard/Indexer.Reverse": "Command",
+      "/SmartDashboard/Indexer.Shoot": "Command",
+      "/SmartDashboard/Indexer.Shooter": "Command",
+      "/SmartDashboard/Indexer.Stop": "Command",
+      "/SmartDashboard/Indexer.Storage": "Command",
+      "/SmartDashboard/Intake.DownStart": "Command",
+      "/SmartDashboard/Intake.IntakeDown": "Command",
+      "/SmartDashboard/Intake.IntakeReverse": "Command",
+      "/SmartDashboard/Intake.IntakeStart": "Command",
+      "/SmartDashboard/Intake.IntakeStop": "Command",
+      "/SmartDashboard/Intake.IntakeUp": "Command",
+      "/SmartDashboard/Intake.StopUp": "Command",
+      "/SmartDashboard/LClimbDown": "Command",
+      "/SmartDashboard/LClimbStop": "Command",
+      "/SmartDashboard/LClimbUp": "Command",
+      "/SmartDashboard/Module 0": "Mechanism2d",
+      "/SmartDashboard/Module 1": "Mechanism2d",
+      "/SmartDashboard/Module 2": "Mechanism2d",
+      "/SmartDashboard/Module 3": "Mechanism2d",
+      "/SmartDashboard/RClimbDown": "Command",
+      "/SmartDashboard/RClimbStop": "Command",
+      "/SmartDashboard/RClimbUp": "Command",
+      "/SmartDashboard/Robot Pose": "Field2d",
+      "/SmartDashboard/Robot.ResetPose": "Command",
+      "/SmartDashboard/Robot.ShootSpeaker": "Command",
+      "/SmartDashboard/SendableChooser[0]": "String Chooser",
+      "/SmartDashboard/Set Auto Command": "Command",
+      "/SmartDashboard/Shooter.Reverse": "Command",
+      "/SmartDashboard/Shooter.Start": "Command",
+      "/SmartDashboard/Shooter.Stop": "Command",
+      "/SmartDashboard/Speaker.Left": "Command",
+      "/SmartDashboard/Speaker.Middle": "Command",
+      "/SmartDashboard/Speaker.Right": "Command",
+      "/SmartDashboard/robot": "Mechanism2d"
+    },
+    "windows": {
+      "/Pose": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Amp.Shoot": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Auto.Intake.Note": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/SendableChooser[0]": {
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  },
+  "NetworkTables Info": {
+    "visible": true
+  },
+  "NetworkTables Settings": {
+    "mode": "Client (NT4)",
+    "serverTeam": "3201"
+  }
+}
