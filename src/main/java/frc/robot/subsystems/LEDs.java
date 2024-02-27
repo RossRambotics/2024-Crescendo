@@ -31,9 +31,9 @@ public class LEDs extends SubsystemBase {
 
   private final static int kLED_COLUMNS = 33;
   private final static int kLED_ROWS = 8;
-  private final static int kSTRIP_START = kLED_COLUMNS * kLED_ROWS;
+  private final static int kSTRIP_START = 0;
   private final static int kSTRIP_LENGTH = 48;
-  private final static int kPANEL_START = 0;
+  private final static int kPANEL_START = 16;
   private final static int kLED_TOTAL = kLED_COLUMNS * kLED_ROWS + kSTRIP_LENGTH;
 
   private static final int LedCount = 0;
@@ -166,7 +166,7 @@ public class LEDs extends SubsystemBase {
   }
 
   public void showOrange() {
-    m_candle.setLEDs(225, 40, 0, 40, kPANEL_START + 0, 24);
+    m_candle.setLEDs(225, 40, 0, 40, kSTRIP_START + 0, 24);
   }
 
   public Void showPoliceLights() {
@@ -183,15 +183,16 @@ public class LEDs extends SubsystemBase {
 
   public Void showPoliceLights2() {
     m_Timer.hasElapsed(0.2);
+
     if (m_even) {
 
-      m_candle.setLEDs(0, 0, 225, 0, kPANEL_START + 8 + 0, 6);
-      m_candle.setLEDs(225, 0, 0, 0, kPANEL_START + 8 + 6, 7);
-      m_candle.setLEDs(0, 0, 225, 0, kPANEL_START + 8 + 13, 1);
+      m_candle.setLEDs(0, 0, 225, 0, kSTRIP_START + 8 + 0, 6);
+      m_candle.setLEDs(225, 0, 0, 0, kSTRIP_START + 8 + 6, 7);
+      m_candle.setLEDs(0, 0, 225, 0, kSTRIP_START + 8 + 13, 1);
     } else {
-      m_candle.setLEDs(225, 0, 0, 0, kPANEL_START + 8 + 0, 6);
-      m_candle.setLEDs(0, 0, 225, 0, kPANEL_START + 8 + 6, 7);
-      m_candle.setLEDs(225, 0, 0, 0, kPANEL_START + 8 + 13, 1);
+      m_candle.setLEDs(225, 0, 0, 0, kSTRIP_START + 8 + 0, 6);
+      m_candle.setLEDs(0, 0, 225, 0, kSTRIP_START + 8 + 6, 7);
+      m_candle.setLEDs(225, 0, 0, 0, kSTRIP_START + 8 + 13, 1);
     }
     return null;
   }
@@ -200,10 +201,10 @@ public class LEDs extends SubsystemBase {
     m_Timer.hasElapsed(0.2);
     if (m_even) {
       // System.out.println("green");
-      m_candle.setLEDs(0, 255, 0, 0, kPANEL_START + 0, 24);
+      m_candle.setLEDs(0, 255, 0, 0, kSTRIP_START + 0, 24);
     } else {
       // System.out.println("yellow");
-      m_candle.setLEDs(225, 225, 0, 0, kPANEL_START + 0, 24);
+      m_candle.setLEDs(225, 225, 0, 0, kSTRIP_START + 0, 24);
     }
     return null;
   }
