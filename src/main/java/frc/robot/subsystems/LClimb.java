@@ -30,7 +30,7 @@ public class LClimb extends SubsystemBase {
 
   /** Creates a new Climb. */
   public LClimb() {
-    m_lClimbMotor.getEncoder().setPosition(3);
+    m_lClimbMotor.getEncoder().setPosition(5);
     m_lClimbMotor.setIdleMode(IdleMode.kBrake);
 
   }

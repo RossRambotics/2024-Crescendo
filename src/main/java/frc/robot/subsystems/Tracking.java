@@ -263,7 +263,7 @@ public class Tracking extends SubsystemBase {
         if (m_TargetAngle.getDouble(0) == 0 || m_TargetAngle.getDouble(0) == 180) {
           goal = -0.9; // TODO tune this
         } else {
-          goal = -1.57;
+          goal = -1.5;
         }
         break;
       default:

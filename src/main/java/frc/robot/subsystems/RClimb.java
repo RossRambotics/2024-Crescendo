@@ -32,7 +32,7 @@ public class RClimb extends SubsystemBase {
   /** Creates a new Climb. */
   public RClimb() {
     m_rClimbMotor.setInverted(true);
-    m_rClimbMotor.getEncoder().setPosition(3);
+    m_rClimbMotor.getEncoder().setPosition(5);
     m_rClimbMotor.setIdleMode(IdleMode.kBrake);
 
   }
