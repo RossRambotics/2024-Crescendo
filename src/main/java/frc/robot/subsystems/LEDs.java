@@ -154,15 +154,15 @@ public class LEDs extends SubsystemBase {
   }
 
   public void showBlue() {
-    m_candle.setLEDs(0, 0, 225, 0, kPANEL_START + 0, 24);
+    m_candle.setLEDs(0, 0, 225, 0, kSTRIP_START + 0, 24);
   }
 
   public void showRed() {
-    m_candle.setLEDs(225, 0, 0, 0, kPANEL_START + 0, 24);
+    m_candle.setLEDs(225, 0, 0, 0, kSTRIP_START + 0, 24);
   }
 
   public void showBlack() {
-    m_candle.setLEDs(0, 0, 0, 0, kPANEL_START + 0, 24);
+    m_candle.setLEDs(0, 0, 0, 0, kSTRIP_START + 0, 24);
   }
 
   public void showOrange() {
