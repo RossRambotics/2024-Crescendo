@@ -50,10 +50,11 @@ public class GridSelector extends SubsystemBase {
         cmd = new LClimbDown();
         joyLClimbDown.whileTrue(cmd);
 
-        // add Trap command
-        // Trigger btnTrap = new JoystickButton(m_bbox2, 11);
-        // cmd = new frc.robot.commands.Shooter.Start();
-        // btnTrap.onTrue(cmd);
+        // Unstucks Intake
+        Trigger btnTrap = new JoystickButton(m_bbox2, 11);
+        cmd = new frc.robot.commands.Intake.IntakeReverse()
+                .andThen(new frc.robot.commands.Indexer.Intake());
+        btnTrap.onTrue(cmd);
 
         // Removes the climb limits when the climb is being held down
         Trigger btnPass = new JoystickButton(m_bbox2, 12);
