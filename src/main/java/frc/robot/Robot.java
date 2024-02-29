@@ -29,7 +29,10 @@ public class Robot extends TimedRobot {
 
     m_robotContainer.drivetrain.getDaqThread().setThreadPriority(99);
     m_robotContainer.m_intake.startCompresser();
+    m_gcTimer.start();
   }
+
+  Timer m_gcTimer = new Timer();
 
   @Override
   public void robotPeriodic() {
@@ -42,6 +45,11 @@ public class Robot extends TimedRobot {
       if (lastResult.valid) {
         m_robotContainer.drivetrain.addVisionMeasurement(llPose, Timer.getFPGATimestamp());
       }
+    }
+
+    if (m_gcTimer.advanceIfElapsed(5.0)) {
+      System.gc();
+      DataLogManager.log("Ran Garbage Collection");
     }
   }
 

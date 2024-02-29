@@ -410,38 +410,50 @@ public class RobotContainer {
 
                 SmartDashboard.putData("Auto.Intake.Note", cmd);
 
-                m_autoChooser.setDefaultOption("Dont Move", new WaitCommand(1.0));
-                m_autoChooser.addOption("S2 C1 C2 C3", drivetrain.getAutoPath("S2 C1 C2 C3"));
-                m_autoChooser.addOption("S1 C1 C2 F1", drivetrain.getAutoPath("S1 C1 C2 F1"));
-                m_autoChooser.addOption("S1 C1 C2 F2", drivetrain.getAutoPath("S1 C1 C2 F2"));
-                m_autoChooser.addOption("S1 C1 C2", drivetrain.getAutoPath("S1 C1 C2"));
-                m_autoChooser.addOption("S1 C1 F1 F2", drivetrain.getAutoPath("S1 C1 F1 F2"));
-                m_autoChooser.addOption("S1 C1 F1", drivetrain.getAutoPath("S1 C1 F1"));
-                m_autoChooser.addOption("S1 C1 F2", drivetrain.getAutoPath("S1 C1 F2"));
-                m_autoChooser.addOption("S1 C1", drivetrain.getAutoPath("S1 C1"));
-                m_autoChooser.addOption("S1 C2", drivetrain.getAutoPath("S1 C2"));
-                m_autoChooser.addOption("S1 C3", drivetrain.getAutoPath("S1 C3"));
-                m_autoChooser.addOption("S2 C1", drivetrain.getAutoPath("S2 C1"));
-                m_autoChooser.addOption("S2 C2 C1 F3", drivetrain.getAutoPath("S2 C2 C1 F3"));
-                m_autoChooser.addOption("S2 C2 C1", drivetrain.getAutoPath("S2 C2 C1"));
-                m_autoChooser.addOption("S2 C2 C3 F3", drivetrain.getAutoPath("S2 C2 C3 F3"));
-                m_autoChooser.addOption("S2 C2 C3", drivetrain.getAutoPath("S2 C2 C3"));
-                m_autoChooser.addOption("S2 C2 F2", drivetrain.getAutoPath("S2 C2 F2"));
-                m_autoChooser.addOption("S2 C2 F3", drivetrain.getAutoPath("S2 C2 F3"));
-                m_autoChooser.addOption("S2 C2", drivetrain.getAutoPath("S2 C2"));
-                m_autoChooser.addOption("S2 C3", drivetrain.getAutoPath("S2 C3"));
-                m_autoChooser.addOption("S2 F2 F1", drivetrain.getAutoPath("S2 F2 F1"));
-                m_autoChooser.addOption("S2", drivetrain.getAutoPath("S2"));
-                m_autoChooser.addOption("S3 C3 C2 C1", drivetrain.getAutoPath("S3 C3 C2 C1"));
-                m_autoChooser.addOption("S3 C3 C2", drivetrain.getAutoPath("S3 C3 C2"));
-                m_autoChooser.addOption("S3 C3 F4 F5", drivetrain.getAutoPath("S3 C3 F4 F5"));
+                try {
+                        m_autoChooser.setDefaultOption("Dont Move", new WaitCommand(1.0));
+                        m_autoChooser.addOption("S2 C1 C2 C3", drivetrain.getAutoPath("S2 C1 C2 C3"));
+                        // m_autoChooser.addOption("S1 C1 C2 F1", drivetrain.getAutoPath("S1 C1 C2
+                        // F1"));
+                        // m_autoChooser.addOption("S1 C1 C2 F2", drivetrain.getAutoPath("S1 C1 C2
+                        // F2"));
+                        // m_autoChooser.addOption("S1 C1 C2", drivetrain.getAutoPath("S1 C1 C2"));
+                        m_autoChooser.addOption("S1 C1 F1 F2", drivetrain.getAutoPath("S1 C1 F1 F2"));
+                        // m_autoChooser.addOption("S1 C1 F1", drivetrain.getAutoPath("S1 C1 F1"));
+                        // m_autoChooser.addOption("S1 C1 F2", drivetrain.getAutoPath("S1 C1 F2"));
+                        // m_autoChooser.addOption("S1 C1", drivetrain.getAutoPath("S1 C1"));
+                        // m_autoChooser.addOption("S1 C2", drivetrain.getAutoPath("S1 C2"));
+                        // m_autoChooser.addOption("S1 C3", drivetrain.getAutoPath("S1 C3"));
+                        // m_autoChooser.addOption("S2 C1", drivetrain.getAutoPath("S2 C1"));
+                        // m_autoChooser.addOption("S2 C2 C1 F3", drivetrain.getAutoPath("S2 C2 C1
+                        // F3"));
+                        // m_autoChooser.addOption("S2 C2 C1", drivetrain.getAutoPath("S2 C2 C1"));
+                        // m_autoChooser.addOption("S2 C2 C3 F3", drivetrain.getAutoPath("S2 C2 C3
+                        // F3"));
+                        // m_autoChooser.addOption("S2 C2 C3", drivetrain.getAutoPath("S2 C2 C3"));
+                        // m_autoChooser.addOption("S2 C2 F2", drivetrain.getAutoPath("S2 C2 F2"));
+                        // m_autoChooser.addOption("S2 C2 F3", drivetrain.getAutoPath("S2 C2 F3"));
+                        // m_autoChooser.addOption("S2 C2", drivetrain.getAutoPath("S2 C2"));
+                        // m_autoChooser.addOption("S2 C3", drivetrain.getAutoPath("S2 C3"));
+                        // m_autoChooser.addOption("S2 F2 F1", drivetrain.getAutoPath("S2 F2 F1"));
+                        // m_autoChooser.addOption("S2", drivetrain.getAutoPath("S2"));
+                        // m_autoChooser.addOption("S3 C3 C2 C1", drivetrain.getAutoPath("S3 C3 C2
+                        // C1"));
+                        // m_autoChooser.addOption("S3 C3 C2", drivetrain.getAutoPath("S3 C3 C2"));
+                        m_autoChooser.addOption("S3 C3 F4 F5", drivetrain.getAutoPath("S3 C3 F4 F5"));
+                        m_autoChooser.addOption("Shoot NO MOVE", drivetrain.getAutoPath("Shoot NO MOVE")
+                                        .withTimeout(4));
+                } catch (Exception e) {
+                        DataLogManager.log("Missing auto file.");
+                        DataLogManager.log(e.toString());
+                }
                 SmartDashboard.putData(m_autoChooser);
 
                 configureBindings();
-                LiveWindow.enableTelemetry(m_indexer);
-                LiveWindow.enableTelemetry(m_intake);
-                LiveWindow.enableTelemetry(m_shooter);
-                LiveWindow.enableTelemetry(m_tracking);
+                // LiveWindow.enableTelemetry(m_indexer);
+                // LiveWindow.enableTelemetry(m_intake);
+                // LiveWindow.enableTelemetry(m_shooter);
+                // LiveWindow.enableTelemetry(m_tracking);
 
                 SmartDashboard.putData("Robot.ResetPose", new InstantCommand(() -> this.resetFieldHeading()));
 

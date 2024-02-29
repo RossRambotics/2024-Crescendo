@@ -18,6 +18,12 @@
         }
       },
       "Shuffleboard": {
+        "Shooter": {
+          "open": true
+        },
+        "Tracking": {
+          "open": true
+        },
         "open": true
       },
       "SmartDashboard": {
@@ -34,7 +40,10 @@
           }
         },
         "SendableChooser[0]": {
-          "open": true
+          "open": true,
+          "string[]##v_/SmartDashboard/SendableChooser[0]/options": {
+            "open": true
+          }
         },
         "open": true
       }
