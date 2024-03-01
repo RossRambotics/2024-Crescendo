@@ -428,8 +428,7 @@ public class RobotContainer {
                         // m_autoChooser.addOption("S2 C2 C1 F3", drivetrain.getAutoPath("S2 C2 C1
                         // F3"));
                         // m_autoChooser.addOption("S2 C2 C1", drivetrain.getAutoPath("S2 C2 C1"));
-                        // m_autoChooser.addOption("S2 C2 C3 F3", drivetrain.getAutoPath("S2 C2 C3
-                        // F3"));
+                        m_autoChooser.addOption("S2 C2 C3 F3", drivetrain.getAutoPath("S2 C2 C3 F3"));
                         // m_autoChooser.addOption("S2 C2 C3", drivetrain.getAutoPath("S2 C2 C3"));
                         // m_autoChooser.addOption("S2 C2 F2", drivetrain.getAutoPath("S2 C2 F2"));
                         // m_autoChooser.addOption("S2 C2 F3", drivetrain.getAutoPath("S2 C2 F3"));
