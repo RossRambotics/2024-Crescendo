@@ -48,8 +48,9 @@ public class Robot extends TimedRobot {
     }
 
     if (m_gcTimer.advanceIfElapsed(5.0)) {
+      DataLogManager.log("%%%%%%%%%%% Before Garbage Collection: " + Runtime.getRuntime().freeMemory());
       System.gc();
-      DataLogManager.log("Ran Garbage Collection");
+      DataLogManager.log("%%%%%%%%%%% Ran Garbage Collection: " + Runtime.getRuntime().freeMemory());
     }
   }
 
