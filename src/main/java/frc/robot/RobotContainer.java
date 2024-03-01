@@ -78,8 +78,8 @@ public class RobotContainer {
         public static final Shooter m_shooter = new Shooter();
         public static final RClimb m_rClimb = new RClimb();
         public static final LClimb m_lClimb = new LClimb();
-        public static GridSelector m_gridSelector = new GridSelector();
-        public static LEDs m_LEDs = new LEDs();
+        public static final GridSelector m_gridSelector = new GridSelector();
+        public static final LEDs m_LEDs = new LEDs();
         // public static final Indexer m_indexer = null;
         // public static final Intake m_intake = null;
         // public static final Shooter m_shooter = null;
@@ -98,7 +98,7 @@ public class RobotContainer {
 
         private final Telemetry logger = new Telemetry(MaxSpeed);
 
-        private SlewRateLimiter m_slewLeftY = new SlewRateLimiter(5);
+        private final SlewRateLimiter m_slewLeftY = new SlewRateLimiter(5);
 
         public double getInputLeftY() {
                 double driverLeftY = modifyAxis(joystick.getLeftY());
@@ -108,7 +108,7 @@ public class RobotContainer {
                 return slew;
         }
 
-        private SlewRateLimiter m_slewLeftX = new SlewRateLimiter(5);
+        private final SlewRateLimiter m_slewLeftX = new SlewRateLimiter(5);
 
         public double getInputLeftX() {
                 double driverLeftX = modifyAxis(joystick.getLeftX());

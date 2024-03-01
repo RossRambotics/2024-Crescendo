@@ -62,6 +62,9 @@ public class LEDs extends SubsystemBase {
 
   }
 
+  
+  RainbowAnimation animation = new RainbowAnimation(.5, .5, 24);
+
   private static Timer m_Timer = new Timer();
   private static boolean m_even = true;
 
@@ -80,7 +83,7 @@ public class LEDs extends SubsystemBase {
 
       if (DriverStation.isDisabled()) {
         // Turn panel to black
-        RainbowAnimation animation = new RainbowAnimation(.5, .5, 24);
+
         m_candle.animate(animation, 0);
 
       } else {
