@@ -76,7 +76,7 @@ public class GridSelector extends SubsystemBase {
         .andThen(new frc.robot.commands.Intake.IntakeStart());
     btnIntakeIn.onTrue(cmd);
 
-    Trigger btnIntakeReverse = new JoystickButton(m_bbox2, 2);
+    Trigger btnIntakeReverse = new JoystickButton(m_bbox2, 3);
     cmd = new frc.robot.commands.Intake.IntakeReverse();
     btnIntakeReverse.whileTrue(cmd);
 

@@ -172,6 +172,7 @@ public class Indexer extends SubsystemBase {
     double setPoint = 8 * 1000;
 
     m_topPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
+    m_bottomPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
     // m_bottomPIDController.setReference(setPoint,
     // CANSparkMax.ControlType.kVelocity);
   }
