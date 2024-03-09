@@ -24,6 +24,8 @@ import frc.robot.sim.PhysicsSim;
 
 public class Shooter extends SubsystemBase {
 
+  private String m_Shooter_Message = "default";
+
   private final TalonFX m_topMotor = new TalonFX(Constants.kRio_CAN_Shooter_Top_Motor);
   private final TalonFX m_botMotor = new TalonFX(Constants.kRio_CAN_Shooter_Bottom_Motor);
 
@@ -98,11 +100,16 @@ public class Shooter extends SubsystemBase {
 
   }
 
+  public void setShooterMessage(String message) {
+    m_Shooter_Message = message;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("shooterTopRPS", m_topMotor.getVelocity().getValueAsDouble());
     SmartDashboard.putNumber("shooterBottomRPS", m_botMotor.getVelocity().getValueAsDouble());
+    SmartDashboard.putString("ShooterMessage", m_Shooter_Message);
   }
 
   public void simulationInit() {

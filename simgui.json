@@ -77,21 +77,6 @@
           "visible": true
         }
       },
-      "/SmartDashboard/Indexer.Shoot": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/LClimbDown": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/LClimbUp": {
-        "window": {
-          "visible": true
-        }
-      },
       "/SmartDashboard/Robot Pose": {
         "bottom": 1476,
         "height": 8.210550308227539,
@@ -103,17 +88,7 @@
           "visible": true
         }
       },
-      "/SmartDashboard/Robot.ResetPose": {
-        "window": {
-          "visible": true
-        }
-      },
       "/SmartDashboard/SendableChooser[0]": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/robot": {
         "window": {
           "visible": true
         }
