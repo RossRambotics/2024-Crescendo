@@ -25,7 +25,7 @@ public class Right extends Command {
       }
     }
     RobotContainer.m_shooter.setShooterTopVel(-55);
-    RobotContainer.m_shooter.setShooterBottomVel(-35);
+    RobotContainer.m_shooter.setShooterBottomVel(-45);
 
     if (isRedAlliance) {
       RobotContainer.m_tracking.setTargetID(4);

@@ -55,9 +55,9 @@ public class Indexer extends SubsystemBase {
     m_topMotor.restoreFactoryDefaults();
     m_bottomMotor.restoreFactoryDefaults();
 
-    LiveWindow.enableTelemetry(m_TopSensorInput);
-    LiveWindow.enableTelemetry(m_MiddleSensorInput);
-    LiveWindow.enableTelemetry(m_BottomSensorInput);
+    // LiveWindow.enableTelemetry(m_TopSensorInput);
+    // LiveWindow.enableTelemetry(m_MiddleSensorInput);
+    // LiveWindow.enableTelemetry(m_BottomSensorInput);
 
     /**
      * In order to use PID functionality for a controller, a SparkPIDController
@@ -172,6 +172,7 @@ public class Indexer extends SubsystemBase {
     double setPoint = 8 * 1000;
 
     m_topPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
+    m_bottomPIDController.setReference(setPoint, CANSparkMax.ControlType.kVelocity);
     // m_bottomPIDController.setReference(setPoint,
     // CANSparkMax.ControlType.kVelocity);
   }
