@@ -99,7 +99,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void intakeReverse() {
-    double speed = 8 * 400;
+    double speed = 2 * 4000;
 
     m_PIDController.setReference(speed, CANSparkMax.ControlType.kVelocity);
   }
