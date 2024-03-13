@@ -166,8 +166,18 @@ public class Tracking extends SubsystemBase {
 
     // if we are tracking an april tag calculate distance and offset
     if (this.isTargetIDFound()) {
+      int targetID = (int) m_TargetID.getDouble(-1);
+      switch (targetID) {
+        case 7:
+        case 4:
+          calcTargetDistanceSpeaker();
+          break;
+        default:
+          calcTargetDistanceAmp();
 
-      this.calcTargetDistance();
+      }
+
+      this.calcTargetDistanceSpeaker();
     }
 
     // if we are tracking a game piece calculate distance and offset
@@ -203,6 +213,34 @@ public class Tracking extends SubsystemBase {
 
   public boolean isTargetTracking() {
     return m_isTargetTracking;
+  }
+
+  private void calcTargetDistanceAmp() {
+
+    double tx = m_LL_Tracking.getEntry("tx").getDouble(0);
+    double ty = m_LL_Tracking.getEntry("ty").getDouble(0);
+    double hr = 65;
+    double ha = 133.5 - hr;
+    double distance = ha / Math.tan(Math.toRadians(ty + 44));
+
+    double offset = distance * Math.tan(Math.toRadians(tx));
+
+    m_TargetDistance.setDouble(-distance);
+    m_TargetOffset.setDouble(-offset);
+  }
+
+  private void calcTargetDistanceSpeaker() {
+
+    double tx = m_LL_Tracking.getEntry("tx").getDouble(0);
+    double ty = m_LL_Tracking.getEntry("ty").getDouble(0);
+    double hr = 65;
+    double hs = 143.5 - hr;
+    double distance = hs / Math.tan(Math.toRadians(ty + 44));
+
+    double offset = distance * Math.tan(Math.toRadians(tx));
+
+    m_TargetDistance.setDouble(-distance);
+    m_TargetOffset.setDouble(-offset);
   }
 
   private void calcTargetDistance() {
