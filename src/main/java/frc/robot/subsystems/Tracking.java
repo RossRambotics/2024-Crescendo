@@ -166,6 +166,16 @@ public class Tracking extends SubsystemBase {
 
     // if we are tracking an april tag calculate distance and offset
     if (this.isTargetIDFound()) {
+      int targetID = (int) m_TargetID.getDouble(-1);
+      switch (targetID) {
+        case 7:
+        case 4:
+          calcTargetDistanceSpeaker();
+          break;
+        default:
+          calcTargetDistanceAmp();
+
+      }
 
       this.calcTargetDistanceSpeaker();
     }
@@ -211,7 +221,7 @@ public class Tracking extends SubsystemBase {
     double ty = m_LL_Tracking.getEntry("ty").getDouble(0);
     double hr = 65;
     double ha = 133.5 - hr;
-    double distance = ha / Math.tan(Math.toRadians(ty + 45));
+    double distance = ha / Math.tan(Math.toRadians(ty + 44));
 
     double offset = distance * Math.tan(Math.toRadians(tx));
 
@@ -225,7 +235,7 @@ public class Tracking extends SubsystemBase {
     double ty = m_LL_Tracking.getEntry("ty").getDouble(0);
     double hr = 65;
     double hs = 143.5 - hr;
-    double distance = hs / Math.tan(Math.toRadians(ty + 45));
+    double distance = hs / Math.tan(Math.toRadians(ty + 44));
 
     double offset = distance * Math.tan(Math.toRadians(tx));
 
