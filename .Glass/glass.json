@@ -18,9 +18,6 @@
         }
       },
       "Shuffleboard": {
-        "Shooter": {
-          "open": true
-        },
         "Tracking": {
           "open": true
         },
