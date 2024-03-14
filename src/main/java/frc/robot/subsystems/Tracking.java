@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.GenericEntry;
@@ -39,6 +40,7 @@ public class Tracking extends SubsystemBase {
   private double m_CurrentHeading = 0.0;
   private boolean m_isTargetTracking = false;
   private boolean m_isNoteTracking = false;
+  private boolean m_isTrackingSpeaker = true;
 
   /** Creates a new Tracking. */
   public Tracking() {
@@ -146,15 +148,15 @@ public class Tracking extends SubsystemBase {
 
     // do we see the correct target
     dv = m_LL_Tracking.getEntry("tv").getDouble(0);
-    if (dv > 0.0) {
-      // saw an april tag... so check if it is the correct one
-      double da = m_LL_Tracking.getEntry("tid").getDouble(-1.0);
-      if (dv > 0 && da == m_TargetID.getDouble(-1.0)) {
-        m_isTargetIDFound.setBoolean(true);
-      } else {
-        m_isTargetIDFound.setBoolean(false);
-      }
+    // if (dv > 0.0) {
+    // saw an april tag... so check if it is the correct one
+    double da = m_LL_Tracking.getEntry("tid").getDouble(-1.0);
+    if (dv > 0 && da == m_TargetID.getDouble(-1.0)) {
+      m_isTargetIDFound.setBoolean(true);
+    } else {
+      m_isTargetIDFound.setBoolean(false);
     }
+    // }
 
     // do we see a game piece
     dv = m_LL_GamePiece.getEntry("tv").getDouble(0);
@@ -171,10 +173,11 @@ public class Tracking extends SubsystemBase {
         case 7:
         case 4:
           calcTargetDistanceSpeaker();
+          m_isTrackingSpeaker = true;
           break;
         default:
           calcTargetDistanceAmp();
-
+          m_isTrackingSpeaker = false;
       }
 
       this.calcTargetDistanceSpeaker();
@@ -225,8 +228,8 @@ public class Tracking extends SubsystemBase {
 
     double offset = distance * Math.tan(Math.toRadians(tx));
 
-    m_TargetDistance.setDouble(-distance);
-    m_TargetOffset.setDouble(-offset);
+    m_TargetDistance.setDouble(-distance / 100);
+    m_TargetOffset.setDouble(-offset / 100);
   }
 
   private void calcTargetDistanceSpeaker() {
@@ -239,8 +242,8 @@ public class Tracking extends SubsystemBase {
 
     double offset = distance * Math.tan(Math.toRadians(tx));
 
-    m_TargetDistance.setDouble(-distance);
-    m_TargetOffset.setDouble(-offset);
+    m_TargetDistance.setDouble(-distance / 100);
+    m_TargetOffset.setDouble(-offset / 100);
   }
 
   private void calcTargetDistance() {
@@ -305,7 +308,7 @@ public class Tracking extends SubsystemBase {
         }
         break;
       default:
-        goal = 0.0;
+        goal = -0.35;
     }
 
     return m_TargetDistance.getDouble(0.0) - goal;
@@ -378,9 +381,17 @@ public class Tracking extends SubsystemBase {
     double offset = -m_TargetOffset.getDouble(0.0);
     double answer = 0.0;
 
+    // default values are for speaker
     double deadzone = 0.05; // TODO tune this
     double kP = 1.5; // TODO tune this
     double kS = 0.5; // TODO tune this
+
+    // new values only if amp
+    if (m_isTrackingSpeaker == false) {
+      deadzone = 0.02;
+      kP = 0.75;
+      kS = 0.5;
+    }
 
     if (offset < 0.0) {
       kS = kS * -1;
@@ -402,9 +413,17 @@ public class Tracking extends SubsystemBase {
 
     double offset = getTargetDistanceError();
 
+    // default values are for speaker
     double deadzone = 0.05; // TODO tune this
     double kP = 1.5; // TODO tune this
     double kS = 0.5; // TODO tune this
+
+    // new values only if amp
+    if (m_isTrackingSpeaker == false) {
+      deadzone = 0.05;
+      kP = 1.5;
+      kS = 0.5;
+    }
 
     if (offset < 0.0) {
       kS = kS * -1;
@@ -415,6 +434,8 @@ public class Tracking extends SubsystemBase {
     if (Math.abs(offset) < deadzone) {
       answer = 0;
     }
+
+    answer = MathUtil.clamp(answer, -1.2, 1.2);
 
     DataLogManager.log("Target Front/Back: " + answer);
 
