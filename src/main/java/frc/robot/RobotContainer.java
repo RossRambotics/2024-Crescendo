@@ -356,7 +356,7 @@ public class RobotContainer {
                 NamedCommands.registerCommand("Indexer.Shoot",
                                 new WaitUntilCommand(() -> m_shooter.isShooterReady())
                                                 .andThen(new frc.robot.commands.Indexer.Shoot())
-                                                .andThen(new WaitCommand(0.15))
+                                                .andThen(new WaitCommand(0.1))
                                                 .andThen(new frc.robot.commands.Indexer.Stop())
                                                 .andThen(new frc.robot.commands.Indexer.Intake())
                                                 .withName("Auto.Indexer.Shoot"));
@@ -429,6 +429,7 @@ public class RobotContainer {
                         // m_autoChooser.addOption("S1 C2", drivetrain.getAutoPath("S1 C2"));
                         // m_autoChooser.addOption("S1 C3", drivetrain.getAutoPath("S1 C3"));
                         // m_autoChooser.addOption("S2 C1", drivetrain.getAutoPath("S2 C1"));
+                        m_autoChooser.addOption("S2 F2", drivetrain.getAutoPath("S2 F2"));
                         // m_autoChooser.addOption("S2 C2 C1 F3", drivetrain.getAutoPath("S2 C2 C1
                         // F3"));
                         // m_autoChooser.addOption("S2 C2 C1", drivetrain.getAutoPath("S2 C2 C1"));
@@ -437,9 +438,9 @@ public class RobotContainer {
                         // m_autoChooser.addOption("S2 C2 F2", drivetrain.getAutoPath("S2 C2 F2"));
                         // m_autoChooser.addOption("S2 C2 F3", drivetrain.getAutoPath("S2 C2 F3"));
                         // m_autoChooser.addOption("S2 C2", drivetrain.getAutoPath("S2 C2"));
-                        // m_autoChooser.addOption("S2 C3", drivetrain.getAutoPath("S2 C3"));
+                        m_autoChooser.addOption("S2 C3", drivetrain.getAutoPath("S2 C3"));
                         // m_autoChooser.addOption("S2 F2 F1", drivetrain.getAutoPath("S2 F2 F1"));
-                        // m_autoChooser.addOption("S2", drivetrain.getAutoPath("S2"));
+                        // m_autoChooser.addOption("S2 C1", drivetrain.getAutoPath("S2 C1"));
                         // m_autoChooser.addOption("S3 C3 C2 C1", drivetrain.getAutoPath("S3 C3 C2
                         // C1"));
                         // m_autoChooser.addOption("S3 C3 C2", drivetrain.getAutoPath("S3 C3 C2"));
