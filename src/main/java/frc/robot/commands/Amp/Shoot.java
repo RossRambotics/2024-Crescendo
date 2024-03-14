@@ -30,7 +30,7 @@ public class Shoot extends Command {
 
     RobotContainer.m_shooter.setShooterTopVel(-12);
     RobotContainer.m_shooter.setShooterBottomVel(-10);
-
+    RobotContainer.m_tracking.setTargetOffsetAdj(0.0);
     if (isRedAlliance) {
       RobotContainer.m_tracking.setTargetID(5);
       RobotContainer.m_tracking.setTargetAngle(-90);
