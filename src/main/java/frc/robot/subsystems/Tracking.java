@@ -29,6 +29,7 @@ public class Tracking extends SubsystemBase {
   private GenericEntry m_isGamePieceFound = null; // does the game piece tracking camera see a gamepiece
   private GenericEntry m_TargetDistance = null; // distance to Current Target
   private GenericEntry m_TargetOffset = null; // robot-centric x distance to center of current target
+  private GenericEntry m_TargetOffsetAdj = null; // robot-centric x distance to center of current target
   private GenericEntry m_GamePieceDistance = null; // distance to nearest gamepiece
   private GenericEntry m_GamePieceOffset = null; // robot-centric x distance to the center of the game piece
 
@@ -65,6 +66,8 @@ public class Tracking extends SubsystemBase {
         .add("TargetDistance", -1.0).getEntry();
     m_TargetOffset = Shuffleboard.getTab("Tracking")
         .add("TargetOffset", 0.0).getEntry();
+    m_TargetOffsetAdj = Shuffleboard.getTab("Tracking")
+        .add("TargetOffsetAdj", 0.0).getEntry();
     m_GamePieceDistance = Shuffleboard.getTab("Tracking")
         .add("GamePieceDistance", -1.0).getEntry();
     m_GamePieceOffset = Shuffleboard.getTab("Tracking")
@@ -243,7 +246,11 @@ public class Tracking extends SubsystemBase {
     double offset = distance * Math.tan(Math.toRadians(tx));
 
     m_TargetDistance.setDouble(-distance / 100);
-    m_TargetOffset.setDouble(-offset / 100);
+
+    offset = (-offset / 100) - m_TargetOffsetAdj.getDouble(0);
+
+    m_TargetOffset.setDouble(offset);
+
   }
 
   private void calcTargetDistance() {
@@ -262,6 +269,10 @@ public class Tracking extends SubsystemBase {
 
   public void setTargetID(int id) {
     m_TargetID.setDouble(id);
+  }
+
+  public void setTargetOffsetAdj(double Adj) {
+    m_TargetOffsetAdj.setDouble(Adj);
   }
 
   public boolean isTargetIDFound() {
@@ -304,7 +315,7 @@ public class Tracking extends SubsystemBase {
         if (m_TargetAngle.getDouble(0) == 0 || m_TargetAngle.getDouble(0) == 180) {
           goal = -0.9; // TODO tune this
         } else {
-          goal = -1.5;
+          goal = -1.24;
         }
         break;
       default:
@@ -382,15 +393,15 @@ public class Tracking extends SubsystemBase {
     double answer = 0.0;
 
     // default values are for speaker
-    double deadzone = 0.05; // TODO tune this
-    double kP = 1.5; // TODO tune this
+    double deadzone = 0.075; // TODO tune this
+    double kP = 1; // TODO tune this
     double kS = 0.5; // TODO tune this
 
     // new values only if amp
     if (m_isTrackingSpeaker == false) {
-      deadzone = 0.02;
-      kP = 0.75;
-      kS = 0.5;
+      deadzone = 0.03;
+      kP = 1;
+      kS = 0.175;
     }
 
     if (offset < 0.0) {
@@ -402,6 +413,7 @@ public class Tracking extends SubsystemBase {
     if (Math.abs(offset) < deadzone) {
       answer = 0;
     }
+
     DataLogManager.log("Target Left/Right: " + answer);
 
     return answer;
@@ -415,14 +427,14 @@ public class Tracking extends SubsystemBase {
 
     // default values are for speaker
     double deadzone = 0.05; // TODO tune this
-    double kP = 1.5; // TODO tune this
-    double kS = 0.5; // TODO tune this
+    double kP = 0.75; // TODO tune this
+    double kS = 0.3; // TODO tune this
 
     // new values only if amp
     if (m_isTrackingSpeaker == false) {
       deadzone = 0.05;
-      kP = 1.5;
-      kS = 0.5;
+      kP = 0.4;
+      kS = 0.3;
     }
 
     if (offset < 0.0) {
