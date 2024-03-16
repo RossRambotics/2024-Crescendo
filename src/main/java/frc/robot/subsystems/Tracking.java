@@ -433,7 +433,7 @@ public class Tracking extends SubsystemBase {
     // new values only if amp
     if (m_isTrackingSpeaker == false) {
       deadzone = 0.05;
-      kP = 0.4;
+      kP = 0.;
       kS = 0.3;
     }
 

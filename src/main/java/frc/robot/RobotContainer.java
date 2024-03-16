@@ -184,10 +184,10 @@ public class RobotContainer {
                 joystick.rightBumper()
                                 .whileTrue(drivetrain
                                                 .applyRequest(() -> gamePieceDrive
-                                                                .withVelocityX(m_tracking.getGamePiece_VelocityX())
-                                                                .withVelocityY(m_tracking.getGamePiece_VelocityY())
+                                                                .withVelocityX(m_tracking.getGamePiece_VelocityX() / 2)
+                                                                .withVelocityY(m_tracking.getGamePiece_VelocityY() / 2)
                                                                 .withRotationalRate(m_tracking
-                                                                                .getGamePiece_RotationalRate()))
+                                                                                .getGamePiece_RotationalRate() / 2))
                                                 .alongWith(m_tracking.NoteTrackingMode()));
 
                 joystick.rightBumper().onTrue(new frc.robot.commands.Intake.Down()

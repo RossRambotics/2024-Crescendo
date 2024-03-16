@@ -62,7 +62,6 @@ public class LEDs extends SubsystemBase {
 
   }
 
-  
   RainbowAnimation animation = new RainbowAnimation(.5, .5, 24);
 
   private static Timer m_Timer = new Timer();
@@ -119,7 +118,7 @@ public class LEDs extends SubsystemBase {
 
   public void noteTrackingMode() {
     // if we have a note go orange
-    if (RobotContainer.m_indexer.isNoteMiddle()) {
+    if (RobotContainer.m_indexer.isNoteMiddle() || RobotContainer.m_indexer.isNoteBottom()) {
       this.showOrange();
       return;
     }
