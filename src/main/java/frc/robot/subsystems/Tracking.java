@@ -310,6 +310,14 @@ public class Tracking extends SubsystemBase {
     int targetID = (int) m_TargetID.getDouble(-1);
     double goal = 0.0;
     switch (targetID) {
+      case 15:
+      case 16:
+      case 14:
+      case 13:
+      case 12:
+      case 11:
+        goal = -1.271;
+        break;
       case 7:
       case 4:
         if (m_TargetAngle.getDouble(0) == 0 || m_TargetAngle.getDouble(0) == 180) {
@@ -404,6 +412,13 @@ public class Tracking extends SubsystemBase {
       kS = 0.175;
     }
 
+    // Trap Values
+    if (m_TargetID.getDouble(-1) == 15) {
+      deadzone = 0.01;
+      kP = 1;
+      kS = 0.175;
+    }
+
     if (offset < 0.0) {
       kS = kS * -1;
     }
@@ -435,6 +450,13 @@ public class Tracking extends SubsystemBase {
       deadzone = 0.05;
       kP = 0.;
       kS = 0.3;
+    }
+
+    // Trap Values
+    if (m_TargetID.getDouble(-1) == 15) {
+      deadzone = 0.01;
+      kP = 1;
+      kS = 0.175;
     }
 
     if (offset < 0.0) {

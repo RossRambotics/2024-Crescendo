@@ -62,6 +62,9 @@ public class GridSelector extends SubsystemBase {
         .alongWith(RobotContainer.m_rClimb.getOverRideCommand());
     btnPass.whileTrue(cmd);
 
+    cmd = new frc.robot.commands.Trap.Shoot();
+    btnPass.onTrue(cmd);
+
     Trigger btnAmp = new JoystickButton(m_bbox1, 11);
     cmd = new frc.robot.commands.Amp.Shoot();
     btnAmp.onTrue(cmd);

@@ -92,6 +92,7 @@
       "/SmartDashboard/Speaker.Left": "Command",
       "/SmartDashboard/Speaker.Middle": "Command",
       "/SmartDashboard/Speaker.Right": "Command",
+      "/SmartDashboard/mech2d": "Mechanism2d",
       "/SmartDashboard/robot": "Mechanism2d"
     },
     "windows": {
