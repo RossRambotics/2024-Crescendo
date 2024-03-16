@@ -1,10 +1,5 @@
 {
   "NetworkTables": {
-    "retained": {
-      "limelight-target": {
-        "open": true
-      }
-    },
     "transitory": {
       "LiveWindow": {
         "Tracking": {

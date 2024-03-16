@@ -208,8 +208,6 @@ public class RobotContainer {
                                 .andThen(new frc.robot.commands.Indexer.Intake())
                                 .andThen(new WaitUntilCommand(() -> m_indexer.isNoteMiddle()))
                                 .andThen(new frc.robot.commands.Indexer.Stop())
-                                .andThen(new frc.robot.commands.Intake.IntakeReverse())
-                                .andThen(new WaitCommand(1))
                                 .andThen(new frc.robot.commands.Intake.IntakeStop())
                                 .andThen(new frc.robot.commands.Intake.Up()
                                                 .withName("Intake_a_Note")
