@@ -31,7 +31,7 @@ public class Shoot extends Command {
     }
 
     RobotContainer.m_shooter.setShooterTopVel(-10);
-    RobotContainer.m_shooter.setShooterBottomVel(-30);
+    RobotContainer.m_shooter.setShooterBottomVel(-34);
     RobotContainer.m_tracking.setTargetOffsetAdj(0.0);
 
     if (isRedAlliance) {
