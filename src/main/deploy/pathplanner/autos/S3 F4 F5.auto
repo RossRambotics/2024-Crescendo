@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7113445212805922,
-      "y": 4.494878848912628
+      "x": 0.8125154278477575,
+      "y": 4.451519888955271
     },
-    "rotation": -57.0947570770121
+    "rotation": -56.725112015165074
   },
   "command": {
     "type": "sequential",
@@ -24,15 +24,15 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.15
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "Intake.Down"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.15
           }
         },
         {
@@ -42,7 +42,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S3 F4 S3"
+                  "pathName": "S4 F4 S3"
                 }
               },
               {
@@ -58,6 +58,12 @@
           "type": "named",
           "data": {
             "name": "Indexer.Shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.15
           }
         },
         {

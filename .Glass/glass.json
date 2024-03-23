@@ -1,5 +1,10 @@
 {
   "NetworkTables": {
+    "retained": {
+      "SmartDashboard": {
+        "open": true
+      }
+    },
     "transitory": {
       "LiveWindow": {
         "Tracking": {
