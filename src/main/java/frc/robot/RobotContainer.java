@@ -412,8 +412,7 @@ public class RobotContainer {
 
                 try {
                         m_autoChooser.setDefaultOption("Dont Move", new WaitCommand(1.0));
-                        // m_autoChooser.addOption("2M Straight", drivetrain.getAutoPath("2M
-                        // Straight"));
+                        m_autoChooser.addOption("2M Straight", drivetrain.getAutoPath("2M Straight"));
                         m_autoChooser.addOption("S2 C1 C2 C3", drivetrain.getAutoPath("S2 C1 C2 C3"));
                         // m_autoChooser.addOption("S1 C1 C2 F1", drivetrain.getAutoPath("S1 C1 C2
                         // F1"));
@@ -443,11 +442,15 @@ public class RobotContainer {
                         // m_autoChooser.addOption("S3 C3 C2 C1", drivetrain.getAutoPath("S3 C3 C2
                         // C1"));
                         // m_autoChooser.addOption("S3 C3 C2", drivetrain.getAutoPath("S3 C3 C2"));
-                        m_autoChooser.addOption("S3 C3 F4 F5", drivetrain.getAutoPath("S3 C3 F4 F5"));
+                        // m_autoChooser.addOption("S3 C3 F4 F5", drivetrain.getAutoPath("S3 C3 F4
+                        // F5"));
                         m_autoChooser.addOption("Shoot NO MOVE", drivetrain.getAutoPath("Shoot NO MOVE")
                                         .withTimeout(4));
                         m_autoChooser.addOption("S2 C2 F1 C1 C3 F3", drivetrain.getAutoPath("S2 C2 F1 C1 C3 F3"));
-                        m_autoChooser.addOption("S2 C1 C2 C3 F2", drivetrain.getAutoPath("S2 C1 C2 C3 F2"));
+                        m_autoChooser.addOption("S2 C2 F3 C1 C3 F3", drivetrain.getAutoPath("S2 C2 F3 C1 C3 F3"));
+                        m_autoChooser.addOption("S2 C2 F2 C1 C3 F3", drivetrain.getAutoPath("S2 C2 F2 C1 C3 F3"));
+                        // m_autoChooser.addOption("S2 C1 C2 C3 F2", drivetrain.getAutoPath("S2 C1 C2 C3
+                        // F2"));
                         m_autoChooser.addOption("S3 F4 F5", drivetrain.getAutoPath("S3 F4 F5"));
 
                 } catch (Exception e) {

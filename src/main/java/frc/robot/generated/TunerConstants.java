@@ -48,7 +48,7 @@ public class TunerConstants {
 
         private static final double kDriveGearRatio = 8.142857142857142;
         private static final double kSteerGearRatio = 21.428571428571427;
-        private static final double kWheelRadiusInches = 2.585;
+        private static final double kWheelRadiusInches = 2.595;
         private static final boolean kSteerMotorReversed = true;
         private static final boolean kInvertLeftSide = false;
         private static final boolean kInvertRightSide = true;
@@ -89,7 +89,7 @@ public class TunerConstants {
         private static final int kFrontLeftDriveMotorId = 3;
         private static final int kFrontLeftSteerMotorId = 2;
         private static final int kFrontLeftEncoderId = 5;
-        private static final double kFrontLeftEncoderOffset = 0.4248046875;
+        private static final double kFrontLeftEncoderOffset = 0.4248046875 - .07 - .5;
 
         private static final double kFrontLeftXPosInches = 11.5;
         private static final double kFrontLeftYPosInches = 13;

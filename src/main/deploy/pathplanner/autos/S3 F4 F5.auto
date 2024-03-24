@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.8125154278477575,
-      "y": 4.451519888955271
+      "x": 0.7952442380734501,
+      "y": 4.479133108534554
     },
-    "rotation": -56.725112015165074
+    "rotation": -56.888658039628005
   },
   "command": {
     "type": "sequential",
@@ -42,7 +42,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S4 F4 S3"
+                  "pathName": "S3 F4 S3"
                 }
               },
               {
@@ -63,7 +63,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.15
+            "waitTime": 0.25
           }
         },
         {

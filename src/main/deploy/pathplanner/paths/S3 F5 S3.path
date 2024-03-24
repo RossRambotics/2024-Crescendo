@@ -3,41 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7980624411953052,
-        "y": 4.437066902302819
+        "x": 1.04490083756554,
+        "y": 4.596618567119067
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9543013733914796,
-        "y": 2.8616913571855305
+        "x": 2.2011397697617143,
+        "y": 3.0212430220017783
       },
       "isLocked": false,
       "linkedName": "S3"
     },
     {
       "anchor": {
-        "x": 8.111273687336107,
-        "y": 0.7949142658848707
+        "x": 8.887055198081773,
+        "y": 1.057369127260617
       },
       "prevControl": {
-        "x": 8.408849659709372,
-        "y": 0.7446741666530208
+        "x": 9.182391705682551,
+        "y": 0.9953056582720476
       },
       "nextControl": {
-        "x": 5.885513742858472,
-        "y": 1.1706919188486271
+        "x": 6.860431037498927,
+        "y": 1.4832539146294756
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.7980624411953052,
-        "y": 4.437066902302819
+        "x": 1.04490083756554,
+        "y": 4.596618567119067
       },
       "prevControl": {
-        "x": 1.69414761364734,
-        "y": 3.642152636417949
+        "x": 1.940986010017575,
+        "y": 3.8017043012341967
       },
       "nextControl": null,
       "isLocked": false,
@@ -47,7 +47,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.5,
-      "rotationDegrees": -19.65382405805337,
+      "rotationDegrees": -12.482983406203365,
       "rotateFast": false
     }
   ],
@@ -65,7 +65,7 @@
     },
     {
       "name": "End",
-      "minWaypointRelativePos": 1.75,
+      "minWaypointRelativePos": 1.9,
       "maxWaypointRelativePos": 2.0,
       "constraints": {
         "maxVelocity": 2.0,
@@ -77,10 +77,10 @@
   ],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 5.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 360.0,
-    "maxAngularAcceleration": 360.0
+    "maxAngularAcceleration": 90.0
   },
   "goalEndState": {
     "velocity": 0,
