@@ -89,7 +89,7 @@ public class TunerConstants {
         private static final int kFrontLeftDriveMotorId = 3;
         private static final int kFrontLeftSteerMotorId = 2;
         private static final int kFrontLeftEncoderId = 5;
-        private static final double kFrontLeftEncoderOffset = 0.4248046875 - .07 - .5;
+        private static final double kFrontLeftEncoderOffset = -0.1044921875;
 
         private static final double kFrontLeftXPosInches = 11.5;
         private static final double kFrontLeftYPosInches = 13;
@@ -98,7 +98,7 @@ public class TunerConstants {
         private static final int kFrontRightDriveMotorId = 1;
         private static final int kFrontRightSteerMotorId = 16;
         private static final int kFrontRightEncoderId = 4;
-        private static final double kFrontRightEncoderOffset = 0.27099609375;
+        private static final double kFrontRightEncoderOffset = 0.26025390625;
 
         private static final double kFrontRightXPosInches = 11.5;
         private static final double kFrontRightYPosInches = -13;
@@ -107,7 +107,7 @@ public class TunerConstants {
         private static final int kBackLeftDriveMotorId = 13;
         private static final int kBackLeftSteerMotorId = 12;
         private static final int kBackLeftEncoderId = 6;
-        private static final double kBackLeftEncoderOffset = 0.026611328125;
+        private static final double kBackLeftEncoderOffset = 0.0234375;
 
         private static final double kBackLeftXPosInches = -11.5;
         private static final double kBackLeftYPosInches = 13;
@@ -116,7 +116,7 @@ public class TunerConstants {
         private static final int kBackRightDriveMotorId = 15;
         private static final int kBackRightSteerMotorId = 14;
         private static final int kBackRightEncoderId = 7;
-        private static final double kBackRightEncoderOffset = -0.478271484375;
+        private static final double kBackRightEncoderOffset = -0.48193359375;
 
         private static final double kBackRightXPosInches = -11.5;
         private static final double kBackRightYPosInches = -13;
