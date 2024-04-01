@@ -103,11 +103,6 @@
       "/SmartDashboard/robot": "Mechanism2d"
     },
     "windows": {
-      "/Pose": {
-        "window": {
-          "visible": true
-        }
-      },
       "/SmartDashboard/Amp.Shoot": {
         "window": {
           "visible": true
