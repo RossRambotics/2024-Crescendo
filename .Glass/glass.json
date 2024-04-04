@@ -1,5 +1,10 @@
 {
   "NetworkTables": {
+    "retained": {
+      "SmartDashboard": {
+        "open": true
+      }
+    },
     "transitory": {
       "LiveWindow": {
         "Tracking": {
@@ -40,7 +45,6 @@
           }
         },
         "SendableChooser[0]": {
-          "open": true,
           "string[]##v_/SmartDashboard/SendableChooser[0]/options": {
             "open": true
           }
@@ -95,14 +99,10 @@
       "/SmartDashboard/Speaker.Left": "Command",
       "/SmartDashboard/Speaker.Middle": "Command",
       "/SmartDashboard/Speaker.Right": "Command",
+      "/SmartDashboard/mech2d": "Mechanism2d",
       "/SmartDashboard/robot": "Mechanism2d"
     },
     "windows": {
-      "/Pose": {
-        "window": {
-          "visible": true
-        }
-      },
       "/SmartDashboard/Amp.Shoot": {
         "window": {
           "visible": true

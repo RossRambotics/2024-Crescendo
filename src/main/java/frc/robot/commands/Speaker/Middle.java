@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Speaker;
 
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
@@ -17,6 +18,8 @@ public class Middle extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    DataLogManager.log("Speaker.Shoot.Middle Requested.");
+    RobotContainer.m_shooter.setShooterMessage("Speaker.Shoot.Middle");
     var alliance = DriverStation.getAlliance();
     boolean isRedAlliance = false;
     if (alliance.isPresent()) {
@@ -27,6 +30,8 @@ public class Middle extends Command {
 
     RobotContainer.m_shooter.setShooterTopVel(-55);
     RobotContainer.m_shooter.setShooterBottomVel(-45);
+
+    RobotContainer.m_tracking.setTargetOffsetAdj(0);
 
     if (isRedAlliance) {
       RobotContainer.m_tracking.setTargetID(4);

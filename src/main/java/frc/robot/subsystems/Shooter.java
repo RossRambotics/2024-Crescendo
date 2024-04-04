@@ -24,6 +24,8 @@ import frc.robot.sim.PhysicsSim;
 
 public class Shooter extends SubsystemBase {
 
+  private String m_Shooter_Message = "default";
+
   private final TalonFX m_topMotor = new TalonFX(Constants.kRio_CAN_Shooter_Top_Motor);
   private final TalonFX m_botMotor = new TalonFX(Constants.kRio_CAN_Shooter_Bottom_Motor);
 
@@ -59,7 +61,7 @@ public class Shooter extends SubsystemBase {
      * Torque-based velocity does not require a feed forward, as torque will
      * accelerate the rotor up to the desired velocity by itself
      */
-    configs.Slot1.kP = 5; // An error of 1 rotation per second results in 5 amps output
+    configs.Slot1.kP = 2.5; // An error of 1 rotation per second results in 5 amps output
     configs.Slot1.kI = 0.1; // An error of 1 rotation per second increases output by 0.1 amps every second
     configs.Slot1.kD = 0.001; // A change of 1000 rotation per second squared results in 1 amp output
 
@@ -98,11 +100,16 @@ public class Shooter extends SubsystemBase {
 
   }
 
+  public void setShooterMessage(String message) {
+    m_Shooter_Message = message;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("shooterTopRPS", m_topMotor.getVelocity().getValueAsDouble());
     SmartDashboard.putNumber("shooterBottomRPS", m_botMotor.getVelocity().getValueAsDouble());
+    SmartDashboard.putString("ShooterMessage", m_Shooter_Message);
   }
 
   public void simulationInit() {
@@ -151,8 +158,12 @@ public class Shooter extends SubsystemBase {
     double desiredTopRPS = m_ShootSpeakerTopVel.getDouble(60);
     double desiredBotRPS = m_ShootSpeakerBotVel.getDouble(60);
 
+    // m_topMotor.setControl(m_torqueVelocity.withVelocity(desiredTopRPS));
+    // m_botMotor.setControl(m_torqueVelocity.withVelocity(desiredBotRPS));
+
     m_topMotor.setControl(m_voltageVelocity.withVelocity(desiredTopRPS));
     m_botMotor.setControl(m_voltageVelocity.withVelocity(desiredBotRPS));
+
   }
 
   public double getTopMotorSpeed() {

@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Amp;
 
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
@@ -17,6 +18,8 @@ public class Shoot extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    DataLogManager.log("Amp.Shoot Requested.");
+    RobotContainer.m_shooter.setShooterMessage("Amp");
     var alliance = DriverStation.getAlliance();
     boolean isRedAlliance = false;
     if (alliance.isPresent()) {
@@ -27,7 +30,7 @@ public class Shoot extends Command {
 
     RobotContainer.m_shooter.setShooterTopVel(-12);
     RobotContainer.m_shooter.setShooterBottomVel(-10);
-
+    RobotContainer.m_tracking.setTargetOffsetAdj(0.0);
     if (isRedAlliance) {
       RobotContainer.m_tracking.setTargetID(5);
       RobotContainer.m_tracking.setTargetAngle(-90);

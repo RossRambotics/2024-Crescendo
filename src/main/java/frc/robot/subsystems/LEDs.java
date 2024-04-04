@@ -48,7 +48,7 @@ public class LEDs extends SubsystemBase {
     CANdleConfiguration configALL = new CANdleConfiguration();
     configALL.disableWhenLOS = false;
     configALL.stripType = LEDStripType.GRB;
-    configALL.brightnessScalar = 0.1; // dim the LEDs to 10% brightness
+    configALL.brightnessScalar = 0.5; // dim the LEDs to 10% brightness
     // configALL.vBatOutputMode = VBatOutputMode.Modulated;
     m_candle.configAllSettings(configALL, 100);
     m_Timer.start();
@@ -62,7 +62,6 @@ public class LEDs extends SubsystemBase {
 
   }
 
-  
   RainbowAnimation animation = new RainbowAnimation(.5, .5, 24);
 
   private static Timer m_Timer = new Timer();
@@ -119,7 +118,7 @@ public class LEDs extends SubsystemBase {
 
   public void noteTrackingMode() {
     // if we have a note go orange
-    if (RobotContainer.m_indexer.isNoteMiddle()) {
+    if (RobotContainer.m_indexer.isNoteMiddle() || RobotContainer.m_indexer.isNoteBottom()) {
       this.showOrange();
       return;
     }

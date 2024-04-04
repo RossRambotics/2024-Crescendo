@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.commands.PathfindingCommand;
 import com.revrobotics.REVPhysicsSim;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -30,6 +31,8 @@ public class Robot extends TimedRobot {
     m_robotContainer.drivetrain.getDaqThread().setThreadPriority(99);
     m_robotContainer.m_intake.startCompresser();
     m_gcTimer.start();
+
+    PathfindingCommand.warmupCommand().schedule();
   }
 
   Timer m_gcTimer = new Timer();

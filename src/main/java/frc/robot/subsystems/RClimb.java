@@ -11,6 +11,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxAlternateEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -29,6 +30,8 @@ public class RClimb extends SubsystemBase {
 
   private boolean m_isOverRide = false;
 
+  private final Joystick m_bbox2 = new Joystick(2);
+
   /** Creates a new Climb. */
   public RClimb() {
     m_rClimbMotor.setInverted(true);
@@ -44,12 +47,13 @@ public class RClimb extends SubsystemBase {
     SmartDashboard.putNumber("Right Climb Motor Pos", m_rClimbMotor.getEncoder().getPosition());
 
     if (!m_isOverRide) {
-      if (m_rClimbMotor.getEncoder().getPosition() >= 250 && m_rClimbMotor.getEncoder().getVelocity() > 0) {
+      if (m_rClimbMotor.getEncoder().getPosition() >= 285 && m_bbox2.getRawAxis(1) == -1) {
         m_rClimbMotor.set(0);
       }
 
-      if (m_rClimbMotor.getEncoder().getPosition() <= 0 && m_rClimbMotor.getEncoder().getVelocity() < 0) {
+      if (m_rClimbMotor.getEncoder().getPosition() <= 0 && m_bbox2.getRawAxis(1) == 1) {
         m_rClimbMotor.set(0);
+
       }
 
     } else {
