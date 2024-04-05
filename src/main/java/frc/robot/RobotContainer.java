@@ -12,33 +12,26 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.units.Power;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.Indexer.StoreOneNote;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.RClimb;
 import frc.robot.subsystems.GridSelector;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LClimb;
 import frc.robot.subsystems.LEDs;
+import frc.robot.subsystems.RClimb;
 import frc.robot.subsystems.RobotMechanism;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Tracking;
@@ -47,6 +40,7 @@ public class RobotContainer {
         private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // 6 meters per second desired top speed
         private double MaxAngularRate = 1.25 * Math.PI; // 3/4 of a rotation per second max angular velocity
         private final CommandXboxController joystick = new CommandXboxController(0); // My joystick
+        private final CommandXboxController operatorJoystick = new CommandXboxController(3);
         private double m_joystickAlliance = 1;
 
         Trigger leftTrigger = new Trigger(
@@ -54,6 +48,19 @@ public class RobotContainer {
 
         Trigger rightTrigger = new Trigger(
                         () -> joystick.getRawAxis(XboxController.Axis.kRightTrigger.value) >= 0.5);
+
+        Trigger operatorLeftUpTrigger = new Trigger(
+                        () -> operatorJoystick.getRawAxis(XboxController.Axis.kLeftY.value) >= 0.5);
+
+        Trigger operatorLeftDownTrigger = new Trigger(
+                        () -> operatorJoystick.getRawAxis(XboxController.Axis.kLeftY.value) <= 0.5);
+
+        Trigger operatorRightUpTrigger = new Trigger(
+                        () -> operatorJoystick.getRawAxis(XboxController.Axis.kRightY.value) >= 0.5);
+
+        Trigger operatorRightDownTrigger = new Trigger(
+                        () -> operatorJoystick.getRawAxis(XboxController.Axis.kRightY.value) <= 0.5);
+
         Trigger aButton = new Trigger(joystick.a());
         Trigger bButton = new Trigger(joystick.b());
 
@@ -281,6 +288,32 @@ public class RobotContainer {
                 drivetrain.registerTelemetry(logger::telemeterize);
 
                 m_gridSelector.initialize();
+
+                // Operator controller Button Box broke
+                operatorJoystick.y().onTrue(new frc.robot.commands.Speaker.Middle());
+
+                operatorJoystick.x().onTrue(new frc.robot.commands.Speaker.Left());
+
+                operatorJoystick.b().onTrue(new frc.robot.commands.Speaker.Right());
+
+                operatorJoystick.a().onTrue(new frc.robot.commands.Amp.Shoot());
+
+                operatorLeftUpTrigger.onTrue(new frc.robot.commands.LClimb.LClimbUp());
+
+                operatorLeftDownTrigger.onTrue(new frc.robot.commands.LClimb.LClimbDown());
+
+                operatorLeftDownTrigger.onFalse(new frc.robot.commands.LClimb.LClimbStop());
+
+                operatorRightUpTrigger.onTrue(new frc.robot.commands.RClimb.RClimbUp());
+
+                operatorRightDownTrigger.onTrue(new frc.robot.commands.RClimb.RClimbDown());
+
+                operatorRightDownTrigger.onFalse(new frc.robot.commands.RClimb.RClimbStop());
+
+                operatorJoystick.leftBumper().onTrue(new frc.robot.commands.Intake.IntakeReverse()
+                                .andThen(new frc.robot.commands.Indexer.Intake()));
+
+                operatorJoystick.rightBumper().onTrue(new frc.robot.commands.Shooter.Start());
 
         }
 
