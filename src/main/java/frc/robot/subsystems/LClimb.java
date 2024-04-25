@@ -45,11 +45,11 @@ public class LClimb extends SubsystemBase {
     SmartDashboard.putNumber("Left Climb Motor Pos", m_lClimbMotor.getEncoder().getPosition());
 
     if (!m_isOverRide) {
-      if (m_lClimbMotor.getEncoder().getPosition() >= 285 && m_bbox1.getRawAxis(1) == -1) {
+      if (m_lClimbMotor.getEncoder().getPosition() >= 285 && m_bbox1.getRawButton(9) == true) {
         m_lClimbMotor.set(0);
       }
 
-      if (m_lClimbMotor.getEncoder().getPosition() <= 0 && m_bbox1.getRawAxis(1) == 1) {
+      if (m_lClimbMotor.getEncoder().getPosition() <= 0 && m_bbox1.getRawButton(1) == true) {
         m_lClimbMotor.set(0);
       }
 

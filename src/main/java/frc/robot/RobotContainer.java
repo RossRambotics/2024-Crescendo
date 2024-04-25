@@ -40,7 +40,7 @@ public class RobotContainer {
         private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // 6 meters per second desired top speed
         private double MaxAngularRate = 1.25 * Math.PI; // 3/4 of a rotation per second max angular velocity
         private final CommandXboxController joystick = new CommandXboxController(0); // My joystick
-        private final CommandXboxController operatorJoystick = new CommandXboxController(3);
+        private final CommandXboxController operatorJoystick = new CommandXboxController(4);
         private double m_joystickAlliance = 1;
 
         Trigger leftTrigger = new Trigger(
@@ -290,30 +290,36 @@ public class RobotContainer {
                 m_gridSelector.initialize();
 
                 // Operator controller Button Box broke
-                operatorJoystick.y().onTrue(new frc.robot.commands.Speaker.Middle());
+                // operatorJoystick.y().onTrue(new frc.robot.commands.Speaker.Middle());
 
-                operatorJoystick.x().onTrue(new frc.robot.commands.Speaker.Left());
+                // operatorJoystick.x().onTrue(new frc.robot.commands.Speaker.Left());
 
-                operatorJoystick.b().onTrue(new frc.robot.commands.Speaker.Right());
+                // operatorJoystick.b().onTrue(new frc.robot.commands.Speaker.Right());
 
-                operatorJoystick.a().onTrue(new frc.robot.commands.Amp.Shoot());
+                // operatorJoystick.a().onTrue(new frc.robot.commands.Amp.Shoot());
 
-                operatorLeftUpTrigger.onTrue(new frc.robot.commands.LClimb.LClimbUp());
+                // operatorLeftUpTrigger.whileTrue(new frc.robot.commands.LClimb.LClimbUp());
 
-                operatorLeftDownTrigger.onTrue(new frc.robot.commands.LClimb.LClimbDown());
+                // operatorLeftDownTrigger.whileTrue(new
+                // frc.robot.commands.LClimb.LClimbDown());
 
-                operatorLeftDownTrigger.onFalse(new frc.robot.commands.LClimb.LClimbStop());
+                // //operatorLeftDownTrigger.whileFalse(new
+                // frc.robot.commands.LClimb.LClimbStop());
 
-                operatorRightUpTrigger.onTrue(new frc.robot.commands.RClimb.RClimbUp());
+                // operatorRightUpTrigger.whileTrue(new frc.robot.commands.RClimb.RClimbUp());
 
-                operatorRightDownTrigger.onTrue(new frc.robot.commands.RClimb.RClimbDown());
+                // operatorRightDownTrigger.whileTrue(new
+                // frc.robot.commands.RClimb.RClimbDown());
 
-                operatorRightDownTrigger.onFalse(new frc.robot.commands.RClimb.RClimbStop());
+                // //operatorRightDownTrigger.whileFalse(new
+                // frc.robot.commands.RClimb.RClimbStop());
 
-                operatorJoystick.leftBumper().onTrue(new frc.robot.commands.Intake.IntakeReverse()
-                                .andThen(new frc.robot.commands.Indexer.Intake()));
+                // operatorJoystick.leftBumper().onTrue(new
+                // frc.robot.commands.Intake.IntakeReverse()
+                // .andThen(new frc.robot.commands.Indexer.Intake()));
 
-                operatorJoystick.rightBumper().onTrue(new frc.robot.commands.Shooter.Start());
+                // operatorJoystick.rightBumper().onTrue(new
+                // frc.robot.commands.Shooter.Start());
 
         }
 
@@ -504,7 +510,8 @@ public class RobotContainer {
                                         .withTimeout(4));
                         m_autoChooser.addOption("S2 C2 F1 C1 C3 F3", drivetrain.getAutoPath("S2 C2 F1 C1 C3 F3"));
                         m_autoChooser.addOption("S2 C2 F3 C1 C3 F3", drivetrain.getAutoPath("S2 C2 F3 C1 C3 F3"));
-                        m_autoChooser.addOption("S2 C2 F2 C1 C3 F3", drivetrain.getAutoPath("S2 C2 F2 C1 C3 F3"));
+                        m_autoChooser.addOption("S2 C2 C3 C1 F2 F3", drivetrain.getAutoPath("S2 C2 C3 C1 F2 F3"));
+                        m_autoChooser.addOption("S2 C2 C3 C1 F3 F3", drivetrain.getAutoPath("S2 C2 C3 C1 F3 F3"));
                         // m_autoChooser.addOption("S2 C1 C2 C3 F2", drivetrain.getAutoPath("S2 C1 C2 C3
                         // F2"));
                         m_autoChooser.addOption("S3 F4 F5", drivetrain.getAutoPath("S3 F4 F5"));

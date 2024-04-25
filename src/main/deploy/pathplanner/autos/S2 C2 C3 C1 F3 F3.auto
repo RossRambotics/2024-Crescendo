@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3973572133190786,
-      "y": 7.328155479208991
+      "x": 1.2211290254423093,
+      "y": 5.580559282764361
     },
-    "rotation": -88.48900676316049
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -14,74 +14,19 @@
         {
           "type": "named",
           "data": {
-            "name": "Amp.Shoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Amp"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Indexer.Shoot"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake.Down"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "Speaker.Middle"
           }
         },
         {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Amp F1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Indexer.Storage"
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "wait",
           "data": {
-            "waitTime": 0.0
+            "waitTime": 0.15
           }
         },
         {
           "type": "named",
           "data": {
             "name": "Indexer.Shoot"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
           }
         },
         {
@@ -97,7 +42,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "F1 F2"
+                  "pathName": "S2 C2 S2"
                 }
               },
               {
@@ -110,21 +55,9 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.0
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "Indexer.Shoot"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
           }
         },
         {
@@ -140,7 +73,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "F2 F3"
+                  "pathName": "S2 C3 S2"
                 }
               },
               {
@@ -153,21 +86,9 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.0
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "Indexer.Shoot"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
           }
         },
         {
@@ -183,7 +104,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "F3 F4"
+                  "pathName": "S2 C1 S2"
                 }
               },
               {
@@ -196,21 +117,9 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.0
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "Indexer.Shoot"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
           }
         },
         {
@@ -226,7 +135,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "F4 F5"
+                  "pathName": "S2 F3 S2"
                 }
               },
               {
@@ -239,12 +148,6 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.0
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "Indexer.Shoot"
@@ -253,7 +156,38 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.5
+            "waitTime": 0.15
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake.Down"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "S2 F3 S2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Indexer.Storage"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Indexer.Shoot"
           }
         }
       ]

@@ -30,7 +30,7 @@ public class RClimb extends SubsystemBase {
 
   private boolean m_isOverRide = false;
 
-  private final Joystick m_bbox2 = new Joystick(2);
+  private final Joystick m_bbox1 = new Joystick(1);
 
   /** Creates a new Climb. */
   public RClimb() {
@@ -47,11 +47,11 @@ public class RClimb extends SubsystemBase {
     SmartDashboard.putNumber("Right Climb Motor Pos", m_rClimbMotor.getEncoder().getPosition());
 
     if (!m_isOverRide) {
-      if (m_rClimbMotor.getEncoder().getPosition() >= 285 && m_bbox2.getRawAxis(1) == -1) {
+      if (m_rClimbMotor.getEncoder().getPosition() >= 285 && m_bbox1.getRawButton(2) == true) {
         m_rClimbMotor.set(0);
       }
 
-      if (m_rClimbMotor.getEncoder().getPosition() <= 0 && m_bbox2.getRawAxis(1) == 1) {
+      if (m_rClimbMotor.getEncoder().getPosition() <= 0 && m_bbox1.getRawButton(3) == true) {
         m_rClimbMotor.set(0);
 
       }

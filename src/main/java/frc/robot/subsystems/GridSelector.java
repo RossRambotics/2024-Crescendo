@@ -22,7 +22,7 @@ import frc.robot.commands.LClimb.*;
 /** Add your docs here. */
 public class GridSelector extends SubsystemBase {
   private final Joystick m_bbox1 = new Joystick(1);
-  private final Joystick m_bbox2 = new Joystick(2);
+  // private final Joystick m_bbox2 = new Joystick(2);
   private final PowerDistribution pDP = new PowerDistribution(Constants.pDP, ModuleType.kRev);
 
   /** Creates a new GridSelector2. */
@@ -51,16 +51,16 @@ public class GridSelector extends SubsystemBase {
     joyLClimbDown.whileTrue(cmd);
 
     // Unstucks Intake
-    // Trigger btnTrap = new JoystickButton(m_bbox2, 5);
-    // cmd = new frc.robot.commands.Intake.IntakeReverse()
-    // .andThen(new frc.robot.commands.Indexer.Intake());
-    // btnTrap.onTrue(cmd);
+    Trigger btnTrap = new JoystickButton(m_bbox1, 5);
+    cmd = new frc.robot.commands.Intake.IntakeReverse()
+        .alongWith(new frc.robot.commands.Indexer.Reverse().repeatedly());
+    btnTrap.onTrue(cmd);
 
     // Removes the climb limits when the climb is being held down
-    // Trigger btnPass = new JoystickButton(m_bbox2, 12);
-    // cmd = RobotContainer.m_lClimb.getOverRideCommand()
-    // .alongWith(RobotContainer.m_rClimb.getOverRideCommand());
-    // btnPass.whileTrue(cmd);
+    Trigger btnPass = new JoystickButton(m_bbox1, 6);
+    cmd = RobotContainer.m_lClimb.getOverRideCommand()
+        .alongWith(RobotContainer.m_rClimb.getOverRideCommand());
+    btnPass.whileTrue(cmd);
 
     // cmd = new frc.robot.commands.Trap.Shoot();
     // btnPass.onTrue(cmd);
@@ -107,27 +107,27 @@ public class GridSelector extends SubsystemBase {
     cmd = new frc.robot.commands.Shooter.Start();
     btnShooterStart.onTrue(cmd);
 
-    Trigger btnSourceLeft = new JoystickButton(m_bbox1, 8);
-    cmd = new frc.robot.commands.Source.Middle();
-    btnSourceLeft.onTrue(cmd);
+    // Trigger btnSourceLeft = new JoystickButton(m_bbox1, 8);
+    // cmd = new frc.robot.commands.Source.Middle();
+    // btnSourceLeft.onTrue(cmd);
 
-    Trigger btnSourceMiddle = new JoystickButton(m_bbox1, 11);
-    cmd = new frc.robot.commands.Source.Middle();
-    btnSourceMiddle.onTrue(cmd);
+    // Trigger btnSourceMiddle = new JoystickButton(m_bbox1, 11);
+    // cmd = new frc.robot.commands.Source.Middle();
+    // btnSourceMiddle.onTrue(cmd);
 
-    Trigger btnSourceRight = new JoystickButton(m_bbox1, 12);
-    cmd = new frc.robot.commands.Source.Middle();
-    btnSourceRight.onTrue(cmd);
+    // Trigger btnSourceRight = new JoystickButton(m_bbox1, 12);
+    // cmd = new frc.robot.commands.Source.Middle();
+    // btnSourceRight.onTrue(cmd);
 
-    Trigger btnSpeakerLeft = new JoystickButton(m_bbox2, 6);
+    Trigger btnSpeakerLeft = new JoystickButton(m_bbox1, 8);
     cmd = new frc.robot.commands.Speaker.Left();
     btnSpeakerLeft.onTrue(cmd);
 
-    Trigger btnSpeakerMiddle = new JoystickButton(m_bbox2, 7);
+    Trigger btnSpeakerMiddle = new JoystickButton(m_bbox1, 11);
     cmd = new frc.robot.commands.Speaker.Middle();
     btnSpeakerMiddle.onTrue(cmd);
 
-    Trigger btnSpeakerRight = new JoystickButton(m_bbox2, 8);
+    Trigger btnSpeakerRight = new JoystickButton(m_bbox1, 12);
     cmd = new frc.robot.commands.Speaker.Right();
     btnSpeakerRight.onTrue(cmd);
 
