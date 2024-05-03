@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4773528138605576,
-      "y": 5.680023754413707
+      "x": 2.0699252666110968,
+      "y": 5.940177514157846
     },
-    "rotation": 59.30027744918554
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
@@ -42,7 +42,32 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S1 C1 S1"
+                  "pathName": "S2 F1-F2 T"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Indexer.Storage"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AUTO.NOTE.TRACKING"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "F1-F2 T S2"
                 }
               },
               {

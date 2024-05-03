@@ -439,16 +439,28 @@ public class RobotContainer {
                                 .alongWith(m_tracking.NoteTrackingMode());
 
                 Command cmd = new frc.robot.commands.Intake.Down()
-                                .andThen(new frc.robot.commands.Intake.IntakeStart()
-                                                .andThen(drivetrain
-                                                                .applyRequest(() -> gamePieceDrive.withVelocityX(
-                                                                                m_tracking.getGamePiece_VelocityX())
-                                                                                .withVelocityY(m_tracking
-                                                                                                .getGamePiece_VelocityY())
-                                                                                .withRotationalRate(m_tracking
-                                                                                                .getGamePiece_RotationalRate()))
-                                                                .alongWith(m_tracking.NoteTrackingMode())
-                                                                .withName("Auto Intake Note")));
+                                .andThen(new frc.robot.commands.Intake.IntakeStart())
+                                .andThen(new frc.robot.commands.Indexer.Intake())
+                                .andThen(drivetrain
+                                                .applyRequest(() -> gamePieceDrive.withVelocityX(
+                                                                m_tracking.getGamePiece_VelocityX()
+                                                                                / 4)
+                                                                .withVelocityY(m_tracking
+                                                                                .getGamePiece_VelocityY()
+                                                                                / 4)
+                                                                .withRotationalRate(m_tracking
+                                                                                .getGamePiece_RotationalRate()
+                                                                                / 4))
+                                                .alongWith(m_tracking.NoteTrackingMode()))
+                                .until(() -> m_indexer.isNoteBottom())
+                                // .andThen(new frc.robot.commands.Intake.IntakeStop())
+                                // .andThen(drivetrain.applyRequest(() -> drive
+                                // .withVelocityX(0).withVelocityY(0)
+                                // .withRotationalRate(0)))
+                                // .until(() -> m_indexer.isNoteBottom())
+                                .withName("Auto Intake Note");
+
+                NamedCommands.registerCommand("AUTO.NOTE.TRACKING", cmd);
 
                 NamedCommands.registerCommand("Auto.Pick.Up",
                                 new frc.robot.commands.Intake.Down()
@@ -489,7 +501,7 @@ public class RobotContainer {
                         // m_autoChooser.addOption("S1 C2", drivetrain.getAutoPath("S1 C2"));
                         // m_autoChooser.addOption("S1 C3", drivetrain.getAutoPath("S1 C3"));
                         // m_autoChooser.addOption("S2 C1", drivetrain.getAutoPath("S2 C1"));
-                        // m_autoChooser.addOption("S2 F2", drivetrain.getAutoPath("S2 F2"));
+                        m_autoChooser.addOption("Note Trackng Test", drivetrain.getAutoPath("Note Trackng Test"));
                         // m_autoChooser.addOption("S2 C2 C1 F3", drivetrain.getAutoPath("S2 C2 C1
                         // F3"));
                         // m_autoChooser.addOption("S2 C2 C1", drivetrain.getAutoPath("S2 C2 C1"));
@@ -503,7 +515,7 @@ public class RobotContainer {
                         m_autoChooser.addOption("Amp F1 F2 F3 F4 F5", drivetrain.getAutoPath("Amp F1 F2 F3 F4 F5"));
                         // m_autoChooser.addOption("S3 C3 C2 C1", drivetrain.getAutoPath("S3 C3 C2
                         // C1"));
-                        // m_autoChooser.addOption("S3 C3 C2", drivetrain.getAutoPath("S3 C3 C2"));
+                        m_autoChooser.addOption("T S2 F2", drivetrain.getAutoPath("T S3 F4 F5"));
                         // m_autoChooser.addOption("S3 C3 F4 F5", drivetrain.getAutoPath("S3 C3 F4
                         // F5"));
                         m_autoChooser.addOption("Shoot NO MOVE", drivetrain.getAutoPath("Shoot NO MOVE")
