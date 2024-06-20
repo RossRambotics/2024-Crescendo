@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
 
     m_robotContainer.drivetrain.getDaqThread().setThreadPriority(99);
-    m_robotContainer.m_intake.startCompresser();
+    // m_robotContainer.m_intake.startCompresser();
     m_gcTimer.start();
 
     PathfindingCommand.warmupCommand().schedule();
@@ -121,7 +121,7 @@ public class Robot extends TimedRobot {
   public void simulationInit() {
     RobotContainer.m_shooter.simulationInit();
     RobotContainer.m_indexer.simulationInit();
-    RobotContainer.m_intake.simulationInit();
+    // RobotContainer.m_intake.simulationInit();
   }
 
   @Override

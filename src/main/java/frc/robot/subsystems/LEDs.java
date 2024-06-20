@@ -122,19 +122,19 @@ public class LEDs extends SubsystemBase {
       this.showOrange();
       return;
     }
-    if (RobotContainer.m_tracking.isGamePieceFound()) {
-      this.showPoliceLights2();
-    } else {
-      this.showRed();
-    }
+    // if (RobotContainer.m_tracking.isGamePieceFound()) {
+    // this.showPoliceLights2();
+    // } else {
+    // this.showRed();
+    // }
   }
 
   public void targetTrackingMode() {
-    if (RobotContainer.m_tracking.isTargetIDFound()) {
-      this.showTrackingLights();
-    } else {
-      this.showRed();
-    }
+    // if (RobotContainer.m_tracking.isTargetIDFound()) {
+    // this.showTrackingLights();
+    // } else {
+    // this.showRed();
+    // }
   }
 
   public void noTrackingMode() {

@@ -57,10 +57,10 @@ public class GridSelector extends SubsystemBase {
     btnTrap.onTrue(cmd);
 
     // Removes the climb limits when the climb is being held down
-    Trigger btnPass = new JoystickButton(m_bbox1, 6);
-    cmd = RobotContainer.m_lClimb.getOverRideCommand()
-        .alongWith(RobotContainer.m_rClimb.getOverRideCommand());
-    btnPass.whileTrue(cmd);
+    // Trigger btnPass = new JoystickButton(m_bbox1, 6);
+    // cmd = RobotContainer.m_lClimb.getOverRideCommand()
+    // .alongWith(RobotContainer.m_rClimb.getOverRideCommand());
+    // btnPass.whileTrue(cmd);
 
     // cmd = new frc.robot.commands.Trap.Shoot();
     // btnPass.onTrue(cmd);

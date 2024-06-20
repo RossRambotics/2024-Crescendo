@@ -104,7 +104,7 @@ public class Telemetry {
                 });
 
                 SmartDashboard.putNumber("Gyro Heading", m_field.getRobotPose().getRotation().getDegrees());
-                RobotContainer.m_tracking.setCurrentHeading(pose.getRotation().getDegrees());
+                // RobotContainer.m_tracking.setCurrentHeading(pose.getRotation().getDegrees());
 
                 /* Telemeterize the robot's general speeds */
                 double currentTime = Utils.getCurrentTimeSeconds();

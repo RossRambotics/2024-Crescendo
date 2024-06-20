@@ -571,49 +571,49 @@ public class Tracking extends SubsystemBase {
   public Command TargetTrackingMode() {
     Command c;
 
-    c = new FunctionalCommand(
-        () -> m_isTargetTracking = true,
-        () -> RobotContainer.m_LEDs.targetTrackingMode(),
-        interrupted -> m_isTargetTracking = false,
-        () -> {
-          return false;
-        })
-        .withName("TargetTrackingMode");
+    // c = new FunctionalCommand(
+    // () -> m_isTargetTracking = true,
+    // () -> RobotContainer.m_LEDs.targetTrackingMode(),
+    // interrupted -> m_isTargetTracking = false,
+    // () -> {
+    // return false;
+    // })
+    // .withName("TargetTrackingMode");
 
-    return c;
+    return null;
   }
 
   public Command NoteTrackingMode() {
     Command c;
 
-    c = new FunctionalCommand(
-        () -> m_isNoteTracking = true,
-        () -> RobotContainer.m_LEDs.noteTrackingMode(),
-        interrupted -> m_isNoteTracking = false,
-        () -> {
-          return false;
-        })
-        .withName("NoteTrackingMode");
+    // c = new FunctionalCommand(
+    // () -> m_isNoteTracking = true,
+    // () -> 1 == 1,
+    // interrupted -> m_isNoteTracking = false,
+    // () -> {
+    // return false;
+    // })
+    // .withName("NoteTrackingMode");
 
-    return c;
+    return null;
   }
 
   public Command NoTrackingMode() {
     Command c;
 
-    c = new FunctionalCommand(
-        () -> {
-          m_isNoteTracking = false;
-          m_isTargetTracking = false;
-        },
-        () -> RobotContainer.m_LEDs.noTrackingMode(),
-        interrupted -> m_isNoteTracking = false,
-        () -> {
-          return false;
-        })
-        .withName("NoTrackingMode");
+    // c = new FunctionalCommand(
+    // () -> {
+    // m_isNoteTracking = false;
+    // m_isTargetTracking = false;
+    // },
+    // () -> RobotContainer.m_LEDs.noTrackingMode(),
+    // interrupted -> m_isNoteTracking = false,
+    // () -> {
+    // return false;
+    // })
+    // .withName("NoTrackingMode");
 
-    return c;
+    return null;
   }
 
 }

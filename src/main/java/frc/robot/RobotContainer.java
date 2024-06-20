@@ -26,12 +26,15 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.Indexer.StoreOneNote;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.GridSelector;
+//import frc.robot.subsystems.GridSelector;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LClimb;
-import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.RClimb;
+//import frc.robot.subsystems.Intake;
+//import frc.robot.subsystems.LClimb;
+//import frc.robot.subsystems.LEDs;
+//import frc.robot.subsystems.RClimb;
 import frc.robot.subsystems.RobotMechanism;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Tracking;
@@ -81,14 +84,14 @@ public class RobotContainer {
 
         private static final RobotMechanism m_mechRobot = new RobotMechanism();
         public static final Indexer m_indexer = new Indexer();
-        public static final Intake m_intake = new Intake();
+        // public static final Intake m_intake = new Intake();
         public static final Shooter m_shooter = new Shooter();
-        public static final RClimb m_rClimb = new RClimb();
-        public static final LClimb m_lClimb = new LClimb();
-        public static final GridSelector m_gridSelector = new GridSelector();
-        public static final LEDs m_LEDs = new LEDs();
+        public static final RClimb m_rClimb = null;
+        public static final LClimb m_lClimb = null;
+        // public static final GridSelector m_gridSelector = new GridSelector();
+        // public static final LEDs m_LEDs = new LEDs();
         // public static final Indexer m_indexer = null;
-        // public static final Intake m_intake = null;
+        public static final Intake m_intake = null;
         // public static final Shooter m_shooter = null;
 
         public static final Tracking m_tracking = new Tracking();
@@ -164,8 +167,7 @@ public class RobotContainer {
                                                                                                                         // negative
                                                                                                                         // X
                                                                                                                         // (left)
-                                ).ignoringDisable(true)
-                                                .alongWith(m_tracking.NoTrackingMode()));
+                                ).ignoringDisable(true));
 
                 // left trigger invoke target tracking
                 // Rotation2d rot = new Rotation2d(Math.toRadians(0.0));
@@ -173,52 +175,52 @@ public class RobotContainer {
                 targetDrive.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
                 targetDrive.HeadingController.setIntegratorRange(-0.25, 0.25);
 
-                joystick.leftBumper()
-                                .whileTrue(drivetrain
-                                                .applyRequest(() -> targetDrive
-                                                                .withVelocityX(
-                                                                                m_tracking.getTarget_VelocityX_Adjusted(
-                                                                                                () -> getInputLeftY()
-                                                                                                                * m_joystickAlliance))
-                                                                .withVelocityY(
-                                                                                m_tracking.getTarget_VelocityY_Adjusted(
-                                                                                                () -> getInputLeftX()
-                                                                                                                * m_joystickAlliance))
-                                                                .withTargetDirection(m_tracking.getTargetAngle()))
-                                                .alongWith(m_tracking.TargetTrackingMode()));
+                // joystick.leftBumper()
+                // .whileTrue(drivetrain
+                // .applyRequest(() -> targetDrive
+                // .withVelocityX(
+                // m_tracking.getTarget_VelocityX_Adjusted(
+                // () -> getInputLeftY()
+                // * m_joystickAlliance))
+                // .withVelocityY(
+                // m_tracking.getTarget_VelocityY_Adjusted(
+                // () -> getInputLeftX()
+                // * m_joystickAlliance))
+                // .withTargetDirection(m_tracking.getTargetAngle()))
+                // .alongWith(m_tracking.TargetTrackingMode()));
 
                 // right trigger invoke game piece tracking
-                joystick.rightBumper()
-                                .whileTrue(drivetrain
-                                                .applyRequest(() -> gamePieceDrive
-                                                                .withVelocityX(m_tracking.getGamePiece_VelocityX() / 2)
-                                                                .withVelocityY(m_tracking.getGamePiece_VelocityY() / 2)
-                                                                .withRotationalRate(m_tracking
-                                                                                .getGamePiece_RotationalRate() / 2))
-                                                .alongWith(m_tracking.NoteTrackingMode()));
+                // joystick.rightBumper()
+                // .whileTrue(drivetrain
+                // .applyRequest(() -> gamePieceDrive
+                // .withVelocityX(m_tracking.getGamePiece_VelocityX() / 2)
+                // .withVelocityY(m_tracking.getGamePiece_VelocityY() / 2)
+                // .withRotationalRate(m_tracking
+                // .getGamePiece_RotationalRate() / 2))
+                // .alongWith(m_tracking.NoteTrackingMode()));
 
-                joystick.rightBumper().onTrue(new frc.robot.commands.Intake.Down()
-                                .andThen(new frc.robot.commands.Intake.IntakeStart())
-                                .andThen(new frc.robot.commands.Indexer.Stop())
-                                .andThen(new frc.robot.commands.Shooter.Stop())
-                                .andThen(new frc.robot.commands.Indexer.Intake())
-                                .andThen(new WaitUntilCommand(() -> m_indexer.isNoteMiddle()))
-                                .andThen(new frc.robot.commands.Intake.IntakeStop())
-                                .andThen(new frc.robot.commands.Indexer.Stop())
-                                .andThen(new frc.robot.commands.Intake.Up()));
+                // joystick.rightBumper().onTrue(new frc.robot.commands.Intake.Down()
+                // .andThen(new frc.robot.commands.Intake.IntakeStart())
+                // .andThen(new frc.robot.commands.Indexer.Stop())
+                // .andThen(new frc.robot.commands.Shooter.Stop())
+                // .andThen(new frc.robot.commands.Indexer.Intake())
+                // .andThen(new WaitUntilCommand(() -> m_indexer.isNoteMiddle()))
+                // .andThen(new frc.robot.commands.Intake.IntakeStop())
+                // .andThen(new frc.robot.commands.Indexer.Stop())
+                // .andThen(new frc.robot.commands.Intake.Up()));
 
                 // deploy the intake
-                joystick.a().onTrue(new frc.robot.commands.Intake.Down()
-                                .andThen(new frc.robot.commands.Intake.IntakeStart())
-                                .andThen(new frc.robot.commands.Indexer.Stop())
-                                .andThen(new frc.robot.commands.Shooter.Stop())
-                                .andThen(new frc.robot.commands.Indexer.Intake())
-                                .andThen(new WaitUntilCommand(() -> m_indexer.isNoteMiddle()))
-                                .andThen(new frc.robot.commands.Indexer.Stop())
-                                .andThen(new frc.robot.commands.Intake.IntakeStop())
-                                .andThen(new frc.robot.commands.Intake.Up()
-                                                .withName("Intake_a_Note")
-                                /* */));
+                // joystick.a().onTrue(new frc.robot.commands.Intake.Down()
+                // .andThen(new frc.robot.commands.Intake.IntakeStart())
+                // .andThen(new frc.robot.commands.Indexer.Stop())
+                // .andThen(new frc.robot.commands.Shooter.Stop())
+                // .andThen(new frc.robot.commands.Indexer.Intake())
+                // .andThen(new WaitUntilCommand(() -> m_indexer.isNoteMiddle()))
+                // .andThen(new frc.robot.commands.Indexer.Stop())
+                // .andThen(new frc.robot.commands.Intake.IntakeStop())
+                // .andThen(new frc.robot.commands.Intake.Up()
+                // .withName("Intake_a_Note")
+                // /* */));
 
                 // configure for speaker
                 joystick.y().onTrue(new frc.robot.commands.Speaker.Middle()
@@ -229,9 +231,7 @@ public class RobotContainer {
                                 .withName("Amp.Shoot")
                 /* */);
 
-                joystick.b().onTrue(new frc.robot.commands.Intake.Up()
-                                .andThen(new frc.robot.commands.Intake.IntakeStop())
-                                .andThen(new frc.robot.commands.Indexer.Stop())
+                joystick.b().onTrue(new frc.robot.commands.Indexer.Stop()
                                 .andThen(new frc.robot.commands.Shooter.Stop()));
 
                 // shoot
@@ -247,11 +247,11 @@ public class RobotContainer {
                 SmartDashboard.putData("Indexer.Shooter", shoot);
                 /* */
 
-                // joystick.x().onTrue(new frc.robot.commands.Shooter.Reverse()
-                // .andThen(new frc.robot.commands.Indexer.Reverse()
-                // .andThen(new WaitUntilCommand(() -> m_indexer.isNoteMiddle()))
-                // .andThen(new frc.robot.commands.Indexer.Stop())
-                // .andThen(new frc.robot.commands.Shooter.Stop())));
+                joystick.a().onTrue(new frc.robot.commands.Shooter.Reverse()
+                                .andThen(new frc.robot.commands.Indexer.Reverse()
+                                                .andThen(new WaitUntilCommand(() -> m_indexer.isNoteMiddle()))
+                                                .andThen(new frc.robot.commands.Indexer.Stop())
+                                                .andThen(new frc.robot.commands.Shooter.Stop())));
 
                 // joystick.b().whileTrue(drivetrain
                 // .applyRequest(() -> point.withModuleDirection(new
@@ -287,7 +287,7 @@ public class RobotContainer {
 
                 drivetrain.registerTelemetry(logger::telemeterize);
 
-                m_gridSelector.initialize();
+                // m_gridSelector.initialize();
 
                 // Operator controller Button Box broke
                 // operatorJoystick.y().onTrue(new frc.robot.commands.Speaker.Middle());
@@ -407,83 +407,83 @@ public class RobotContainer {
                                                 .andThen(new frc.robot.commands.Indexer.Intake())
                                                 .withName("Auto.Indexer.Shoot"));
 
-                NamedCommands.registerCommand("Intake.Down",
-                                new frc.robot.commands.Intake.Down()
-                                                .andThen(new frc.robot.commands.Intake.IntakeStart())
-                                                .andThen(new frc.robot.commands.Indexer.Intake())
-                                                .withName("Auto.Indexer.Down"));
+                // NamedCommands.registerCommand("Intake.Down",
+                // new frc.robot.commands.Intake.Down()
+                // .andThen(new frc.robot.commands.Intake.IntakeStart())
+                // .andThen(new frc.robot.commands.Indexer.Intake())
+                // .withName("Auto.Indexer.Down"));
 
-                NamedCommands.registerCommand("Intake.Up",
-                                new frc.robot.commands.Intake.IntakeStop()
-                                                .andThen(new frc.robot.commands.Intake.Up())
-                                                .withName("Auto.Indexer.Up"));
+                // NamedCommands.registerCommand("Intake.Up",
+                // new frc.robot.commands.Intake.IntakeStop()
+                // .andThen(new frc.robot.commands.Intake.Up())
+                // .withName("Auto.Indexer.Up"));
 
                 NamedCommands.registerCommand("Indexer.Middle.Sensor",
                                 new WaitUntilCommand(() -> m_indexer.isNoteMiddle()));
 
-                NamedCommands.registerCommand("Pick.Up",
-                                new frc.robot.commands.Intake.Down()
-                                                .andThen(new frc.robot.commands.Intake.IntakeStart())
-                                                .andThen(new frc.robot.commands.Indexer.Intake())
-                                                .andThen(new WaitUntilCommand(() -> m_indexer.isNoteMiddle()))
-                                                .andThen(new frc.robot.commands.Intake.IntakeStop())
-                                                .andThen(new frc.robot.commands.Indexer.Stop())
-                                                .andThen(new frc.robot.commands.Intake.Up()
-                                                                .withName("Intake_a_Note")));
+                // NamedCommands.registerCommand("Pick.Up",
+                // new frc.robot.commands.Intake.Down()
+                // .andThen(new frc.robot.commands.Intake.IntakeStart())
+                // .andThen(new frc.robot.commands.Indexer.Intake())
+                // .andThen(new WaitUntilCommand(() -> m_indexer.isNoteMiddle()))
+                // .andThen(new frc.robot.commands.Intake.IntakeStop())
+                // .andThen(new frc.robot.commands.Indexer.Stop())
+                // .andThen(new frc.robot.commands.Intake.Up()
+                // .withName("Intake_a_Note")));
 
-                Command autoDrive = drivetrain
-                                .applyRequest(() -> gamePieceDrive
-                                                .withVelocityX(m_tracking.getGamePiece_VelocityX() / 3)
-                                                .withVelocityY(m_tracking.getGamePiece_VelocityY() / 3)
-                                                .withRotationalRate(m_tracking.getGamePiece_RotationalRate()))
-                                .alongWith(m_tracking.NoteTrackingMode());
+                // Command autoDrive = drivetrain
+                // .applyRequest(() -> gamePieceDrive
+                // .withVelocityX(m_tracking.getGamePiece_VelocityX() / 3)
+                // .withVelocityY(m_tracking.getGamePiece_VelocityY() / 3)
+                // .withRotationalRate(m_tracking.getGamePiece_RotationalRate()))
+                // .alongWith(m_tracking.NoteTrackingMode());
 
-                Command cmd = new frc.robot.commands.Intake.Down()
-                                .andThen(new frc.robot.commands.Intake.IntakeStart())
-                                .andThen(new frc.robot.commands.Indexer.Intake())
-                                .andThen(drivetrain
-                                                .applyRequest(() -> gamePieceDrive.withVelocityX(
-                                                                m_tracking.getGamePiece_VelocityX()
-                                                                                / 4)
-                                                                .withVelocityY(m_tracking
-                                                                                .getGamePiece_VelocityY()
-                                                                                / 4)
-                                                                .withRotationalRate(m_tracking
-                                                                                .getGamePiece_RotationalRate()
-                                                                                / 4))
-                                                .alongWith(m_tracking.NoteTrackingMode()))
-                                .until(() -> m_indexer.isNoteBottom())
-                                // .andThen(new frc.robot.commands.Intake.IntakeStop())
-                                // .andThen(drivetrain.applyRequest(() -> drive
-                                // .withVelocityX(0).withVelocityY(0)
-                                // .withRotationalRate(0)))
-                                // .until(() -> m_indexer.isNoteBottom())
-                                .withName("Auto Intake Note");
+                // Command cmd = new frc.robot.commands.Intake.Down()
+                // .andThen(new frc.robot.commands.Intake.IntakeStart())
+                // .andThen(new frc.robot.commands.Indexer.Intake())
+                // .andThen(drivetrain
+                // .applyRequest(() -> gamePieceDrive.withVelocityX(
+                // m_tracking.getGamePiece_VelocityX()
+                // / 4)
+                // .withVelocityY(m_tracking
+                // .getGamePiece_VelocityY()
+                // / 4)
+                // .withRotationalRate(m_tracking
+                // .getGamePiece_RotationalRate()
+                // / 4))
+                // .alongWith(m_tracking.NoteTrackingMode()))
+                // .until(() -> m_indexer.isNoteBottom())
+                // // .andThen(new frc.robot.commands.Intake.IntakeStop())
+                // // .andThen(drivetrain.applyRequest(() -> drive
+                // // .withVelocityX(0).withVelocityY(0)
+                // // .withRotationalRate(0)))
+                // // .until(() -> m_indexer.isNoteBottom())
+                // .withName("Auto Intake Note");
 
-                NamedCommands.registerCommand("AUTO.NOTE.TRACKING", cmd);
+                // NamedCommands.registerCommand("AUTO.NOTE.TRACKING", cmd);
 
-                NamedCommands.registerCommand("Auto.Pick.Up",
-                                new frc.robot.commands.Intake.Down()
-                                                .andThen(new frc.robot.commands.Intake.IntakeStart()
-                                                                .andThen(new frc.robot.commands.Indexer.Intake())
-                                                                .andThen(drivetrain
-                                                                                .applyRequest(() -> gamePieceDrive
-                                                                                                .withVelocityX(m_tracking
-                                                                                                                .getGamePiece_VelocityX()
-                                                                                                                / 2)
-                                                                                                .withVelocityY(m_tracking
-                                                                                                                .getGamePiece_VelocityY()
-                                                                                                                / 2)
-                                                                                                .withRotationalRate(
-                                                                                                                m_tracking
-                                                                                                                                .getGamePiece_RotationalRate()
-                                                                                                                                / 2))
-                                                                                .alongWith(m_tracking
-                                                                                                .NoteTrackingMode()))
-                                                                .withTimeout(3)
-                                                                .withName("Auto Intake Note")));
+                // NamedCommands.registerCommand("Auto.Pick.Up",
+                // new frc.robot.commands.Intake.Down()
+                // .andThen(new frc.robot.commands.Intake.IntakeStart()
+                // .andThen(new frc.robot.commands.Indexer.Intake())
+                // .andThen(drivetrain
+                // .applyRequest(() -> gamePieceDrive
+                // .withVelocityX(m_tracking
+                // .getGamePiece_VelocityX()
+                // / 2)
+                // .withVelocityY(m_tracking
+                // .getGamePiece_VelocityY()
+                // / 2)
+                // .withRotationalRate(
+                // m_tracking
+                // .getGamePiece_RotationalRate()
+                // / 2))
+                // .alongWith(m_tracking
+                // .NoteTrackingMode()))
+                // .withTimeout(3)
+                // .withName("Auto Intake Note")));
 
-                SmartDashboard.putData("Auto.Intake.Note", cmd);
+                // SmartDashboard.putData("Auto.Intake.Note", cmd);
 
                 try {
                         m_autoChooser.setDefaultOption("Dont Move", new WaitCommand(1.0));
