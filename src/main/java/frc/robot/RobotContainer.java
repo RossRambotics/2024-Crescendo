@@ -139,7 +139,7 @@ public class RobotContainer {
         }
 
         private void configureBindings() {
-                m_indexer.setDefaultCommand(new StoreOneNote());
+                // m_indexer.setDefaultCommand(new StoreOneNote());
 
                 Command cmd;
 
