@@ -231,7 +231,7 @@ public class RobotContainer {
                                 .withName("Amp.Shoot")
                 /* */);
 
-                joystick.b().onTrue(new frc.robot.commands.Indexer.Stop()
+                joystick.a().onFalse(new frc.robot.commands.Indexer.Stop()
                                 .andThen(new frc.robot.commands.Shooter.Stop()));
 
                 // shoot
