@@ -9,7 +9,9 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest.FieldCentric;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DataLogManager;
@@ -97,11 +99,13 @@ public class RobotContainer {
 
         private static double slewLimit = 0.6;
         private static double rslewlimit = 0.3;
-        private static double boostLimit = 0.3;
+        private static double boostLimit = 0.2;
         private static double nudge = 0.7;
         private static double nudgeanglepower = .2;
         /* Path follower */
         private Command runAuto = null;
+
+        Debouncer m_debouncer = new Debouncer(0.1, DebounceType.kBoth);
 
         private final Telemetry logger = new Telemetry(MaxSpeed);
 
@@ -141,7 +145,7 @@ public class RobotContainer {
                 Command cmd;
 
                 leftTrigger.onTrue(Commands.runOnce(() -> boostLimit = 1.4));
-                leftTrigger.onFalse(Commands.runOnce(() -> boostLimit = 0.3));
+                leftTrigger.onFalse(Commands.runOnce(() -> boostLimit = 0.2));
 
                 drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
                                 drivetrain.applyRequest(
@@ -402,7 +406,7 @@ public class RobotContainer {
                 NamedCommands.registerCommand("Indexer.Shoot",
                                 new WaitUntilCommand(() -> m_shooter.isShooterReady())
                                                 .andThen(new frc.robot.commands.Indexer.Shoot())
-                                                .andThen(new WaitCommand(0.1))
+                                                .andThen(new WaitCommand(0.154))
                                                 .andThen(new frc.robot.commands.Indexer.Stop())
                                                 .andThen(new frc.robot.commands.Indexer.Intake())
                                                 .withName("Auto.Indexer.Shoot"));
@@ -444,15 +448,16 @@ public class RobotContainer {
                                 .andThen(drivetrain
                                                 .applyRequest(() -> gamePieceDrive.withVelocityX(
                                                                 m_tracking.getGamePiece_VelocityX()
-                                                                                / 4)
+                                                                                / 2)
                                                                 .withVelocityY(m_tracking
                                                                                 .getGamePiece_VelocityY()
-                                                                                / 4)
+                                                                                / 2)
                                                                 .withRotationalRate(m_tracking
                                                                                 .getGamePiece_RotationalRate()
-                                                                                / 4))
+                                                                                / 2))
                                                 .alongWith(m_tracking.NoteTrackingMode()))
-                                .until(() -> m_indexer.isNoteBottom())
+                                .until(() -> m_indexer.isNoteBottom()
+                                                || !m_debouncer.calculate(m_tracking.isGamePieceFound()))
                                 // .andThen(new frc.robot.commands.Intake.IntakeStop())
                                 // .andThen(drivetrain.applyRequest(() -> drive
                                 // .withVelocityX(0).withVelocityY(0)
@@ -489,8 +494,7 @@ public class RobotContainer {
                         m_autoChooser.setDefaultOption("Dont Move", new WaitCommand(1.0));
                         m_autoChooser.addOption("2M Straight", drivetrain.getAutoPath("2M Straight"));
                         m_autoChooser.addOption("S2 C1 C2 C3", drivetrain.getAutoPath("S2 C1 C2 C3"));
-                        // m_autoChooser.addOption("S1 C1 C2 F1", drivetrain.getAutoPath("S1 C1 C2
-                        // F1"));
+                        m_autoChooser.addOption("S3 F5 Spin", drivetrain.getAutoPath("S3 F5 Spin"));
                         // m_autoChooser.addOption("S1 C1 C2 F2", drivetrain.getAutoPath("S1 C1 C2
                         // F2"));
                         // m_autoChooser.addOption("S1 C1 C2", drivetrain.getAutoPath("S1 C1 C2"));
@@ -504,9 +508,10 @@ public class RobotContainer {
                         m_autoChooser.addOption("Note Trackng Test", drivetrain.getAutoPath("Note Trackng Test"));
                         // m_autoChooser.addOption("S2 C2 C1 F3", drivetrain.getAutoPath("S2 C2 C1
                         // F3"));
-                        // m_autoChooser.addOption("S2 C2 C1", drivetrain.getAutoPath("S2 C2 C1"));
+                        m_autoChooser.addOption("T P S3 F3 F2 F3 F4 F5",
+                                        drivetrain.getAutoPath("T P S3 F3 F2 F3 F4 F5"));
                         m_autoChooser.addOption("S2 C2 C3 F3", drivetrain.getAutoPath("S2 C2 C3 F3"));
-                        // m_autoChooser.addOption("S2 C2 C3", drivetrain.getAutoPath("S2 C2 C3"));
+                        m_autoChooser.addOption("S2 C2 C3 C1 T F2-F3", drivetrain.getAutoPath("S2 C2 C3 C1 T F2-F3"));
                         // m_autoChooser.addOption("S2 C2 F2", drivetrain.getAutoPath("S2 C2 F2"));
                         // m_autoChooser.addOption("S2 C2 F3", drivetrain.getAutoPath("S2 C2 F3"));
                         // m_autoChooser.addOption("S2 C2", drivetrain.getAutoPath("S2 C2"));
@@ -515,7 +520,7 @@ public class RobotContainer {
                         m_autoChooser.addOption("Amp F1 F2 F3 F4 F5", drivetrain.getAutoPath("Amp F1 F2 F3 F4 F5"));
                         // m_autoChooser.addOption("S3 C3 C2 C1", drivetrain.getAutoPath("S3 C3 C2
                         // C1"));
-                        m_autoChooser.addOption("T S2 F2", drivetrain.getAutoPath("T S3 F4 F5"));
+                        m_autoChooser.addOption("T S3 F4 F5", drivetrain.getAutoPath("T S3 F4 F5"));
                         // m_autoChooser.addOption("S3 C3 F4 F5", drivetrain.getAutoPath("S3 C3 F4
                         // F5"));
                         m_autoChooser.addOption("Shoot NO MOVE", drivetrain.getAutoPath("Shoot NO MOVE")

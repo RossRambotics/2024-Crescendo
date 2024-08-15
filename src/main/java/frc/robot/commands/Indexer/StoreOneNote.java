@@ -36,7 +36,10 @@ public class StoreOneNote extends Command {
       RobotContainer.m_indexer.stopTop();
     }
 
-    m_isFinished = true;
+    if (!RobotContainer.m_indexer.isNoteBottom()) {
+      m_isFinished = true;
+    }
+
   }
 
   // Called once the command ends or is interrupted.

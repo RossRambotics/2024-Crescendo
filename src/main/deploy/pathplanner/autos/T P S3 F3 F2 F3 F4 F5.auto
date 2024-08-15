@@ -5,7 +5,7 @@
       "x": 0.7836094545428531,
       "y": 4.494878848912628
     },
-    "rotation": -88.48900676316049
+    "rotation": -59.26451229807991
   },
   "command": {
     "type": "sequential",
@@ -14,37 +14,37 @@
         {
           "type": "named",
           "data": {
-            "name": "Amp.Shoot"
+            "name": "Speaker.Middle"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Indexer.Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake.Down"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.15
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Amp"
+            "pathName": "S3 T F4-F5"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Indexer.Shoot"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake.Down"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Speaker.Middle"
+            "name": "AUTO.NOTE.TRACKING"
           }
         },
         {
@@ -54,7 +54,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Amp F1"
+                  "pathName": "P F4-F5"
                 }
               },
               {
@@ -67,12 +67,6 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.0
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "Indexer.Shoot"
@@ -81,7 +75,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.5
+            "waitTime": 0.2
           }
         },
         {
@@ -91,13 +85,25 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "F4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AUTO.NOTE.TRACKING"
+          }
+        },
+        {
           "type": "sequential",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "F1 F2"
+                  "pathName": "P F3-F4"
                 }
               },
               {
@@ -110,12 +116,6 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.0
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "Indexer.Shoot"
@@ -124,7 +124,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.5
+            "waitTime": 0.15
           }
         },
         {
@@ -134,13 +134,25 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "F3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AUTO.NOTE.TRACKING"
+          }
+        },
+        {
           "type": "sequential",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "F2 F3"
+                  "pathName": "P F2-F3"
                 }
               },
               {
@@ -153,12 +165,6 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.0
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "Indexer.Shoot"
@@ -167,7 +173,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.5
+            "waitTime": 0.15
           }
         },
         {
@@ -177,13 +183,25 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "F2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AUTO.NOTE.TRACKING"
+          }
+        },
+        {
           "type": "sequential",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "F3 F4"
+                  "pathName": "P F1-F2"
                 }
               },
               {
@@ -196,64 +214,9 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.0
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "Indexer.Shoot"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake.Down"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "F4 F5"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Indexer.Storage"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Indexer.Shoot"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
           }
         }
       ]
