@@ -487,6 +487,7 @@ public class RobotContainer {
 
                 try {
                         m_autoChooser.setDefaultOption("Dont Move", new WaitCommand(1.0));
+                        m_autoChooser.addOption("Caleb", drivetrain.getAutoPath("Caleb"));
                         m_autoChooser.addOption("2M Straight", drivetrain.getAutoPath("2M Straight"));
                         m_autoChooser.addOption("S2 C1 C2 C3", drivetrain.getAutoPath("S2 C1 C2 C3"));
                         // m_autoChooser.addOption("S1 C1 C2 F1", drivetrain.getAutoPath("S1 C1 C2

@@ -2,6 +2,9 @@
   "NetworkTables": {
     "retained": {
       "SmartDashboard": {
+        "SendableChooser[0]": {
+          "open": true
+        },
         "open": true
       }
     },
@@ -125,6 +128,6 @@
   },
   "NetworkTables Settings": {
     "mode": "Client (NT4)",
-    "serverTeam": "3201"
+    "serverTeam": "9991"
   }
 }

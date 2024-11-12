@@ -1,0 +1,73 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.2798717547345657,
+      "y": 5.53650223579517
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "Speaker.Middle"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.25
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Indexer.Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake.Down"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Amp.Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "JackTest1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Indexer.Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake.Down"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "JackTest2"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
